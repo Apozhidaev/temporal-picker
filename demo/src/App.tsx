@@ -1,5 +1,10 @@
 import { useRef, useEffect } from "react";
-import { Picker, coreCss } from "../../src";
+import {
+  Picker,
+  ExtraOptionsPlugin,
+  coreCss,
+  extraOptionsCss,
+} from "../../src";
 
 function App() {
   const inputRef = useRef(null);
@@ -7,7 +12,16 @@ function App() {
   useEffect(() => {
     new Picker({
       element: inputRef.current!,
-      css: coreCss,
+      css: `${coreCss}${extraOptionsCss}`,
+      plugins: [ExtraOptionsPlugin],
+      ExtraOptionsPlugin: {
+        dropdown: {
+          months: true,
+          years: true,
+          minYear: 2000,
+        },
+        resetButton: true,
+      },
     });
   }, []);
 

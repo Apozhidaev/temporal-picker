@@ -2,7 +2,7 @@ import type { LockPlugin } from './lock';
 import { BasePlugin, IEventDetail, IPlugin } from './base';
 import { DateTime } from '../datetime';
 
-export interface IAmpPlugin {
+export interface IExtraOptionsPlugin {
   dropdown?: {
     minYear?: number;
     maxYear?: number;
@@ -18,7 +18,7 @@ export interface IAmpPlugin {
   }
 }
 
-export class AmpPlugin extends BasePlugin implements IPlugin {
+export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
   public lockPlugin: LockPlugin | null = null;
   public priority = 10;
 
@@ -27,7 +27,7 @@ export class AmpPlugin extends BasePlugin implements IPlugin {
     onColorScheme: this.onColorScheme.bind(this),
   }
 
-  public options: IAmpPlugin = {
+  public options: IExtraOptionsPlugin = {
     dropdown: {
       months: false,
       years: false,
@@ -50,7 +50,7 @@ export class AmpPlugin extends BasePlugin implements IPlugin {
    * @returns String
    */
   public getName(): string {
-    return 'AmpPlugin';
+    return 'ExtraOptionsPlugin';
   }
 
   /**

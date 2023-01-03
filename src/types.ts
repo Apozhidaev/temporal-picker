@@ -1,10 +1,11 @@
 import type { Picker } from './picker';
 import { DateTime } from './datetime';
-import { IAmpPlugin } from './plugins/amp';
+import { IExtraOptionsPlugin } from './plugins/extra-options';
 import { IKeyboardPlugin } from './plugins/keyboard';
 import { ILockConfig } from './plugins/lock';
 import { IPresetConfig } from './plugins/preset';
 import { IRangeConfig } from './plugins/range';
+import { ITimeConfig } from './plugins/time';
 
 
 declare module './picker' {
@@ -14,6 +15,9 @@ declare module './picker' {
     setDateRange(start: Date | string | number, end: Date | string | number): void;
     getStartDate(): DateTime;
     getEndDate(): DateTime;
+    setTime(value: string): void;
+    setStartTime(value: string): void;
+    setEndTime(value: string): void;
   }
 }
 
@@ -55,9 +59,10 @@ export interface IPickerConfig {
   inline?: boolean;
   scrollToDate?: boolean;
   setup?(picker: Picker): void;
-  AmpPlugin?: IAmpPlugin;
+  ExtraOptionsPlugin?: IExtraOptionsPlugin;
   LockPlugin?: ILockConfig;
   PresetPlugin?: IPresetConfig;
   RangePlugin?: IRangeConfig;
   KeyboardPlugin?: IKeyboardPlugin;
+  TimePlugin?: ITimeConfig;
 }
