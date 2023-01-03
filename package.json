@@ -1,0 +1,34 @@
+{
+  "name": "temporal-picker",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "module": "dist/module.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:Apozhidaev/temporal-picker.git",
+  "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "temporal",
+    "picker",
+    "datepicker",
+    "rangepicker",
+    "date",
+    "daterange",
+    "range",
+    "easepick"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build:ts": "tsc",
+    "build:cjs": "esbuild src/index.ts --format=cjs --bundle --outfile=dist/index.js",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/module.js",
+    "build": "yarn run build:cjs && yarn run build:esm && yarn run build:ts"
+  },
+  "devDependencies": {
+    "esbuild": "^0.16.13",
+    "typescript": "^4.9.4"
+  }
+}
