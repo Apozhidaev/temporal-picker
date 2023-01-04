@@ -1,5 +1,5 @@
-import type { Picker } from './picker';
-import { DateTime } from './datetime';
+import type { Picker } from './core/picker';
+import { DateTime } from './core/datetime';
 import { IExtraOptionsPlugin } from './plugins/extra-options';
 import { IKeyboardPlugin } from './plugins/keyboard';
 import { ILockConfig } from './plugins/lock';
@@ -8,7 +8,7 @@ import { IRangeConfig } from './plugins/range';
 import { ITimeConfig } from './plugins/time';
 
 
-declare module './picker' {
+declare module './core/picker' {
   interface Picker {
     setStartDate(date: Date | string | number): void;
     setEndDate(date: Date | string | number): void;
@@ -34,13 +34,13 @@ export interface IPickerElements {
   wrapper: HTMLElement;
 }
 
-export interface IPickerConfig {
+export interface PickerOptions {
   element: HTMLElement | string;
   doc?: Document | ShadowRoot;
   css?: string | string[] | ((picker: Picker) => void);
   firstDay?: number;
   lang?: string;
-  date?: Date | string | number;
+  date?: Date | string | number | null;
   format?: string;
   grid?: number;
   calendars?: number;
@@ -53,12 +53,18 @@ export interface IPickerConfig {
     cancel?: string;
     apply?: string;
   }
-  plugins?: any[];
   documentClick?: boolean | (() => void);
   zIndex?: number;
   inline?: boolean;
   scrollToDate?: boolean;
+  position?: "left" | "right",
+  offsetTop?: number,
+  offsetLeft?: number
   setup?(picker: Picker): void;
+}
+
+export interface IPickerConfig extends PickerOptions {
+  plugins?: any[];
   ExtraOptionsPlugin?: IExtraOptionsPlugin;
   LockPlugin?: ILockConfig;
   PresetPlugin?: IPresetConfig;

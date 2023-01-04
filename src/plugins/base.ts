@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { DateTime } from '../datetime';
-import { Picker } from '../picker';
+import { DateTime } from '../core/datetime';
+import { Picker } from '../core/picker';
 
 export interface IPlugin {
   binds?: unknown;

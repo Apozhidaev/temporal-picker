@@ -1,8 +1,8 @@
 export const lockCss: string = /* css */ `
 :host {
-  --color-fg-locked: var(--tp-color-fg-locked, #9e9e9e);
-  --color-bg-locked: var(--tp-color-bg-locked, #ffab91);
-  --color-bg-unavailable: var(--tp-color-bg-unavailable, #f9f9f9);
+  --color-fg-locked: var(--temporal-picker-color-fg-locked, #9e9e9e);
+  --color-bg-locked: var(--temporal-picker-color-bg-locked, #ffab91);
+  --color-bg-unavailable: var(--temporal-picker-color-bg-unavailable, #f9f9f9);
 }
 .container.lock-plugin
   .calendars

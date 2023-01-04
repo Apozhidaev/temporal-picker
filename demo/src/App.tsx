@@ -4,31 +4,56 @@ import {
   ExtraOptionsPlugin,
   coreCss,
   extraOptionsCss,
+  DatePicker,
+  RangePicker,
 } from "../../src";
 
 function App() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    new Picker({
+    // new Picker({
+    //   element: inputRef.current!,
+    //   css: `${coreCss}${extraOptionsCss}`,
+    //   plugins: [ExtraOptionsPlugin],
+    //   ExtraOptionsPlugin: {
+    //     dropdown: {
+    //       months: true,
+    //       years: true,
+    //       minYear: 2000,
+    //     },
+    //     resetButton: true,
+    //   },
+    // });
+    new DatePicker({
       element: inputRef.current!,
-      css: `${coreCss}${extraOptionsCss}`,
-      plugins: [ExtraOptionsPlugin],
-      ExtraOptionsPlugin: {
-        dropdown: {
-          months: true,
-          years: true,
-          minYear: 2000,
-        },
-        resetButton: true,
-      },
     });
+    // new RangePicker({
+    //   element: inputRef.current!,
+    //   position: "right",
+    //   presetOptions: {
+    //     presets: [
+    //       {
+    //         label: "Last Week",
+    //         start: "2022-01-01",
+    //         end: "2023-01-01",
+    //       },
+    //       {
+    //         label: "Last Month",
+    //         start: "2021-01-01",
+    //         end: "2023-01-01",
+    //       },
+    //     ],
+    //   },
+    // });
   }, []);
 
   return (
-    <div className="">
-      <h1>Vite + React</h1>
-      <input ref={inputRef} type="text" />
+    <div>
+      <h1>Demo</h1>
+      <div className="container">
+        <input ref={inputRef} type="text" />
+      </div>
     </div>
   );
 }

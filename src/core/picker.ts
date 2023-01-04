@@ -1,12 +1,7 @@
-// @ts-nocheck
-import Calendar from './calendar';
-import { DateTime } from './datetime';
-import PluginManager from './pluginManager';
-import {
-  IEventDetail,
-  IPickerConfig,
-  IPickerElements,
-} from './types';
+import Calendar from "./calendar";
+import { DateTime } from "./datetime";
+import PluginManager from "./pluginManager";
+import { IEventDetail, IPickerConfig, IPickerElements } from "../types";
 
 export class Picker {
   public Calendar = new Calendar(this);
@@ -18,37 +13,39 @@ export class Picker {
   public binds = {
     hidePicker: this.hidePicker.bind(this),
     show: this.show.bind(this),
-  }
+  };
 
   public options: IPickerConfig = {
     doc: document,
     css: [],
-    element: null,
+    element: null as unknown as HTMLElement,
     firstDay: 1,
     grid: 1,
     calendars: 1,
-    lang: 'en-US',
+    lang: "en-US",
     date: null,
-    format: 'YYYY-MM-DD',
+    format: "YYYY-MM-DD",
     readonly: true,
     autoApply: true,
     header: false,
     inline: false,
     scrollToDate: true,
     locale: {
-      nextMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
-      previousMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
-      cancel: 'Cancel',
-      apply: 'Apply',
+      nextMonth:
+        '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
+      previousMonth:
+        '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
+      cancel: "Cancel",
+      apply: "Apply",
     },
-    documentClick: this.binds.hidePicker,
+    documentClick: this.binds.hidePicker as any,
     plugins: [],
   };
 
   public ui: IPickerElements = {
-    container: null,
-    shadowRoot: null,
-    wrapper: null,
+    container: null as unknown as HTMLElement,
+    shadowRoot: null as unknown as ShadowRoot,
+    wrapper: null as unknown as HTMLElement,
   };
 
   constructor(options: IPickerConfig) {
@@ -59,24 +56,24 @@ export class Picker {
 
     this.handleOptions();
 
-    this.ui.wrapper = document.createElement('span');
-    this.ui.wrapper.style.display = 'none';
-    this.ui.wrapper.style.position = 'absolute';
-    this.ui.wrapper.style.pointerEvents = 'none';
-    this.ui.wrapper.className = 'temporal-picker';
-    this.ui.wrapper.attachShadow({ mode: 'open' });
-    this.ui.shadowRoot = this.ui.wrapper.shadowRoot;
+    this.ui.wrapper = document.createElement("span");
+    this.ui.wrapper.style.display = "none";
+    this.ui.wrapper.style.position = "absolute";
+    this.ui.wrapper.style.pointerEvents = "none";
+    this.ui.wrapper.className = "temporal-picker";
+    this.ui.wrapper.attachShadow({ mode: "open" });
+    this.ui.shadowRoot = this.ui.wrapper.shadowRoot!;
 
-    this.ui.container = document.createElement('div');
-    this.ui.container.className = 'container';
+    this.ui.container = document.createElement("div");
+    this.ui.container.className = "container";
 
     if (this.options.zIndex) {
       this.ui.container.style.zIndex = String(this.options.zIndex);
     }
 
     if (this.options.inline) {
-      this.ui.wrapper.style.position = 'relative';
-      this.ui.container.classList.add('inline');
+      this.ui.wrapper.style.position = "relative";
+      this.ui.container.classList.add("inline");
     }
 
     this.ui.shadowRoot.appendChild(this.ui.container);
@@ -84,20 +81,23 @@ export class Picker {
 
     this.handleCSS();
 
-    (this.options.element as HTMLElement).addEventListener('click', this.binds.show);
+    (this.options.element as HTMLElement).addEventListener(
+      "click",
+      this.binds.show
+    );
 
-    this.on('view', this.onView.bind(this));
-    this.on('render', this.onRender.bind(this));
+    this.on("view", this.onView.bind(this));
+    this.on("render", this.onRender.bind(this));
 
     this.PluginManager.initialize();
 
     this.parseValues();
 
-    if (typeof this.options.setup === 'function') {
+    if (typeof this.options.setup === "function") {
       this.options.setup(this);
     }
 
-    this.on('click', this.onClick.bind(this));
+    this.on("click", this.onClick.bind(this));
 
     const targetDate = this.options.scrollToDate ? this.getDate() : null;
     this.renderAll(targetDate);
@@ -105,32 +105,40 @@ export class Picker {
 
   /**
    * Add listener to container element
-   * 
-   * @param type 
-   * @param listener 
-   * @param options 
+   *
+   * @param type
+   * @param listener
+   * @param options
    */
-  public on(type: string, listener: (event) => void, options: unknown = {}): void {
+  public on(
+    type: any,
+    listener: (event: any) => void,
+    options: any = {}
+  ): void {
     this.ui.container.addEventListener(type, listener, options);
   }
 
   /**
    * Remove listener from container element
-   * 
-   * @param type 
-   * @param listener 
-   * @param options 
+   *
+   * @param type
+   * @param listener
+   * @param options
    */
-  public off(type: string, listener: (event) => void, options: unknown = {}): void {
+  public off(
+    type: any,
+    listener: (event: any) => void,
+    options: any = {}
+  ): void {
     this.ui.container.removeEventListener(type, listener, options);
   }
 
   /**
    * Dispatch an event
-   * 
-   * @param type 
-   * @param detail 
-   * @returns 
+   *
+   * @param type
+   * @param detail
+   * @returns
    */
   public trigger(type: string, detail: unknown = {}): boolean {
     return this.ui.container.dispatchEvent(new CustomEvent(type, { detail }));
@@ -140,13 +148,16 @@ export class Picker {
    * Destroy picker
    */
   public destroy() {
-    (this.options.element as HTMLElement).removeEventListener('click', this.binds.show);
-    if (typeof this.options.documentClick === 'function') {
-      document.removeEventListener('click', this.options.documentClick, true);
+    (this.options.element as HTMLElement).removeEventListener(
+      "click",
+      this.binds.show
+    );
+    if (typeof this.options.documentClick === "function") {
+      document.removeEventListener("click", this.options.documentClick, true);
     }
 
     // detach all plugins
-    Object.keys(this.PluginManager.instances).forEach(plugin => {
+    Object.keys(this.PluginManager.instances).forEach((plugin) => {
       this.PluginManager.removeInstance(plugin);
     });
 
@@ -155,34 +166,34 @@ export class Picker {
 
   /**
    * Fired on render event
-   * 
-   * @param event 
+   *
+   * @param event
    */
   public onRender(event: CustomEvent) {
     const { view, date }: IEventDetail = event.detail;
 
-    this.Calendar.render(date, view);
+    this.Calendar.render(date!, view!);
   }
 
   public onView(event: CustomEvent) {
     const { view, target } = event.detail;
 
-    if (view === 'Footer' && this.datePicked.length) {
-      const applyButton = target.querySelector('.apply-button');
+    if (view === "Footer" && this.datePicked.length) {
+      const applyButton = target.querySelector(".apply-button");
       applyButton.disabled = false;
     }
   }
 
   /**
-   * 
-   * @param element 
+   *
+   * @param element
    */
   public onClickHeaderButton(element: HTMLElement) {
     if (this.isCalendarHeaderButton(element)) {
-      if (element.classList.contains('next-button')) {
-        this.calendars[0].add(1, 'month');
+      if (element.classList.contains("next-button")) {
+        this.calendars[0].add(1, "month");
       } else {
-        this.calendars[0].subtract(1, 'month');
+        this.calendars[0].subtract(1, "month");
       }
 
       this.renderAll(this.calendars[0]);
@@ -190,8 +201,8 @@ export class Picker {
   }
 
   /**
-   * 
-   * @param element 
+   *
+   * @param element
    */
   public onClickCalendarDay(element: HTMLElement) {
     if (this.isCalendarDay(element)) {
@@ -200,13 +211,13 @@ export class Picker {
       if (this.options.autoApply) {
         this.setDate(date);
 
-        this.trigger('select', { date: this.getDate() });
+        this.trigger("select", { date: this.getDate() });
 
         this.hide();
       } else {
         this.datePicked[0] = date;
 
-        this.trigger('preselect', { date: this.getDate() });
+        this.trigger("preselect", { date: this.getDate() });
 
         this.renderAll();
       }
@@ -214,8 +225,8 @@ export class Picker {
   }
 
   /**
-   * 
-   * @param element 
+   *
+   * @param element
    */
   public onClickApplyButton(element: HTMLElement) {
     if (this.isApplyButton(element)) {
@@ -226,14 +237,14 @@ export class Picker {
 
       this.hide();
 
-      this.trigger('select', { date: this.getDate() });
+      this.trigger("select", { date: this.getDate() });
     }
   }
 
   /**
-   * 
-   * @param element 
-   * @returns 
+   *
+   * @param element
+   * @returns
    */
   public onClickCancelButton(element: HTMLElement) {
     if (this.isCancelButton(element)) {
@@ -244,14 +255,14 @@ export class Picker {
 
   /**
    * Fired on click event
-   * 
+   *
    * @param event
    */
-  public onClick(event): void {
+  public onClick(event: any): void {
     const target = event.target;
 
     if (target instanceof HTMLElement) {
-      const element = target.closest('.unit');
+      const element = target.closest(".unit");
 
       if (!(element instanceof HTMLElement)) return;
 
@@ -264,49 +275,52 @@ export class Picker {
 
   /**
    * Determine if the picker is visible or not
-   * 
+   *
    * @returns Boolean
    */
   public isShown(): boolean {
-    return this.ui.container.classList.contains('inline')
-      || this.ui.container.classList.contains('show');
+    return (
+      this.ui.container.classList.contains("inline") ||
+      this.ui.container.classList.contains("show")
+    );
   }
 
   /**
    * Show the picker
-   * 
-   * @param event 
+   *
+   * @param event
    */
-  public show(event?): void {
+  public show(event?: any): void {
     if (this.isShown()) return;
 
-    const target = event && 'target' in event ? event.target : this.options.element;
+    const target =
+      event && "target" in event ? event.target : this.options.element;
     const { top, left } = this.adjustPosition(target);
     //this.ui.container.style.position = 'absolute';
     this.ui.container.style.top = `${top}px`;
     this.ui.container.style.left = `${left}px`;
-    this.ui.container.classList.add('show');
+    this.ui.container.classList.add("show");
 
-    this.trigger('show', { target: target });
+    this.trigger("show", { target: target });
   }
 
   /**
    * Hide the picker
    */
   public hide(): void {
-    this.ui.container.classList.remove('show');
+    this.ui.container.classList.remove("show");
 
     this.datePicked.length = 0;
 
     this.renderAll();
 
-    this.trigger('hide');
+    this.trigger("hide");
   }
 
   /**
    * Set date programmatically
-   * 
-   * @param date 
+   *
+   * @param date
    */
   public setDate(date: Date | string | number): void {
     const d = new DateTime(date, this.options.format, this.options.lang);
@@ -320,10 +334,10 @@ export class Picker {
   }
 
   /**
-   * 
+   *
    * @returns DateTime
    */
-  public getDate(): DateTime {
+  public getDate(): DateTime | null {
     return this.options.date instanceof DateTime
       ? this.options.date.clone()
       : null;
@@ -335,7 +349,10 @@ export class Picker {
   public parseValues() {
     if (this.options.date) {
       this.setDate(this.options.date);
-    } else if (this.options.element instanceof HTMLInputElement && this.options.element.value.length) {
+    } else if (
+      this.options.element instanceof HTMLInputElement &&
+      this.options.element.value.length
+    ) {
       this.setDate(this.options.element.value);
     }
 
@@ -349,7 +366,10 @@ export class Picker {
    */
   public updateValues() {
     const date = this.getDate();
-    const formatString = date instanceof Date ? date.format(this.options.format, this.options.lang) : '';
+    const formatString =
+      date instanceof Date
+        ? date.format(this.options.format!, this.options.lang)
+        : "";
 
     const el = this.options.element;
     if (el instanceof HTMLInputElement) {
@@ -362,10 +382,10 @@ export class Picker {
   /**
    * Function for documentClick option
    * Allows the picker to close when the user clicks outside
-   * 
-   * @param e 
+   *
+   * @param e
    */
-  public hidePicker(e): void {
+  public hidePicker(e: any): void {
     let target = e.target;
     let host = null;
 
@@ -374,66 +394,73 @@ export class Picker {
       host = target.getRootNode().host;
     }
 
-    if (this.isShown()
-      && host !== this.ui.wrapper
-      && target !== this.options.element) {
+    if (
+      this.isShown() &&
+      host !== this.ui.wrapper &&
+      target !== this.options.element
+    ) {
       this.hide();
     }
   }
 
   /**
    * Render entire picker layout
-   * 
-   * @param date 
+   *
+   * @param date
    */
-  public renderAll(date?: DateTime): void {
-    this.trigger('render', { view: 'Container', date: (date || this.calendars[0]).clone() });
+  public renderAll(date?: DateTime | null): void {
+    this.trigger("render", {
+      view: "Container",
+      date: (date || this.calendars[0]).clone(),
+    });
   }
 
   /**
    * Determines if the element is buttons of header (previous month, next month)
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   public isCalendarHeaderButton(element: HTMLElement): boolean {
-    return ['previous-button', 'next-button'].some(x => element.classList.contains(x));
+    return ["previous-button", "next-button"].some((x) =>
+      element.classList.contains(x)
+    );
   }
 
   /**
    * Determines if the element is day element
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   public isCalendarDay(element: HTMLElement): boolean {
-    return element.classList.contains('day');
+    return element.classList.contains("day");
   }
 
   /**
    * Determines if the element is the apply button
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   public isApplyButton(element: HTMLElement): boolean {
-    return element.classList.contains('apply-button');
+    return element.classList.contains("apply-button");
   }
 
   /**
    * Determines if the element is the cancel button
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   public isCancelButton(element: HTMLElement): boolean {
-    return element.classList.contains('cancel-button');
+    return element.classList.contains("cancel-button");
   }
 
   /**
    * Change visible month
-   * 
-   * @param date 
+   *
+   * @param date
    */
   public gotoDate(date: Date | string | number): void {
     const toDate = new DateTime(date, this.options.format);
@@ -450,7 +477,7 @@ export class Picker {
     this.datePicked.length = 0;
     this.updateValues();
     this.renderAll();
-    this.trigger('clear');
+    this.trigger("clear");
   }
 
   /**
@@ -458,15 +485,17 @@ export class Picker {
    */
   private handleOptions() {
     if (!(this.options.element instanceof HTMLElement)) {
-      this.options.element = this.options.doc.querySelector(this.options.element) as HTMLElement;
+      this.options.element = this.options.doc!.querySelector(
+        this.options.element
+      ) as HTMLElement;
     }
 
-    if (typeof this.options.documentClick === 'function') {
-      document.addEventListener('click', this.options.documentClick, true);
+    if (typeof this.options.documentClick === "function") {
+      document.addEventListener("click", this.options.documentClick, true);
     }
 
     if (this.options.element instanceof HTMLInputElement) {
-      this.options.element.readOnly = this.options.readonly;
+      this.options.element.readOnly = this.options.readonly!;
     }
 
     if (this.options.date) {
@@ -481,62 +510,76 @@ export class Picker {
    */
   private handleCSS(): void {
     if (Array.isArray(this.options.css)) {
-      this.options.css.forEach(cssLink => {
-        const link = document.createElement('link');
+      this.options.css.forEach((cssLink) => {
+        const link = document.createElement("link");
         link.href = cssLink;
-        link.rel = 'stylesheet';
+        link.rel = "stylesheet";
         const onReady = () => {
           this.cssLoaded++;
 
-          if (this.cssLoaded === this.options.css.length) {
-            this.ui.wrapper.style.display = '';
+          if (this.cssLoaded === this.options.css!.length) {
+            this.ui.wrapper.style.display = "";
           }
         };
-        link.addEventListener('load', onReady);
-        link.addEventListener('error', onReady);
+        link.addEventListener("load", onReady);
+        link.addEventListener("error", onReady);
 
         this.ui.shadowRoot.append(link);
       });
-    } else if (typeof this.options.css === 'string') {
-      const style = document.createElement('style') as HTMLStyleElement;
+    } else if (typeof this.options.css === "string") {
+      const style = document.createElement("style") as HTMLStyleElement;
       const styleText = document.createTextNode(this.options.css);
       style.appendChild(styleText);
 
       this.ui.shadowRoot.append(style);
-      this.ui.wrapper.style.display = '';
-    } else if (typeof this.options.css === 'function') {
+      this.ui.wrapper.style.display = "";
+    } else if (typeof this.options.css === "function") {
       this.options.css.call(this, this);
-      this.ui.wrapper.style.display = '';
+      this.ui.wrapper.style.display = "";
     }
   }
 
   /**
    * Calculate the position of the picker
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns { top, left }
    */
   private adjustPosition(element: HTMLElement) {
     const rect = element.getBoundingClientRect();
     const wrapper = this.ui.wrapper.getBoundingClientRect();
 
-    this.ui.container.classList.add('calc');
+    this.ui.container.classList.add("calc");
     const container = this.ui.container.getBoundingClientRect();
-    this.ui.container.classList.remove('calc');
+    this.ui.container.classList.remove("calc");
 
     let top = rect.bottom - wrapper.bottom;
     let left = rect.left - wrapper.left;
+    if (this.options.position === "right") {
+      left = rect.left - wrapper.left - container.width + rect.width;
+    }
 
-    if (typeof window !== 'undefined') {
-      if (window.innerHeight < top + container.height
-        && top - container.height >= 0) {
+    if (typeof window !== "undefined") {
+      if (
+        window.innerHeight < top + container.height &&
+        top - container.height >= 0
+      ) {
         top = rect.top - wrapper.top - container.height;
       }
 
-      if (window.innerWidth < left + container.width
-        && rect.right - container.width >= 0) {
+      if (
+        window.innerWidth < left + container.width &&
+        rect.right - container.width >= 0
+      ) {
         left = rect.right - wrapper.right - container.width;
       }
+    }
+
+    if (this.options.offsetTop) {
+      top += this.options.offsetTop;
+    }
+    if (this.options.offsetLeft) {
+      left += this.options.offsetLeft;
     }
 
     return {

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { DateTime } from '../datetime';
+import { DateTime } from '../core/datetime';
 import { BasePlugin, IEventDetail, IPlugin } from './base';
 
 export interface IRangeConfig {

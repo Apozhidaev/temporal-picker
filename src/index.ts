@@ -1,6 +1,6 @@
 import type { IPickerConfig } from "./types";
 import type { IEventDetail, IPlugin } from "./plugins/base";
-import { Picker } from "./picker";
+import { Picker } from "./core/picker";
 import { BasePlugin } from "./plugins/base";
 import { ExtraOptionsPlugin } from "./plugins/extra-options";
 import { LockPlugin } from "./plugins/lock";
@@ -14,11 +14,22 @@ import { lockCss } from "./assets/lock";
 import { presetCss } from "./assets/preset";
 import { rangeCss } from "./assets/range";
 import { timeCss } from "./assets/time";
+import { keyboardCss } from "./assets/keyboard";
+import { DatePicker, DatePickerOptions } from "./pickers/date";
+import { RangePicker, RangePickerOptions } from "./pickers/range";
 
-export type { IPickerConfig, IEventDetail, IPlugin };
+export type {
+  DatePickerOptions,
+  RangePickerOptions,
+  IPickerConfig,
+  IEventDetail,
+  IPlugin,
+};
 
 export {
   Picker,
+  DatePicker,
+  RangePicker,
   BasePlugin,
   ExtraOptionsPlugin,
   LockPlugin,
@@ -32,6 +43,7 @@ export {
   presetCss,
   rangeCss,
   timeCss,
+  keyboardCss,
 };
 
 export default Picker;

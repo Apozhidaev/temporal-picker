@@ -1,6 +1,6 @@
 import type { LockPlugin } from './lock';
 import { BasePlugin, IEventDetail, IPlugin } from './base';
-import { DateTime } from '../datetime';
+import { DateTime } from '../core/datetime';
 
 export interface IExtraOptionsPlugin {
   dropdown?: {

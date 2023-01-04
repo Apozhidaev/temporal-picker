@@ -61,7 +61,7 @@ export class KeyboardPlugin extends BasePlugin implements IPlugin {
   }
 
   private updateTabIndex() {
-    const show = this.picker.ui.container.classList.contains("show");
+    const show = this.picker.isShown();
     const days = this.picker.ui.container.querySelectorAll<HTMLElement>(
       ".unit.day:not(.locked,.not-available)"
     );

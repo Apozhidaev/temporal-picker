@@ -1,8 +1,7 @@
 export const extraOptionsCss: string = /* css */ `
 :host {
-  --month-name-font-weight: var(--tp-month-name-font-weight, 700);
-  --focus-color: var(--tp-focus-color, #94a3b8);
-  --select-outline-color: var(--tp-select-outline-color, #e5e7eb);
+  --month-name-font-weight: var(--temporal-picker-month-name-font-weight, 700);
+  --select-outline-color: var(--temporal-picker-select-outline-color, #e5e7eb);
 }
 .container.extra-options-plugin .calendars .calendar > .header .month-name {
   align-items: center;
@@ -56,21 +55,10 @@ export const extraOptionsCss: string = /* css */ `
   font-size: 12px;
   justify-content: center;
 }
-.unit:focus-visible {
-  outline-width: 1px;
-  outline-style: dashed;
-  outline-color: var(--focus-color);
-  z-index: 1;
-  outline-offset: 1px;
-}
 select.unit {
   outline-width: 1px;
   outline-style: solid;
   outline-color: var(--select-outline-color);
   outline-offset: 1px;
-}
-select.unit:focus-visible {
-  outline-color: var(--focus-color);
-  outline-style: solid;
 }
 `;
