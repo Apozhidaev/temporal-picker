@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { DateTime } from '../core/datetime';
-import { BasePlugin, IEventDetail, IPlugin } from './base';
+import { DateTime } from "../core/datetime";
+import { BasePlugin, IEventDetail, IPlugin } from "./base";
 
 export interface IRangeConfig {
   elementEnd?: HTMLElement | string;
@@ -18,7 +18,7 @@ export interface IRangeConfig {
     few?: string;
     many?: string;
     other?: string;
-  }
+  };
   documentClick?: boolean | (() => void);
 }
 
@@ -49,29 +49,29 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     endDate: null,
     repick: false,
     strict: true,
-    delimiter: ' - ',
+    delimiter: " - ",
     tooltip: true,
     tooltipNumber: (num: number) => {
       return num;
     },
     locale: {
-      zero: '',
-      one: 'day',
-      two: '',
-      few: '',
-      many: '',
-      other: 'days',
+      zero: "",
+      one: "day",
+      two: "",
+      few: "",
+      many: "",
+      other: "days",
     },
     documentClick: this.hidePicker.bind(this),
   };
 
   /**
    * Returns plugin name
-   * 
+   *
    * @returns String
    */
   public getName(): string {
-    return 'RangePlugin';
+    return "RangePlugin";
   }
 
   /**
@@ -79,16 +79,16 @@ export class RangePlugin extends BasePlugin implements IPlugin {
    * The function execute on initialize the picker
    */
   public onAttach(): void {
-    this.binds['_setStartDate'] = this.picker.setStartDate;
-    this.binds['_setEndDate'] = this.picker.setEndDate;
-    this.binds['_setDateRange'] = this.picker.setDateRange;
-    this.binds['_getStartDate'] = this.picker.getStartDate;
-    this.binds['_getEndDate'] = this.picker.getEndDate;
-    this.binds['_parseValues'] = this.picker.parseValues;
-    this.binds['_updateValues'] = this.picker.updateValues;
-    this.binds['_clear'] = this.picker.clear;
-    this.binds['_onClickCalendarDay'] = this.picker.onClickCalendarDay;
-    this.binds['_onClickApplyButton'] = this.picker.onClickApplyButton;
+    this.binds["_setStartDate"] = this.picker.setStartDate;
+    this.binds["_setEndDate"] = this.picker.setEndDate;
+    this.binds["_setDateRange"] = this.picker.setDateRange;
+    this.binds["_getStartDate"] = this.picker.getStartDate;
+    this.binds["_getEndDate"] = this.picker.getEndDate;
+    this.binds["_parseValues"] = this.picker.parseValues;
+    this.binds["_updateValues"] = this.picker.updateValues;
+    this.binds["_clear"] = this.picker.clear;
+    this.binds["_onClickCalendarDay"] = this.picker.onClickCalendarDay;
+    this.binds["_onClickApplyButton"] = this.picker.onClickApplyButton;
 
     Object.defineProperties(this.picker, {
       setStartDate: {
@@ -130,43 +130,50 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       onClickApplyButton: {
         configurable: true,
         value: this.binds.onClickApplyButton,
-      }
+      },
     });
 
     if (this.options.elementEnd) {
       if (!(this.options.elementEnd instanceof HTMLElement)) {
-        this.options.elementEnd = this.picker
-          .options
-          .doc.querySelector(this.options.elementEnd) as HTMLElement;
+        this.options.elementEnd = this.picker.options.doc.querySelector(
+          this.options.elementEnd
+        ) as HTMLElement;
       }
 
       if (this.options.elementEnd instanceof HTMLInputElement) {
         this.options.elementEnd.readOnly = this.picker.options.readonly;
       }
 
-      if (typeof this.picker.options.documentClick === 'function') {
-        document.removeEventListener('click', this.picker.options.documentClick, true);
+      if (typeof this.picker.options.documentClick === "function") {
+        document.removeEventListener(
+          "click",
+          this.picker.options.documentClick,
+          true
+        );
 
-        if (typeof this.options.documentClick === 'function') {
-          document.addEventListener('click', this.options.documentClick, true);
+        if (typeof this.options.documentClick === "function") {
+          document.addEventListener("click", this.options.documentClick, true);
         }
       }
 
-      (this.options.elementEnd as HTMLElement).addEventListener('click', this.picker.show.bind(this.picker));
+      (this.options.elementEnd as HTMLElement).addEventListener(
+        "click",
+        this.picker.show.bind(this.picker)
+      );
     }
 
-    this.options.repick = this.options.repick && this.options.elementEnd instanceof HTMLElement;
+    this.options.repick =
+      this.options.repick && this.options.elementEnd instanceof HTMLElement;
 
     this.picker.options.date = null;
 
-    this.picker.on('view', this.binds.onView);
-    this.picker.on('show', this.binds.onShow);
-    this.picker.on('mouseenter', this.binds.onMouseEnter, true);
-    this.picker.on('mouseleave', this.binds.onMouseLeave, true);
+    this.picker.on("view", this.binds.onView);
+    this.picker.on("show", this.binds.onShow);
+    this.picker.on("mouseenter", this.binds.onMouseEnter, true);
+    this.picker.on("mouseleave", this.binds.onMouseLeave, true);
 
     this.checkIntlPluralLocales();
   }
-
 
   /**
    * - Called automatically via BasePlugin.detach() -
@@ -175,50 +182,50 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     Object.defineProperties(this.picker, {
       setStartDate: {
         configurable: true,
-        value: this.binds['_setStartDate'],
+        value: this.binds["_setStartDate"],
       },
       setEndDate: {
         configurable: true,
-        value: this.binds['_setEndDate'],
+        value: this.binds["_setEndDate"],
       },
       setDateRange: {
         configurable: true,
-        value: this.binds['_setDateRange'],
+        value: this.binds["_setDateRange"],
       },
       getStartDate: {
         configurable: true,
-        value: this.binds['_getStartDate'],
+        value: this.binds["_getStartDate"],
       },
       getEndDate: {
         configurable: true,
-        value: this.binds['_getEndDate'],
+        value: this.binds["_getEndDate"],
       },
       parseValues: {
         configurable: true,
-        value: this.binds['_parseValues'],
+        value: this.binds["_parseValues"],
       },
       updateValues: {
         configurable: true,
-        value: this.binds['_updateValues'],
+        value: this.binds["_updateValues"],
       },
       clear: {
         configurable: true,
-        value: this.binds['_clear'],
+        value: this.binds["_clear"],
       },
       onClickCalendarDay: {
         configurable: true,
-        value: this.binds['_onClickCalendarDay'],
+        value: this.binds["_onClickCalendarDay"],
       },
       onClickApplyButton: {
         configurable: true,
-        value: this.binds['_onClickApplyButton'],
-      }
+        value: this.binds["_onClickApplyButton"],
+      },
     });
 
-    this.picker.off('view', this.binds.onView);
-    this.picker.off('show', this.binds.onShow);
-    this.picker.off('mouseenter', this.binds.onMouseEnter, true);
-    this.picker.off('mouseleave', this.binds.onMouseLeave, true);
+    this.picker.off("view", this.binds.onView);
+    this.picker.off("show", this.binds.onShow);
+    this.picker.off("mouseenter", this.binds.onMouseEnter, true);
+    this.picker.off("mouseleave", this.binds.onMouseLeave, true);
   }
 
   /**
@@ -235,7 +242,7 @@ export class RangePlugin extends BasePlugin implements IPlugin {
         }
       } else {
         if (this.options.startDate) {
-          this.setStartDate(this.options.startDate)
+          this.setStartDate(this.options.startDate);
         }
 
         if (this.options.endDate) {
@@ -247,25 +254,39 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
     if (this.options.elementEnd) {
       if (this.options.strict) {
-        if (this.picker.options.element instanceof HTMLInputElement
-          && this.picker.options.element.value.length
-          && this.options.elementEnd instanceof HTMLInputElement
-          && this.options.elementEnd.value.length) {
-          this.setDateRange(this.picker.options.element.value, this.options.elementEnd.value);
+        if (
+          this.picker.options.element instanceof HTMLInputElement &&
+          this.picker.options.element.value.length &&
+          this.options.elementEnd instanceof HTMLInputElement &&
+          this.options.elementEnd.value.length
+        ) {
+          this.setDateRange(
+            this.picker.options.element.value,
+            this.options.elementEnd.value
+          );
         }
       } else {
-        if (this.picker.options.element instanceof HTMLInputElement
-          && this.picker.options.element.value.length) {
+        if (
+          this.picker.options.element instanceof HTMLInputElement &&
+          this.picker.options.element.value.length
+        ) {
           this.setStartDate(this.picker.options.element.value);
         }
 
-        if (this.options.elementEnd instanceof HTMLInputElement
-          && this.options.elementEnd.value.length) {
+        if (
+          this.options.elementEnd instanceof HTMLInputElement &&
+          this.options.elementEnd.value.length
+        ) {
           this.setEndDate(this.options.elementEnd.value);
         }
       }
-    } else if (this.picker.options.element instanceof HTMLInputElement && this.picker.options.element.value.length) {
-      const [_start, _end] = this.picker.options.element.value.split(this.options.delimiter);
+    } else if (
+      this.picker.options.element instanceof HTMLInputElement &&
+      this.picker.options.element.value.length
+    ) {
+      const [_start, _end] = this.picker.options.element.value.split(
+        this.options.delimiter
+      );
 
       if (this.options.strict) {
         if (_start && _end) {
@@ -286,35 +307,52 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     const elEnd = this.options.elementEnd;
     const start = this.picker.getStartDate();
     const end = this.picker.getEndDate();
-    const startString = start instanceof Date
-      ? start.format(this.picker.options.format, this.picker.options.lang)
-      : '';
-    const endString = end instanceof Date
-      ? end.format(this.picker.options.format, this.picker.options.lang)
-      : '';
+    const startString =
+      start instanceof Date
+        ? start.format(this.picker.options.format, this.picker.options.lang)
+        : "";
+    const endString =
+      end instanceof Date
+        ? end.format(this.picker.options.format, this.picker.options.lang)
+        : "";
 
+    let updated = false;
     if (elEnd) {
       if (el instanceof HTMLInputElement) {
-        el.value = startString;
+        if (el.value !== startString) {
+          el.value = startString;
+          updated = true;
+        }
       } else if (el instanceof HTMLElement) {
         el.innerText = startString;
+        updated = true;
       }
 
       if (elEnd instanceof HTMLInputElement) {
-        elEnd.value = endString;
+        if (elEnd.value !== endString) {
+          elEnd.value = endString;
+          updated = true;
+        }
       } else if (elEnd instanceof HTMLElement) {
         elEnd.innerText = endString;
+        updated = true;
       }
     } else {
-      const delimiter = startString || endString ? this.options.delimiter : '';
+      const delimiter = startString || endString ? this.options.delimiter : "";
       const formatString = `${startString}${delimiter}${endString}`;
 
       if (el instanceof HTMLInputElement) {
-        el.value = formatString;
+        if (el.value !== formatString) {
+          el.value = formatString;
+          updated = true;
+        }
       } else if (el instanceof HTMLElement) {
         el.innerText = formatString;
+        updated = true;
       }
     }
+
+    return updated;
   }
 
   /**
@@ -326,19 +364,22 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     this.picker.datePicked.length = 0;
     this.updateValues();
     this.picker.renderAll();
-    this.picker.trigger('clear');
+    this.picker.trigger("clear");
   }
 
   /**
    * Function `show` event
-   * 
-   * @param event 
+   *
+   * @param event
    */
   private onShow(event) {
     const { target }: IEventDetail = event.detail;
     this.triggerElement = target;
 
-    if (this.picker.options.scrollToDate && this.getStartDate() instanceof Date) {
+    if (
+      this.picker.options.scrollToDate &&
+      this.getStartDate() instanceof Date
+    ) {
       this.picker.gotoDate(this.getStartDate());
     }
 
@@ -348,43 +389,50 @@ export class RangePlugin extends BasePlugin implements IPlugin {
   /**
    * Function `view` event
    * Adds HTML layout of current plugin to the picker layout
-   * 
-   * @param event 
+   *
+   * @param event
    */
   private onView(event: CustomEvent) {
     const { view, target }: IEventDetail = event.detail;
 
-    if (view === 'Main') {
-      this.tooltipElement = document.createElement('span');
-      this.tooltipElement.className = 'range-plugin-tooltip';
+    if (view === "Main") {
+      this.tooltipElement = document.createElement("span");
+      this.tooltipElement.className = "range-plugin-tooltip";
       target.appendChild(this.tooltipElement);
     }
 
-    if (view === 'CalendarDay') {
+    if (view === "CalendarDay") {
       const date = new DateTime(target.dataset.time);
       const datePicked = this.picker.datePicked;
-      const start = datePicked.length ? this.picker.datePicked[0] : this.getStartDate();
-      const end = datePicked.length ? this.picker.datePicked[1] : this.getEndDate();
+      const start = datePicked.length
+        ? this.picker.datePicked[0]
+        : this.getStartDate();
+      const end = datePicked.length
+        ? this.picker.datePicked[1]
+        : this.getEndDate();
 
-      if (start && start.isSame(date, 'day')) {
-        target.classList.add('start');
+      if (start && start.isSame(date, "day")) {
+        target.classList.add("start");
       }
 
       if (start && end) {
-        if (end.isSame(date, 'day')) {
-          target.classList.add('end');
+        if (end.isSame(date, "day")) {
+          target.classList.add("end");
         }
 
         if (date.isBetween(start, end)) {
-          target.classList.add('in-range');
+          target.classList.add("in-range");
         }
       }
     }
 
-    if (view === 'Footer') {
-      const allowApplyBtn = (this.picker.datePicked.length === 1 && !this.options.strict)
-        || this.picker.datePicked.length === 2;
-      const applyButton = target.querySelector('.apply-button') as HTMLButtonElement;
+    if (view === "Footer") {
+      const allowApplyBtn =
+        (this.picker.datePicked.length === 1 && !this.options.strict) ||
+        this.picker.datePicked.length === 2;
+      const applyButton = target.querySelector(
+        ".apply-button"
+      ) as HTMLButtonElement;
       applyButton.disabled = !allowApplyBtn;
     }
   }
@@ -392,8 +440,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
   /**
    * Function for documentClick option
    * Allows the picker to close when the user clicks outside
-   * 
-   * @param e 
+   *
+   * @param e
    */
   private hidePicker(e) {
     let target = e.target;
@@ -404,80 +452,111 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       host = target.getRootNode().host;
     }
 
-    if (this.picker.isShown()
-      && host !== this.picker.ui.wrapper
-      && target !== this.picker.options.element
-      && target !== this.options.elementEnd) {
+    if (
+      this.picker.isShown() &&
+      host !== this.picker.ui.wrapper &&
+      target !== this.picker.options.element &&
+      target !== this.options.elementEnd
+    ) {
       this.picker.hide();
     }
   }
 
   /**
    * Set startDate programmatically
-   * 
-   * @param date 
+   *
+   * @param date
    */
   private setStartDate(date: Date | string | number) {
-    const d = new DateTime(date, this.picker.options.format, this.picker.options.lang);
+    const d = new DateTime(
+      date,
+      this.picker.options.format,
+      this.picker.options.lang
+    );
     this.options.startDate = d ? d.clone() : null;
 
-    this.updateValues();
+    const updated = this.updateValues();
 
-    this.picker.renderAll();
+    if (updated) {
+      this.picker.renderAll();
+    }
   }
 
   /**
    * Set endDate programmatically
-   * 
-   * @param date 
+   *
+   * @param date
    */
   private setEndDate(date: Date | string | number) {
-    const d = new DateTime(date, this.picker.options.format, this.picker.options.lang);
+    const d = new DateTime(
+      date,
+      this.picker.options.format,
+      this.picker.options.lang
+    );
     this.options.endDate = d ? d.clone() : null;
 
-    this.updateValues();
+    const updated = this.updateValues();
 
-    this.picker.renderAll();
+    if (updated) {
+      this.picker.renderAll();
+    }
   }
 
   /**
    * Set date range programmatically
-   * 
-   * @param start 
-   * @param end 
+   *
+   * @param start
+   * @param end
    */
-  private setDateRange(start: Date | string | number, end: Date | string | number) {
-    const startDate = new DateTime(start, this.picker.options.format, this.picker.options.lang);
-    const endDate = new DateTime(end, this.picker.options.format, this.picker.options.lang);
+  private setDateRange(
+    start: Date | string | number,
+    end: Date | string | number
+  ) {
+    const startDate = new DateTime(
+      start,
+      this.picker.options.format,
+      this.picker.options.lang
+    );
+    const endDate = new DateTime(
+      end,
+      this.picker.options.format,
+      this.picker.options.lang
+    );
 
     this.options.startDate = startDate ? startDate.clone() : null;
     this.options.endDate = endDate ? endDate.clone() : null;
 
-    this.updateValues();
+    const updated = this.updateValues();
 
-    this.picker.renderAll();
+    if (updated) {
+      this.picker.renderAll();
+    }
   }
 
   /**
-   * 
+   *
    * @returns DateTime
    */
   private getStartDate(): DateTime {
-    return this.options.startDate instanceof Date ? this.options.startDate.clone() : null;
+    return this.options.startDate instanceof Date
+      ? this.options.startDate.clone()
+      : null;
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   private getEndDate(): DateTime {
-    return this.options.endDate instanceof Date ? this.options.endDate.clone() : null;
+    return this.options.endDate instanceof Date
+      ? this.options.endDate.clone()
+      : null;
   }
 
   /**
    * Handle `mouseenter` event
-   * 
-   * @param event 
+   *
+   * @param event
    */
   private onMouseEnter(event) {
     const target = event.target;
@@ -487,7 +566,7 @@ export class RangePlugin extends BasePlugin implements IPlugin {
         this.initializeRepick();
       }
 
-      const element = target.closest('.unit');
+      const element = target.closest(".unit");
 
       if (!(element instanceof HTMLElement)) return;
 
@@ -498,41 +577,43 @@ export class RangePlugin extends BasePlugin implements IPlugin {
         let date2 = new DateTime(element.dataset.time);
         let isFlipped = false;
 
-        if (date1.isAfter(date2, 'day')) {
+        if (date1.isAfter(date2, "day")) {
           const tempDate = date1.clone();
           date1 = date2.clone();
           date2 = tempDate.clone();
           isFlipped = true;
         }
 
-        const days = [...this.picker.ui.container.querySelectorAll('.day')];
+        const days = [...this.picker.ui.container.querySelectorAll(".day")];
 
         days.forEach((d: HTMLElement) => {
           const date = new DateTime(d.dataset.time);
           const dayView = this.picker.Calendar.getCalendarDayView(date);
 
           if (date.isBetween(date1, date2)) {
-            dayView.classList.add('in-range');
+            dayView.classList.add("in-range");
           }
 
-          if (date.isSame(this.picker.datePicked[0], 'day')) {
-            dayView.classList.add('start');
-            dayView.classList.toggle('flipped', isFlipped);
+          if (date.isSame(this.picker.datePicked[0], "day")) {
+            dayView.classList.add("start");
+            dayView.classList.toggle("flipped", isFlipped);
           }
 
           if (d === element) {
-            dayView.classList.add('end');
-            dayView.classList.toggle('flipped', isFlipped);
+            dayView.classList.add("end");
+            dayView.classList.toggle("flipped", isFlipped);
           }
 
           d.className = dayView.className;
         });
 
         if (this.options.tooltip) {
-          const diff = this.options.tooltipNumber(date2.diff(date1, 'day') + 1);
+          const diff = this.options.tooltipNumber(date2.diff(date1, "day") + 1);
 
           if (diff > 0) {
-            const pluralKey = new Intl.PluralRules(this.picker.options.lang).select(diff);
+            const pluralKey = new Intl.PluralRules(
+              this.picker.options.lang
+            ).select(diff);
             const text = `${diff} ${this.options.locale[pluralKey]}`;
 
             this.showTooltip(element, text);
@@ -546,8 +627,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
   /**
    * Handle `mouseleave` event
-   * 
-   * @param event 
+   *
+   * @param event
    */
   private onMouseLeave(event) {
     if (this.isContainer(event.target) && this.options.repick) {
@@ -564,7 +645,6 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
   private onClickCalendarDay(element: HTMLElement) {
     if (this.picker.isCalendarDay(element)) {
-
       if (this.picker.datePicked.length === 2) {
         this.picker.datePicked.length = 0;
       }
@@ -572,16 +652,28 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       const date = new DateTime(element.dataset.time);
       this.picker.datePicked[this.picker.datePicked.length] = date;
 
-      if (this.picker.datePicked.length === 2 && this.picker.datePicked[0].isAfter(this.picker.datePicked[1])) {
+      if (
+        this.picker.datePicked.length === 2 &&
+        this.picker.datePicked[0].isAfter(this.picker.datePicked[1])
+      ) {
         const tempDate = this.picker.datePicked[1].clone();
         this.picker.datePicked[1] = this.picker.datePicked[0].clone();
         this.picker.datePicked[0] = tempDate.clone();
       }
 
-      if (this.picker.datePicked.length === 1 || !this.picker.options.autoApply) {
-        this.picker.trigger('preselect', {
-          start: this.picker.datePicked[0] instanceof Date ? this.picker.datePicked[0].clone() : null,
-          end: this.picker.datePicked[1] instanceof Date ? this.picker.datePicked[1].clone() : null,
+      if (
+        this.picker.datePicked.length === 1 ||
+        !this.picker.options.autoApply
+      ) {
+        this.picker.trigger("preselect", {
+          start:
+            this.picker.datePicked[0] instanceof Date
+              ? this.picker.datePicked[0].clone()
+              : null,
+          end:
+            this.picker.datePicked[1] instanceof Date
+              ? this.picker.datePicked[1].clone()
+              : null,
         });
       }
 
@@ -595,7 +687,10 @@ export class RangePlugin extends BasePlugin implements IPlugin {
             this.setEndDate(this.picker.datePicked[0]);
           }
 
-          this.picker.trigger('select', { start: this.picker.getStartDate(), end: this.picker.getEndDate() });
+          this.picker.trigger("select", {
+            start: this.picker.getStartDate(),
+            end: this.picker.getEndDate(),
+          });
         }
 
         this.picker.renderAll();
@@ -603,9 +698,15 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
       if (this.picker.datePicked.length === 2) {
         if (this.picker.options.autoApply) {
-          this.setDateRange(this.picker.datePicked[0], this.picker.datePicked[1]);
+          this.setDateRange(
+            this.picker.datePicked[0],
+            this.picker.datePicked[1]
+          );
 
-          this.picker.trigger('select', { start: this.picker.getStartDate(), end: this.picker.getEndDate() });
+          this.picker.trigger("select", {
+            start: this.picker.getStartDate(),
+            end: this.picker.getEndDate(),
+          });
 
           this.picker.hide();
         } else {
@@ -635,7 +736,10 @@ export class RangePlugin extends BasePlugin implements IPlugin {
         this.setDateRange(this.picker.datePicked[0], this.picker.datePicked[1]);
       }
 
-      this.picker.trigger('select', { start: this.picker.getStartDate(), end: this.picker.getEndDate() });
+      this.picker.trigger("select", {
+        start: this.picker.getStartDate(),
+        end: this.picker.getEndDate(),
+      });
 
       this.picker.hide();
     }
@@ -643,12 +747,12 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
   /**
    * Displays tooltip of selected days
-   * 
-   * @param element 
-   * @param text 
+   *
+   * @param element
+   * @param text
    */
   private showTooltip(element: HTMLElement, text: string) {
-    this.tooltipElement.style.visibility = 'visible';
+    this.tooltipElement.style.visibility = "visible";
     this.tooltipElement.innerHTML = text;
 
     const container = this.picker.ui.container.getBoundingClientRect();
@@ -672,7 +776,7 @@ export class RangePlugin extends BasePlugin implements IPlugin {
    * Hide tooltip
    */
   private hideTooltip() {
-    this.tooltipElement.style.visibility = 'hidden';
+    this.tooltipElement.style.visibility = "hidden";
   }
 
   /**
@@ -681,18 +785,24 @@ export class RangePlugin extends BasePlugin implements IPlugin {
   private checkIntlPluralLocales() {
     if (!this.options.tooltip) return;
 
-    const rules = [...new Set([
-      new Intl.PluralRules(this.picker.options.lang).select(0),
-      new Intl.PluralRules(this.picker.options.lang).select(1),
-      new Intl.PluralRules(this.picker.options.lang).select(2),
-      new Intl.PluralRules(this.picker.options.lang).select(6),
-      new Intl.PluralRules(this.picker.options.lang).select(18),
-    ])];
+    const rules = [
+      ...new Set([
+        new Intl.PluralRules(this.picker.options.lang).select(0),
+        new Intl.PluralRules(this.picker.options.lang).select(1),
+        new Intl.PluralRules(this.picker.options.lang).select(2),
+        new Intl.PluralRules(this.picker.options.lang).select(6),
+        new Intl.PluralRules(this.picker.options.lang).select(18),
+      ]),
+    ];
 
     const locales = Object.keys(this.options.locale);
 
-    if (!rules.every(x => locales.includes(x))) {
-      console.warn(`${this.getName()}: provide locales (${rules.join(', ')}) for correct tooltip text.`);
+    if (!rules.every((x) => locales.includes(x))) {
+      console.warn(
+        `${this.getName()}: provide locales (${rules.join(
+          ", "
+        )}) for correct tooltip text.`
+      );
     }
   }
 
@@ -716,8 +826,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
   /**
    * Determines if the element is the picker container
-   *  
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   private isContainer(element: HTMLElement): boolean {

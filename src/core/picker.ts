@@ -326,9 +326,9 @@ export class Picker {
     const d = new DateTime(date, this.options.format, this.options.lang);
     this.options.date = d.clone();
 
-    this.updateValues();
+    const updated = this.updateValues();
 
-    if (this.calendars.length) {
+    if (updated && this.calendars.length) {
       this.renderAll();
     }
   }
@@ -373,10 +373,15 @@ export class Picker {
 
     const el = this.options.element;
     if (el instanceof HTMLInputElement) {
-      el.value = formatString;
+      if (el.value !== formatString) {
+        el.value = formatString;
+        return true;
+      }
     } else if (el instanceof HTMLElement) {
       el.innerText = formatString;
+      return true;
     }
+    return false;
   }
 
   /**
