@@ -11,8 +11,9 @@ import { extraOptionsCss } from "../assets/extra-options";
 import { lockCss } from "../assets/lock";
 import { keyboardCss } from "../assets/keyboard";
 
-export type DatePickerOptions = Omit<PickerOptions, 'date'>  & {
-  date?: string,
+export type DatePickerOptions = Omit<PickerOptions, "date" | "css"> & {
+  date?: string;
+  css?: string;
   extraOptions?: IExtraOptionsPlugin;
   keyboardOptions?: IKeyboardPlugin;
   lockOptions?: ILockConfig;
@@ -30,6 +31,9 @@ export class DatePicker extends Picker {
     if (lockOptions) {
       plugins.unshift(LockPlugin);
       css += lockCss;
+    }
+    if (rest.css) {
+      css += rest.css;
     }
     super({
       ...rest,

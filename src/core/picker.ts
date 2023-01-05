@@ -16,7 +16,6 @@ export class Picker {
   };
 
   public options: IPickerConfig = {
-    doc: document,
     css: [],
     element: null as unknown as HTMLElement,
     firstDay: 1,
@@ -333,6 +332,15 @@ export class Picker {
     }
   }
 
+   /**
+   * Set ISO date programmatically
+   *
+   * @param date
+   */
+   public setISODate(date: string): void {
+    this.setDate(new DateTime(date));
+  }
+
   /**
    *
    * @returns DateTime
@@ -489,12 +497,6 @@ export class Picker {
    * Handling parameters passed by the user
    */
   private handleOptions() {
-    if (!(this.options.element instanceof HTMLElement)) {
-      this.options.element = this.options.doc!.querySelector(
-        this.options.element
-      ) as HTMLElement;
-    }
-
     if (typeof this.options.documentClick === "function") {
       document.addEventListener("click", this.options.documentClick, true);
     }
@@ -504,7 +506,7 @@ export class Picker {
     }
 
     if (this.options.date) {
-      this.calendars[0] = new DateTime(this.options.date, this.options.format);
+      this.calendars[0] = new DateTime(this.options.date);
     } else {
       this.calendars[0] = new DateTime();
     }

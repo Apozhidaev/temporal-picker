@@ -27,9 +27,9 @@ export type {
 };
 
 export {
-  Picker,
   DatePicker,
   RangePicker,
+  Picker as PlainPicker,
   BasePlugin,
   ExtraOptionsPlugin,
   LockPlugin,

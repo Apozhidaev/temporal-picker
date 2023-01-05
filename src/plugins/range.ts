@@ -3,9 +3,9 @@ import { DateTime } from "../core/datetime";
 import { BasePlugin, IEventDetail, IPlugin } from "./base";
 
 export interface IRangeConfig {
-  elementEnd?: HTMLElement | string;
-  startDate?: DateTime;
-  endDate?: DateTime;
+  elementEnd?: HTMLElement;
+  startDate?: string | number | Date | null;
+  endDate?: string | number | Date | null;
   repick?: boolean;
   strict?: boolean;
   delimiter?: string;
@@ -30,6 +30,9 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     setStartDate: this.setStartDate.bind(this),
     setEndDate: this.setEndDate.bind(this),
     setDateRange: this.setDateRange.bind(this),
+    setISOStartDate: this.setISOStartDate.bind(this),
+    setISOEndDate: this.setISOEndDate.bind(this),
+    setISODateRange: this.setISODateRange.bind(this),
     getStartDate: this.getStartDate.bind(this),
     getEndDate: this.getEndDate.bind(this),
     onView: this.onView.bind(this),
@@ -82,6 +85,9 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     this.binds["_setStartDate"] = this.picker.setStartDate;
     this.binds["_setEndDate"] = this.picker.setEndDate;
     this.binds["_setDateRange"] = this.picker.setDateRange;
+    this.binds["_setISOStartDate"] = this.picker.setISOStartDate;
+    this.binds["_setISOEndDate"] = this.picker.setISOEndDate;
+    this.binds["_setISODateRange"] = this.picker.setISODateRange;
     this.binds["_getStartDate"] = this.picker.getStartDate;
     this.binds["_getEndDate"] = this.picker.getEndDate;
     this.binds["_parseValues"] = this.picker.parseValues;
@@ -102,6 +108,18 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       setDateRange: {
         configurable: true,
         value: this.binds.setDateRange,
+      },
+      setISOStartDate: {
+        configurable: true,
+        value: this.binds.setISOStartDate,
+      },
+      setISOEndDate: {
+        configurable: true,
+        value: this.binds.setISOEndDate,
+      },
+      setISODateRange: {
+        configurable: true,
+        value: this.binds.setISODateRange,
       },
       getStartDate: {
         configurable: true,
@@ -134,12 +152,6 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     });
 
     if (this.options.elementEnd) {
-      if (!(this.options.elementEnd instanceof HTMLElement)) {
-        this.options.elementEnd = this.picker.options.doc.querySelector(
-          this.options.elementEnd
-        ) as HTMLElement;
-      }
-
       if (this.options.elementEnd instanceof HTMLInputElement) {
         this.options.elementEnd.readOnly = this.picker.options.readonly;
       }
@@ -167,6 +179,13 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
     this.picker.options.date = null;
 
+    if (this.options.startDate) {
+      this.options.startDate = new DateTime(this.options.startDate);
+    }
+    if (this.options.endDate) {
+      this.options.endDate = new DateTime(this.options.endDate);
+    }
+
     this.picker.on("view", this.binds.onView);
     this.picker.on("show", this.binds.onShow);
     this.picker.on("mouseenter", this.binds.onMouseEnter, true);
@@ -191,6 +210,18 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       setDateRange: {
         configurable: true,
         value: this.binds["_setDateRange"],
+      },
+      setISOStartDate: {
+        configurable: true,
+        value: this.binds["_setISOStartDate"],
+      },
+      setISOEndDate: {
+        configurable: true,
+        value: this.binds["_setISOEndDate"],
+      },
+      setISODateRange: {
+        configurable: true,
+        value: this.binds["_setISODateRange"],
       },
       getStartDate: {
         configurable: true,
@@ -483,6 +514,15 @@ export class RangePlugin extends BasePlugin implements IPlugin {
   }
 
   /**
+   * Set ISO startDate programmatically
+   *
+   * @param date
+   */
+  private setISOStartDate(date: string) {
+    this.setStartDate(new DateTime(date));
+  }
+
+  /**
    * Set endDate programmatically
    *
    * @param date
@@ -500,6 +540,15 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     if (updated) {
       this.picker.renderAll();
     }
+  }
+
+  /**
+   * Set ISO endDate programmatically
+   *
+   * @param date
+   */
+  private setISOEndDate(date: string) {
+    this.setISOEndDate(new DateTime(date));
   }
 
   /**
@@ -531,6 +580,16 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     if (updated) {
       this.picker.renderAll();
     }
+  }
+
+  /**
+   * Set ISO date range programmatically
+   *
+   * @param start
+   * @param end
+   */
+  private setISODateRange(start: string, end: string) {
+    this.setDateRange(new DateTime(start), new DateTime(end));
   }
 
   /**

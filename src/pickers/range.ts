@@ -15,7 +15,8 @@ import { rangeCss } from "../assets/range";
 import { presetCss } from "../assets/preset";
 import { keyboardCss } from "../assets/keyboard";
 
-export type RangePickerOptions = Omit<PickerOptions, "date"> & {
+export type RangePickerOptions = Omit<PickerOptions, "date" | "css"> & {
+  css?: string;
   extraOptions?: IExtraOptionsPlugin;
   keyboardOptions?: IKeyboardPlugin;
   lockOptions?: ILockConfig;
@@ -46,6 +47,9 @@ export class RangePicker extends Picker {
     if (presetOptions) {
       plugins.unshift(PresetPlugin);
       css += presetCss;
+    }
+    if (rest.css) {
+      css += rest.css;
     }
     super({
       ...rest,

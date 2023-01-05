@@ -13,6 +13,9 @@ declare module './core/picker' {
     setStartDate(date: Date | string | number): void;
     setEndDate(date: Date | string | number): void;
     setDateRange(start: Date | string | number, end: Date | string | number): void;
+    setISOStartDate(date: string): void;
+    setISOEndDate(date: string ): void;
+    setISODateRange(start: string, end: string): void;
     getStartDate(): DateTime;
     getEndDate(): DateTime;
     setTime(value: string): void;
@@ -35,8 +38,7 @@ export interface IPickerElements {
 }
 
 export interface PickerOptions {
-  element: HTMLElement | string;
-  doc?: Document | ShadowRoot;
+  element: HTMLElement;
   css?: string | string[] | ((picker: Picker) => void);
   firstDay?: number;
   lang?: string;
