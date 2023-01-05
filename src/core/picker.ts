@@ -23,7 +23,7 @@ export class Picker {
     calendars: 1,
     lang: "en-US",
     date: null,
-    format: "YYYY-MM-DD",
+    format: "DD MMM, YYYY",
     readonly: true,
     autoApply: true,
     header: false,
