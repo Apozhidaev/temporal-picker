@@ -749,6 +749,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
           this.picker.trigger("select", {
             start: this.picker.getStartDate(),
             end: this.picker.getEndDate(),
+            startDateISO: this.picker.getStartDate()?.format("YYYY-MM-DD"),
+            endDateISO: this.picker.getEndDate()?.format("YYYY-MM-DD"),
           });
         }
 
@@ -765,6 +767,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
           this.picker.trigger("select", {
             start: this.picker.getStartDate(),
             end: this.picker.getEndDate(),
+            startDateISO: this.picker.getStartDate()?.format("YYYY-MM-DD"),
+            endDateISO: this.picker.getEndDate()?.format("YYYY-MM-DD"),
           });
 
           this.picker.hide();
@@ -798,6 +802,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       this.picker.trigger("select", {
         start: this.picker.getStartDate(),
         end: this.picker.getEndDate(),
+        startDateISO: this.picker.getStartDate()?.format("YYYY-MM-DD"),
+        endDateISO: this.picker.getEndDate()?.format("YYYY-MM-DD"),
       });
 
       this.picker.hide();

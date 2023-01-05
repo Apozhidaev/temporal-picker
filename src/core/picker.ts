@@ -210,7 +210,10 @@ export class Picker {
       if (this.options.autoApply) {
         this.setDate(date);
 
-        this.trigger("select", { date: this.getDate() });
+        this.trigger("select", {
+          date: this.getDate(),
+          dateISO: this.getDate()?.format("YYYY-MM-DD"),
+        });
 
         this.hide();
       } else {
@@ -236,7 +239,10 @@ export class Picker {
 
       this.hide();
 
-      this.trigger("select", { date: this.getDate() });
+      this.trigger("select", {
+        date: this.getDate(),
+        dateISO: this.getDate()?.format("YYYY-MM-DD"),
+      });
     }
   }
 
@@ -332,12 +338,12 @@ export class Picker {
     }
   }
 
-   /**
+  /**
    * Set ISO date programmatically
    *
    * @param date
    */
-   public setISODate(date: string): void {
+  public setISODate(date: string): void {
     this.setDate(new DateTime(date));
   }
 
