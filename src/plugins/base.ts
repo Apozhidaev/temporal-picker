@@ -1,5 +1,5 @@
-// @ts-nocheck
-import { DateTime } from '../core/datetime';
+import { DateTime } from 'luxon';
+import { PickerConfig } from '../types';
 import { Picker } from '../core/picker';
 
 export interface IPlugin {
@@ -9,15 +9,15 @@ export interface IPlugin {
   onDetach(): void;
 }
 
-export interface IEventDetail {
+export interface EventDetail {
   view?: string;
   date?: DateTime;
   target?: HTMLElement;
   index?: number;
 }
 
-export class BasePlugin {
-  public picker: Picker;
+export abstract class BasePlugin<T extends Picker<PickerConfig> = Picker<PickerConfig>> {
+  public picker!: T;
   public options: any;
   public priority = 0;
   public dependencies: string[] = [];
@@ -28,13 +28,13 @@ export class BasePlugin {
    * 
    * @param picker 
    */
-  public attach(picker: Picker): void {
-    const pluginName = this['getName']();
+  public attach(picker: T): void {
+    const pluginName = this.getName();
     const optionsOriginal = { ...this.options };
 
     this.options = {
       ...this.options,
-      ...(picker.options[pluginName] || {}),
+      ...((picker.options as any)[pluginName] || {}),
     }
 
     // copy deep object options
@@ -43,8 +43,8 @@ export class BasePlugin {
         && typeof optionsOriginal[objName] === 'object'
         && Object.keys(optionsOriginal[objName]).length
         && pluginName in picker.options
-        && objName in picker.options[pluginName]) {
-        const optionValue = { ...picker.options[pluginName][objName] };
+        && objName in (picker.options as any)[pluginName]) {
+        const optionValue = { ...(picker.options as any)[pluginName][objName] };
 
         if (optionValue !== null
           && typeof optionValue === 'object'
@@ -66,8 +66,12 @@ export class BasePlugin {
     const pluginClass = this.camelCaseToKebab(this['getName']());
     this.picker.ui.container.classList.add(pluginClass);
 
-    this['onAttach']();
+    this.onAttach();
   }
+
+  public abstract getName(): string;
+  public abstract onAttach(): void;
+  public abstract onDetach(): void;
 
   /**
    * - Called automatically via PluginManager.removeInstance() -
@@ -88,7 +92,7 @@ export class BasePlugin {
    * @returns Boolean
    */
   private dependenciesNotFound(): boolean {
-    return this.dependencies.length
+    return this.dependencies.length > 0
       && !this.dependencies.every(v => this.pluginsAsStringArray().includes(v));
   }
 
@@ -98,8 +102,7 @@ export class BasePlugin {
    * @returns []
    */
   private pluginsAsStringArray(): string[] {
-    return this.picker.options.plugins
-      .map(x => typeof x === 'function' ? (new x).getName() : x);
+    return this.picker.options.plugins?.map(x => typeof x === 'function' ? (new x).getName() : x) || [];
   }
 
   /**
@@ -109,7 +112,7 @@ export class BasePlugin {
    * @param str 
    * @returns String
    */
-  private camelCaseToKebab(str) {
+  private camelCaseToKebab(str: string) {
     return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
   }
 }

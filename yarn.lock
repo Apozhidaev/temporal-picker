@@ -112,6 +112,28 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.16.13.tgz#0b0989cf0e7887cb0f3124e705cee68a694b96dd"
   integrity sha512-A+U4gM6OOkPS03UgVU08GTpAAAxPsP/8Z4FmneGo4TaVSD99bK9gVJXlqUEPMO/htFXEAht2O6pX4ErtLY5tVg==
 
+"@popperjs/core@^2.11.6":
+  version "2.11.6"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
+  integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
+"@types/lodash.merge@^4.6.7":
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.merge/-/lodash.merge-4.6.7.tgz#0af6555dd8bc6568ef73e5e0d820a027362946b1"
+  integrity sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.191"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
+  integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
+
+"@types/luxon@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.2.0.tgz#99901b4ab29a5fdffc88fff59b3b47fbfbe0557b"
+  integrity sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==
+
 esbuild@^0.16.13:
   version "0.16.13"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.16.13.tgz#83cd347c28221268bbfa0425db532d7d05f85b48"
@@ -139,6 +161,16 @@ esbuild@^0.16.13:
     "@esbuild/win32-arm64" "0.16.13"
     "@esbuild/win32-ia32" "0.16.13"
     "@esbuild/win32-x64" "0.16.13"
+
+lodash.merge@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
+  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+luxon@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
+  integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
 
 typescript@^4.9.4:
   version "4.9.4"

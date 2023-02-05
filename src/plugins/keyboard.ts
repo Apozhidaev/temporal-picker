@@ -1,6 +1,6 @@
 import { BasePlugin, IPlugin } from "./base";
 
-export interface IKeyboardPlugin {
+export interface KeyboardOptions {
   unitIndex?: number;
   dayIndex?: number;
   openHotkeys?: string[];
@@ -13,7 +13,7 @@ export class KeyboardPlugin extends BasePlugin implements IPlugin {
     updateTabIndex: this.updateTabIndex.bind(this),
   };
 
-  public options: IKeyboardPlugin = {
+  public options: KeyboardOptions = {
     unitIndex: 1,
     dayIndex: 2,
     openHotkeys: ["Enter", "Space"],

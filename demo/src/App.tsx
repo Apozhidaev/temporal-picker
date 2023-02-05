@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "react";
 import {
-  Picker,
   ExtraOptionsPlugin,
   coreCss,
   extraOptionsCss,
   DatePicker,
   RangePicker,
 } from "../../src";
+import { DateTime } from "luxon";
 
 function App() {
   const inputRef = useRef(null);
@@ -25,27 +25,31 @@ function App() {
     //     resetButton: true,
     //   },
     // });
-    new DatePicker({
-      element: inputRef.current!,
-    });
-    // new RangePicker({
+    // new DatePicker({
     //   element: inputRef.current!,
-    //   position: "right",
-    //   presetOptions: {
-    //     presets: [
-    //       {
-    //         label: "Last Week",
-    //         start: "2022-01-01",
-    //         end: "2023-01-01",
-    //       },
-    //       {
-    //         label: "Last Month",
-    //         start: "2021-01-01",
-    //         end: "2023-01-01",
-    //       },
-    //     ],
+    //   extraOptions: {
+    //     resetButton: true,
+    //     dropdown:{
+    //       months: true,
+    //       years: true,
+    //     }
     //   },
+    //   lockOptions: {
+    //     minDate: DateTime.now().minus({months: 2})
+    //   }
     // });
+    new RangePicker({
+      element: inputRef.current!,
+      presetOptions: {
+        presets: [
+          {
+            label: "Test",
+            start: "2022-01-01",
+            end: "2023-01-01",
+          },
+        ],
+      },
+    });
   }, []);
 
   return (

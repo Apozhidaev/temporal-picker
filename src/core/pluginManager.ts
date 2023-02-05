@@ -1,11 +1,11 @@
-// @ts-nocheck
 import type { Picker } from './picker';
+import type { PickerConfig } from '../types';
 
-export default class PluginManager {
-  public picker: Picker;
-  public instances = {};
+export class PluginManager {
+  public picker: Picker<PickerConfig>;
+  public instances: Record<string, any> = {};
 
-  constructor(picker: Picker) {
+  constructor(picker: Picker<PickerConfig>) {
     this.picker = picker;
   }
 
@@ -13,13 +13,13 @@ export default class PluginManager {
    * Initialize user-supplied plugins (if any)
    */
   public initialize(): void {
-    const list = [];
+    const list: any[] = [];
 
-    this.picker.options.plugins.forEach((plugin: any) => {
+    this.picker.options.plugins?.forEach((plugin: any) => {
       if (typeof plugin === 'function') {
         list.push(new plugin);
       } else {
-        console.warn(`temporal-picker-plugin: ${plugin} not found.`);
+        console.warn(`temporal-picker-plugin: ${plugin} is not function.`);
       }
     });
 
@@ -54,7 +54,7 @@ export default class PluginManager {
    * 
    * @param name 
    */
-  public addInstance<T>(name: string): T {
+  public addInstance<T>(name: string): T | null {
     if (!Object.prototype.hasOwnProperty.call(this.instances, name)) {
       if (this.getPluginFn(name) !== 'undefined') {
         const plugin = new (this.getPluginFn(name));
@@ -90,7 +90,7 @@ export default class PluginManager {
    * 
    * @param name 
    */
-  public reloadInstance<T>(name: string): T {
+  public reloadInstance<T>(name: string): T | null {
     this.removeInstance(name);
 
     return this.addInstance(name);
@@ -103,7 +103,7 @@ export default class PluginManager {
    * @returns Plugin
    */
   private getPluginFn(name: string): any {
-    return [...this.picker.options.plugins]
+    return [...(this.picker.options.plugins || [])]
       .filter(x => typeof x === 'function' && (new x).getName() === name)
       .shift();
   }

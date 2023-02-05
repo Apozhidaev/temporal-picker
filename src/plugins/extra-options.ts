@@ -1,8 +1,8 @@
+import { DateTime } from "luxon";
 import type { LockPlugin } from "./lock";
-import { BasePlugin, IEventDetail, IPlugin } from "./base";
-import { DateTime } from "../core/datetime";
+import { BasePlugin, EventDetail, IPlugin } from "./base";
 
-export interface IExtraOptionsPlugin {
+export interface ExtraOptions {
   dropdown?: {
     minYear?: number;
     maxYear?: number;
@@ -27,7 +27,7 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
     onColorScheme: this.onColorScheme.bind(this),
   };
 
-  public options: IExtraOptionsPlugin = {
+  public options: ExtraOptions = {
     dropdown: {
       months: false,
       years: false,
@@ -115,7 +115,7 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
    * @param evt
    */
   public handleDropdown(evt: any) {
-    const { view, target, date, index }: Required<IEventDetail> = evt.detail;
+    const { view, target, date, index }: Required<EventDetail> = evt.detail;
 
     if (view === "CalendarHeader") {
       const monthNameWrapper = target.querySelector(".month-name")!;
@@ -129,34 +129,30 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
         for (let x = 0; x < 12; x += 1) {
           const option = document.createElement("option");
           // day 2 due to iOS bug (?) with `toLocaleString`
-          const monthName = new DateTime(
-            new Date(date.getFullYear(), x, 2, 0, 0, 0)
+          const monthName = DateTime.fromJSDate(
+            new Date(date.year, x, 2, 0, 0, 0)
           );
-          const optionMonth = new DateTime(
-            new Date(date.getFullYear(), x, 1, 0, 0, 0)
+          const optionMonth = DateTime.fromJSDate(
+            new Date(date.year, x, 1, 0, 0, 0)
           );
 
           option.value = String(x);
-          option.text = monthName.toLocaleString(this.picker.options.lang, {
-            month: "long",
-          });
+          option.text = monthName
+            .setLocale(this.picker.options.lang!)
+            .toLocaleString({
+              month: "long",
+            });
 
           if (this.lockPlugin) {
             option.disabled = Boolean(
               (this.lockPlugin.options.minDate &&
-                optionMonth.isBefore(
-                  new DateTime(this.lockPlugin.options.minDate),
-                  "month"
-                )) ||
+                optionMonth < this.lockPlugin.options.minDate.startOf("month")) ||
                 (this.lockPlugin.options.maxDate &&
-                  optionMonth.isAfter(
-                    new DateTime(this.lockPlugin.options.maxDate),
-                    "month"
-                  ))
+                  optionMonth < this.lockPlugin.options.maxDate.endOf("month"))
             );
           }
 
-          option.selected = optionMonth.getMonth() === date.getMonth();
+          option.selected = optionMonth.month === date.month;
 
           selectMonths.appendChild(option);
         }
@@ -165,12 +161,17 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
           const target = e.target as HTMLSelectElement;
 
           if (index) {
-            this.picker.calendars[0].add(index, "months");
+            this.picker.calendars[0] = this.picker.calendars[0].plus({
+              months: index,
+            });
           }
-          this.picker.calendars[0].setDate(1);
-          this.picker.calendars[0].setMonth(Number(target.value));
+          this.picker.calendars[0] = this.picker.calendars[0]
+            .startOf("month")
+            .set({ month: Number(target.value) });
           if (index) {
-            this.picker.calendars[0].subtract(index || 0, "months");
+            this.picker.calendars[0] = this.picker.calendars[0].minus({
+              months: index,
+            });
           }
           this.picker.renderAll();
         });
@@ -186,16 +187,16 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
 
         const minYear =
           this.lockPlugin && this.lockPlugin.options.minDate
-            ? new DateTime(this.lockPlugin.options.minDate).getFullYear()
+            ? this.lockPlugin.options.minDate.year
             : this.options.dropdown.minYear!;
         const maxYear = this.options.dropdown.maxYear
           ? this.options.dropdown.maxYear
           : new Date().getFullYear();
 
-        if (date.getFullYear() > maxYear) {
+        if (date.year > maxYear) {
           const option = document.createElement("option");
-          option.value = String(date.getFullYear());
-          option.text = String(date.getFullYear());
+          option.value = String(date.year);
+          option.text = String(date.year);
           option.selected = true;
           option.disabled = true;
 
@@ -204,34 +205,28 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
 
         for (let x = maxYear; x >= minYear; x -= 1) {
           const option = document.createElement("option");
-          const optionYear = new DateTime(new Date(x, 0, 1, 0, 0, 0));
+          const optionYear = DateTime.fromJSDate(new Date(x, 0, 1, 0, 0, 0));
           option.value = String(x);
           option.text = String(x);
 
           if (this.lockPlugin) {
             option.disabled = Boolean(
               (this.lockPlugin.options.minDate &&
-                optionYear.isBefore(
-                  new DateTime(this.lockPlugin.options.minDate),
-                  "year"
-                )) ||
+                optionYear < this.lockPlugin.options.minDate.startOf("year")) ||
                 (this.lockPlugin.options.maxDate &&
-                  optionYear.isAfter(
-                    new DateTime(this.lockPlugin.options.maxDate),
-                    "year"
-                  ))
+                  optionYear < this.lockPlugin.options.maxDate.endOf("year"))
             );
           }
 
-          option.selected = date.getFullYear() === x;
+          option.selected = date.year === x;
 
           selectYears.appendChild(option);
         }
 
-        if (date.getFullYear() < minYear) {
+        if (date.year < minYear) {
           const option = document.createElement("option");
-          option.value = String(date.getFullYear());
-          option.text = String(date.getFullYear());
+          option.value = String(date.year);
+          option.text = String(date.year);
           option.selected = true;
           option.disabled = true;
 
@@ -252,11 +247,15 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
           const target = e.target as HTMLSelectElement;
 
           if (index) {
-            this.picker.calendars[0].add(index, "months");
+            this.picker.calendars[0] = this.picker.calendars[0].plus({
+              months: index,
+            });
           }
-          this.picker.calendars[0].setFullYear(Number(target.value));
+          this.picker.calendars[0] = this.picker.calendars[0].set({year: Number(target.value)});
           if (index) {
-            this.picker.calendars[0].subtract(index || 0, "months");
+            this.picker.calendars[0] = this.picker.calendars[0].minus({
+              months: index,
+            });
           }
           this.picker.renderAll();
         });
@@ -271,7 +270,7 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
    * @param event
    */
   private handleResetButton(event: any) {
-    const { view, target }: Required<IEventDetail> = event.detail;
+    const { view, target }: Required<EventDetail> = event.detail;
 
     if (view === "CalendarHeader" && this.options.resetButton) {
       const button = document.createElement("button");
@@ -304,7 +303,7 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
    */
   private handleWeekNumbers(event: any) {
     if (this.options.weekNumbers) {
-      const { view, target }: Required<IEventDetail> = event.detail;
+      const { view, target }: Required<EventDetail> = event.detail;
 
       if (view === "CalendarDayNames") {
         const w = document.createElement("div");
@@ -318,16 +317,14 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
           if (index === 0 || index % 7 === 0) {
             let date;
             if (element.classList.contains("day")) {
-              date = new DateTime((element as HTMLElement).dataset.time);
+              date = DateTime.fromMillis(Number((element as HTMLElement).dataset.time));
             } else {
               const elDate = target.querySelector(".day") as HTMLElement;
-              date = new DateTime(elDate.dataset.time);
+              date = DateTime.fromMillis(Number(elDate.dataset.time));
             }
 
-            let weekNum: number | string = date.getWeek(
-              this.picker.options.firstDay!
-            );
-            if (weekNum === 53 && date.getMonth() === 0) {
+            let weekNum: number | string = date.weekday;
+            if (weekNum === 53 && date.month === 1) {
               weekNum = "53/1";
             }
 

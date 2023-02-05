@@ -1,45 +1,22 @@
+import merge from "lodash.merge";
+import { DateTime } from "luxon";
+import { createPopper, Instance } from "@popperjs/core";
 import Calendar from "./calendar";
-import { DateTime } from "./datetime";
-import PluginManager from "./pluginManager";
-import { IEventDetail, IPickerConfig, IPickerElements } from "../types";
+import { PluginManager } from "./pluginManager";
+import { IEventDetail, PickerConfig, IPickerElements } from "../types";
 
-export class Picker {
-  public Calendar = new Calendar(this);
-  public PluginManager = new PluginManager(this);
+export abstract class Picker<TOptions extends PickerConfig> {
+  public Calendar = new Calendar<TOptions>(this);
+  public PluginManager: PluginManager;
 
   public calendars: DateTime[] = [];
   public datePicked: DateTime[] = [];
-  public cssLoaded = 0;
-  public binds = {
+  public binds: Record<string, any> = {
     hidePicker: this.hidePicker.bind(this),
     show: this.show.bind(this),
   };
 
-  public options: IPickerConfig = {
-    css: [],
-    element: null as unknown as HTMLElement,
-    firstDay: 1,
-    grid: 1,
-    calendars: 1,
-    lang: "en-US",
-    date: null,
-    format: "DD MMM, YYYY",
-    readonly: true,
-    autoApply: true,
-    header: false,
-    inline: false,
-    scrollToDate: true,
-    locale: {
-      nextMonth:
-        '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
-      previousMonth:
-        '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
-      cancel: "Cancel",
-      apply: "Apply",
-    },
-    documentClick: this.binds.hidePicker as any,
-    plugins: [],
-  };
+  public options: TOptions;
 
   public ui: IPickerElements = {
     container: null as unknown as HTMLElement,
@@ -47,11 +24,42 @@ export class Picker {
     wrapper: null as unknown as HTMLElement,
   };
 
-  constructor(options: IPickerConfig) {
-    const locales = { ...this.options.locale, ...options.locale };
+  public popperInstance: Instance;
 
-    this.options = { ...this.options, ...options };
-    this.options.locale = locales;
+  constructor(options: PickerConfig) {
+    this.PluginManager = new PluginManager(this);
+    this.options = merge(
+      {
+        firstDay: 1,
+        grid: 1,
+        calendars: 1,
+        lang: "en-US",
+        format: "dd LLL, yyyy",
+        readonly: true,
+        autoApply: true,
+        header: false,
+        scrollToDate: true,
+        locale: {
+          nextMonth:
+            '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
+          previousMonth:
+            '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.919 0l2.748 2.667L5.333 8l5.334 5.333L7.919 16 0 8z" fill-rule="nonzero"/></svg>',
+          cancel: "Cancel",
+          apply: "Apply",
+        },
+        documentClick: this.binds.hidePicker as any,
+        plugins: [],
+      },
+      options
+    ) as unknown as TOptions;
+
+    if (typeof this.options.documentClick === "function") {
+      document.addEventListener("click", this.options.documentClick, true);
+    }
+
+    if (this.options.element instanceof HTMLInputElement) {
+      this.options.element.readOnly = this.options.readonly!;
+    }
 
     this.handleOptions();
 
@@ -65,15 +73,6 @@ export class Picker {
 
     this.ui.container = document.createElement("div");
     this.ui.container.className = "container";
-
-    if (this.options.zIndex) {
-      this.ui.container.style.zIndex = String(this.options.zIndex);
-    }
-
-    if (this.options.inline) {
-      this.ui.wrapper.style.position = "relative";
-      this.ui.container.classList.add("inline");
-    }
 
     this.ui.shadowRoot.appendChild(this.ui.container);
     (this.options.element as HTMLElement).after(this.ui.wrapper);
@@ -90,16 +89,30 @@ export class Picker {
 
     this.PluginManager.initialize();
 
-    this.parseValues();
-
     if (typeof this.options.setup === "function") {
       this.options.setup(this);
     }
 
     this.on("click", this.onClick.bind(this));
 
-    const targetDate = this.options.scrollToDate ? this.getDate() : null;
-    this.renderAll(targetDate);
+    this.popperInstance = createPopper(
+      this.options.element,
+      this.ui.container,
+      {
+        placement: this.options.placement || "bottom-start",
+        modifiers: [
+          {
+            name: "offset",
+            options: {
+              offset: [
+                this.options.offsetLeft || 0,
+                this.options.offsetTop || 0,
+              ],
+            },
+          },
+        ],
+      }
+    );
   }
 
   /**
@@ -190,9 +203,9 @@ export class Picker {
   public onClickHeaderButton(element: HTMLElement) {
     if (this.isCalendarHeaderButton(element)) {
       if (element.classList.contains("next-button")) {
-        this.calendars[0].add(1, "month");
+        this.calendars[0] = this.calendars[0].plus({ month: 1 });
       } else {
-        this.calendars[0].subtract(1, "month");
+        this.calendars[0] = this.calendars[0].minus({ month: 1 });
       }
 
       this.renderAll(this.calendars[0]);
@@ -203,48 +216,13 @@ export class Picker {
    *
    * @param element
    */
-  public onClickCalendarDay(element: HTMLElement) {
-    if (this.isCalendarDay(element)) {
-      const date = new DateTime(element.dataset.time);
-
-      if (this.options.autoApply) {
-        this.setDate(date);
-
-        this.trigger("select", {
-          date: this.getDate(),
-          dateISO: this.getDate()?.format("YYYY-MM-DD"),
-        });
-
-        this.hide();
-      } else {
-        this.datePicked[0] = date;
-
-        this.trigger("preselect", { date: this.getDate() });
-
-        this.renderAll();
-      }
-    }
-  }
+  public abstract onClickCalendarDay(element: HTMLElement): void;
 
   /**
    *
    * @param element
    */
-  public onClickApplyButton(element: HTMLElement) {
-    if (this.isApplyButton(element)) {
-      if (this.datePicked[0] instanceof Date) {
-        const date = this.datePicked[0].clone();
-        this.setDate(date);
-      }
-
-      this.hide();
-
-      this.trigger("select", {
-        date: this.getDate(),
-        dateISO: this.getDate()?.format("YYYY-MM-DD"),
-      });
-    }
-  }
+  public abstract onClickApplyButton(element: HTMLElement): void;
 
   /**
    *
@@ -284,10 +262,7 @@ export class Picker {
    * @returns Boolean
    */
   public isShown(): boolean {
-    return (
-      this.ui.container.classList.contains("inline") ||
-      this.ui.container.classList.contains("show")
-    );
+    return this.ui.container.classList.contains("show");
   }
 
   /**
@@ -300,13 +275,10 @@ export class Picker {
 
     const target =
       event && "target" in event ? event.target : this.options.element;
-    const { top, left } = this.adjustPosition(target);
-    //this.ui.container.style.position = 'absolute';
-    this.ui.container.style.top = `${top}px`;
-    this.ui.container.style.left = `${left}px`;
     this.ui.container.classList.add("show");
 
     this.trigger("show", { target: target });
+    this.popperInstance.update();
   }
 
   /**
@@ -323,80 +295,9 @@ export class Picker {
   }
 
   /**
-   * Set date programmatically
-   *
-   * @param date
-   */
-  public setDate(date: Date | string | number): void {
-    const d = new DateTime(date, this.options.format, this.options.lang);
-    this.options.date = d.clone();
-
-    const updated = this.updateValues();
-
-    if (updated && this.calendars.length) {
-      this.renderAll();
-    }
-  }
-
-  /**
-   * Set ISO date programmatically
-   *
-   * @param date
-   */
-  public setISODate(date: string): void {
-    this.setDate(new DateTime(date));
-  }
-
-  /**
-   *
-   * @returns DateTime
-   */
-  public getDate(): DateTime | null {
-    return this.options.date instanceof DateTime
-      ? this.options.date.clone()
-      : null;
-  }
-
-  /**
-   * Parse `date` option or value of input element
-   */
-  public parseValues() {
-    if (this.options.date) {
-      this.setDate(this.options.date);
-    } else if (
-      this.options.element instanceof HTMLInputElement &&
-      this.options.element.value.length
-    ) {
-      this.setDate(this.options.element.value);
-    }
-
-    if (!(this.options.date instanceof Date)) {
-      this.options.date = null;
-    }
-  }
-
-  /**
    * Update value of input element
    */
-  public updateValues() {
-    const date = this.getDate();
-    const formatString =
-      date instanceof Date
-        ? date.format(this.options.format!, this.options.lang)
-        : "";
-
-    const el = this.options.element;
-    if (el instanceof HTMLInputElement) {
-      if (el.value !== formatString) {
-        el.value = formatString;
-        return true;
-      }
-    } else if (el instanceof HTMLElement) {
-      el.innerText = formatString;
-      return true;
-    }
-    return false;
-  }
+  public abstract updateInputValues(): boolean;
 
   /**
    * Function for documentClick option
@@ -430,7 +331,7 @@ export class Picker {
   public renderAll(date?: DateTime | null): void {
     this.trigger("render", {
       view: "Container",
-      date: (date || this.calendars[0]).clone(),
+      date: date || this.calendars[0],
     });
   }
 
@@ -481,10 +382,8 @@ export class Picker {
    *
    * @param date
    */
-  public gotoDate(date: Date | string | number): void {
-    const toDate = new DateTime(date, this.options.format);
-    toDate.setDate(1);
-    this.calendars[0] = toDate.clone();
+  public gotoDate(date: string): void {
+    this.calendars[0] = DateTime.fromISO(date).startOf("minute");
     this.renderAll();
   }
 
@@ -492,9 +391,8 @@ export class Picker {
    * Clear date selection
    */
   public clear() {
-    this.options.date = null;
     this.datePicked.length = 0;
-    this.updateValues();
+    this.updateInputValues();
     this.renderAll();
     this.trigger("clear");
   }
@@ -502,102 +400,21 @@ export class Picker {
   /**
    * Handling parameters passed by the user
    */
-  private handleOptions() {
-    if (typeof this.options.documentClick === "function") {
-      document.addEventListener("click", this.options.documentClick, true);
-    }
+  public abstract handleOptions(): void;
 
-    if (this.options.element instanceof HTMLInputElement) {
-      this.options.element.readOnly = this.options.readonly!;
-    }
-
-    if (this.options.date) {
-      this.calendars[0] = new DateTime(this.options.date);
-    } else {
-      this.calendars[0] = new DateTime();
-    }
-  }
+  public abstract getOptionDate(): DateTime | undefined;
 
   /**
    * Apply CSS passed by the user
    */
   private handleCSS(): void {
-    if (Array.isArray(this.options.css)) {
-      this.options.css.forEach((cssLink) => {
-        const link = document.createElement("link");
-        link.href = cssLink;
-        link.rel = "stylesheet";
-        const onReady = () => {
-          this.cssLoaded++;
-
-          if (this.cssLoaded === this.options.css!.length) {
-            this.ui.wrapper.style.display = "";
-          }
-        };
-        link.addEventListener("load", onReady);
-        link.addEventListener("error", onReady);
-
-        this.ui.shadowRoot.append(link);
-      });
-    } else if (typeof this.options.css === "string") {
+    if (this.options.css) {
       const style = document.createElement("style") as HTMLStyleElement;
       const styleText = document.createTextNode(this.options.css);
       style.appendChild(styleText);
 
       this.ui.shadowRoot.append(style);
       this.ui.wrapper.style.display = "";
-    } else if (typeof this.options.css === "function") {
-      this.options.css.call(this, this);
-      this.ui.wrapper.style.display = "";
     }
-  }
-
-  /**
-   * Calculate the position of the picker
-   *
-   * @param element
-   * @returns { top, left }
-   */
-  private adjustPosition(element: HTMLElement) {
-    const rect = element.getBoundingClientRect();
-    const wrapper = this.ui.wrapper.getBoundingClientRect();
-
-    this.ui.container.classList.add("calc");
-    const container = this.ui.container.getBoundingClientRect();
-    this.ui.container.classList.remove("calc");
-
-    let top = rect.bottom - wrapper.bottom;
-    let left = rect.left - wrapper.left;
-    if (this.options.position === "right") {
-      left = rect.left - wrapper.left - container.width + rect.width;
-    }
-
-    if (typeof window !== "undefined") {
-      if (
-        window.innerHeight < top + container.height &&
-        top - container.height >= 0
-      ) {
-        top = rect.top - wrapper.top - container.height;
-      }
-
-      if (
-        window.innerWidth < left + container.width &&
-        rect.right - container.width >= 0
-      ) {
-        left = rect.right - wrapper.right - container.width;
-      }
-    }
-
-    if (this.options.offsetTop) {
-      top += this.options.offsetTop;
-    }
-    if (this.options.offsetLeft) {
-      left += this.options.offsetLeft;
-    }
-
-    return {
-      left,
-      top,
-    };
   }
 }

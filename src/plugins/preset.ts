@@ -1,5 +1,6 @@
-import { DateTime } from "../core/datetime";
-import { BasePlugin, IEventDetail, IPlugin } from "./base";
+import { DateTime } from "luxon";
+import { BasePlugin, EventDetail, IPlugin } from "./base";
+import type { RangePicker } from "../pickers/range";
 
 export type PresetItem = {
   label: string;
@@ -7,20 +8,20 @@ export type PresetItem = {
   end: string;
 };
 
-export interface IPresetConfig {
+export interface PresetOptions {
   presets: PresetItem[];
   position?: "left" | "right" | "top" | "bottom";
 }
 
-export class PresetPlugin extends BasePlugin implements IPlugin {
-  public dependencies = ["RangePlugin"];
+export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
+  public dependencies = [];
 
   public binds = {
     onView: this.onView.bind(this),
     onClick: this.onClick.bind(this),
   };
 
-  public options: IPresetConfig = {
+  public options: PresetOptions = {
     presets: [],
     position: "bottom",
   };
@@ -58,22 +59,23 @@ export class PresetPlugin extends BasePlugin implements IPlugin {
    * @param event
    */
   private onView(event: CustomEvent) {
-    const { view, target }: IEventDetail = event.detail;
+    const { view, target }: EventDetail = event.detail;
 
     if (target && view === "Main") {
       const container = document.createElement("div");
       container.className = "preset-plugin-container";
 
-      const startDate = this.picker.datePicked[0] || this.picker.getStartDate();
-      const endDate = this.picker.datePicked[1] || this.picker.getEndDate();
+      const startDate = this.picker.datePicked[0]
+        ? this.picker.datePicked[0].toISODate()
+        : this.picker.getStartDate();
+      const endDate = this.picker.datePicked[0]
+        ? this.picker.datePicked[0].toISODate()
+        : this.picker.getEndDate();
 
       this.options.presets.forEach(({ label, start, end }) => {
         const item = document.createElement("button");
         item.className = "preset-button unit";
-        if (
-          startDate?.getTime() === new DateTime(start).getTime() &&
-          endDate?.getTime() === new DateTime(end).getTime()
-        ) {
+        if (startDate === start && endDate === end) {
           item.classList.add("selected");
         } else {
           item.classList.remove("selected");
@@ -112,8 +114,8 @@ export class PresetPlugin extends BasePlugin implements IPlugin {
       if (!(element instanceof HTMLElement)) return;
 
       if (this.isPresetButton(element)) {
-        const startDate = new DateTime(element.dataset.start);
-        const endDate = new DateTime(element.dataset.end);
+        const startDate = element.dataset.start!;
+        const endDate = element.dataset.end!;
 
         if (this.picker.options.autoApply) {
           this.picker.setDateRange(startDate, endDate);
@@ -121,14 +123,11 @@ export class PresetPlugin extends BasePlugin implements IPlugin {
           this.picker.trigger("select", {
             start: this.picker.getStartDate(),
             end: this.picker.getEndDate(),
-            startDateISO: this.picker.getStartDate()?.format("YYYY-MM-DD"),
-            endDateISO: this.picker.getEndDate()?.format("YYYY-MM-DD"),
           });
 
           this.picker.hide();
         } else {
-          this.picker.datePicked = [startDate, endDate];
-
+          this.picker.datePicked = [DateTime.fromISO(startDate), DateTime.fromISO(endDate)];
           this.picker.renderAll();
         }
       }

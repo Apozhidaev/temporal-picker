@@ -56,27 +56,11 @@ export const coreCss: string = /* css */ `
   z-index: var(--z-index);
   display: none;
 }
-.container.calc {
-  height: auto;
-  transform: none;
-  transition: none;
-  visibility: hidden;
-  display: inline-block;
-}
 .container.show {
   box-shadow: var(--box-shadow);
   height: auto;
   transform: scale(1);
   display: inline-block;
-}
-.container.inline {
-  box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1),
-    0 3px 6px 0 rgba(0, 0, 0, 0.07);
-  height: auto;
-  left: 0;
-  position: relative;
-  top: 0;
-  transform: scaleY(1);
 }
 .container > main {
   background-color: var(--color-bg-default);
@@ -275,11 +259,11 @@ export const coreCss: string = /* css */ `
   color: var(--color-fg-selected);
 }
 @media (max-width: 480px) {
-  .container:not(.inline) {
+  .container {
     transform: scaleY(0) !important;
     transform-origin: bottom center !important;
   }
-  .container:not(.inline).show {
+  .container.show {
     bottom: 0 !important;
     left: 0 !important;
     position: fixed !important;

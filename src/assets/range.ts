@@ -4,7 +4,7 @@ export const rangeCss: string = /* css */ `
   --color-bg-tooltip: var(--temporal-picker-color-bg-tooltip, #fff);
   --color-fg-tooltip: var(--temporal-picker-color-fg-tooltip, #1e293b);
 }
-.range-plugin-tooltip {
+.range-tooltip {
   background-color: var(--color-bg-tooltip);
   border-radius: var(--border-radius);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
@@ -18,7 +18,7 @@ export const rangeCss: string = /* css */ `
   white-space: nowrap;
   z-index: 2;
 }
-.range-plugin-tooltip:before {
+.range-tooltip:before {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid rgba(0, 0, 0, 0.12);
@@ -27,7 +27,7 @@ export const rangeCss: string = /* css */ `
   left: calc(50% - 5px);
   position: absolute;
 }
-.range-plugin-tooltip:after {
+.range-tooltip:after {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid var(--color-bg-tooltip);
@@ -36,27 +36,27 @@ export const rangeCss: string = /* css */ `
   left: calc(50% - 4px);
   position: absolute;
 }
-.container.range-plugin .calendar > .days-grid > .day {
+.container.range .calendar > .days-grid > .day {
   position: relative;
 }
-.container.range-plugin .calendar > .days-grid > .day.in-range:last-of-type {
+.container.range .calendar > .days-grid > .day.in-range:last-of-type {
   border-bottom-right-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
 }
-.container.range-plugin .calendar > .days-grid > .day.in-range {
+.container.range .calendar > .days-grid > .day.in-range {
   background-color: var(--color-bg-inrange);
   border-radius: 0;
 }
-.container.range-plugin .calendar > .days-grid > .day.end,
-.container.range-plugin .calendar > .days-grid > .day.start {
+.container.range .calendar > .days-grid > .day.end,
+.container.range .calendar > .days-grid > .day.start {
   background-color: var(--color-fg-primary);
   color: var(--color-fg-selected);
 }
-.container.range-plugin .calendar > .days-grid > .day.start {
+.container.range .calendar > .days-grid > .day.start {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
-.container.range-plugin .calendar > .days-grid > .day.start:after {
+.container.range .calendar > .days-grid > .day.start:after {
   border: 8px solid transparent;
   border-left: 8px solid var(--color-fg-primary);
   content: "";
@@ -65,23 +65,23 @@ export const rangeCss: string = /* css */ `
   right: -14px;
   z-index: 2;
 }
-.container.range-plugin .calendar > .days-grid > .day.start.flipped {
+.container.range .calendar > .days-grid > .day.start.flipped {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: var(--border-radius);
   border-top-left-radius: 0;
   border-top-right-radius: var(--border-radius);
 }
-.container.range-plugin .calendar > .days-grid > .day.start.flipped:after {
+.container.range .calendar > .days-grid > .day.start.flipped:after {
   border-left-color: transparent;
   border-right-color: var(--color-fg-primary);
   left: -14px;
   right: auto;
 }
-.container.range-plugin .calendar > .days-grid > .day.end {
+.container.range .calendar > .days-grid > .day.end {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
-.container.range-plugin .calendar > .days-grid > .day.end:after {
+.container.range .calendar > .days-grid > .day.end:after {
   border: 8px solid transparent;
   border-right: 8px solid var(--color-fg-primary);
   content: "";
@@ -90,33 +90,33 @@ export const rangeCss: string = /* css */ `
   position: absolute;
   z-index: 2;
 }
-.container.range-plugin .calendar > .days-grid > .day.end.flipped {
+.container.range .calendar > .days-grid > .day.end.flipped {
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: 0;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: 0;
 }
-.container.range-plugin .calendar > .days-grid > .day.end.flipped:after {
+.container.range .calendar > .days-grid > .day.end.flipped:after {
   border-left-color: var(--color-fg-primary);
   border-right-color: transparent;
   left: auto;
   right: -14px;
 }
-.container.range-plugin .calendar > .days-grid > .day.start.end {
+.container.range .calendar > .days-grid > .day.start.end {
   border-radius: var(--border-radius);
 }
-.container.range-plugin .calendar > .days-grid > .day.start.end:after {
+.container.range .calendar > .days-grid > .day.start.end:after {
   content: none;
 }
-.container.range-plugin .calendar > .days-grid > div:not(.day) + .day.in-range {
+.container.range .calendar > .days-grid > div:not(.day) + .day.in-range {
   border-bottom-left-radius: var(--border-radius);
   border-top-left-radius: var(--border-radius);
 }
-.container.range-plugin .calendar > .days-grid > div:nth-child(7n).in-range {
+.container.range .calendar > .days-grid > div:nth-child(7n).in-range {
   border-bottom-right-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
 }
-.container.range-plugin
+.container.range
   .calendar
   > .days-grid
   > div:nth-child(7n + 1).in-range {

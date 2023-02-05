@@ -1,28 +1,9 @@
+import { DateTime } from 'luxon';
 import type { Picker } from './core/picker';
-import { DateTime } from './core/datetime';
-import { IExtraOptionsPlugin } from './plugins/extra-options';
-import { IKeyboardPlugin } from './plugins/keyboard';
-import { ILockConfig } from './plugins/lock';
-import { IPresetConfig } from './plugins/preset';
-import { IRangeConfig } from './plugins/range';
-import { ITimeConfig } from './plugins/time';
-
-
-declare module './core/picker' {
-  interface Picker {
-    setStartDate(date: Date | string | number): void;
-    setEndDate(date: Date | string | number): void;
-    setDateRange(start: Date | string | number, end: Date | string | number): void;
-    setISOStartDate(date: string): void;
-    setISOEndDate(date: string ): void;
-    setISODateRange(start: string, end: string): void;
-    getStartDate(): DateTime;
-    getEndDate(): DateTime;
-    setTime(value: string): void;
-    setStartTime(value: string): void;
-    setEndTime(value: string): void;
-  }
-}
+import { ExtraOptions } from './plugins/extra-options';
+import { KeyboardOptions } from './plugins/keyboard';
+import { LockOptions } from './plugins/lock';
+import { PresetOptions } from './plugins/preset';
 
 export interface IEventDetail {
   view?: string;
@@ -39,10 +20,10 @@ export interface IPickerElements {
 
 export interface PickerOptions {
   element: HTMLElement;
-  css?: string | string[] | ((picker: Picker) => void);
+  css?: string;
   firstDay?: number;
   lang?: string;
-  date?: Date | string | number | null;
+  date?: string | null;
   format?: string;
   grid?: number;
   calendars?: number;
@@ -56,21 +37,17 @@ export interface PickerOptions {
     apply?: string;
   }
   documentClick?: boolean | (() => void);
-  zIndex?: number;
-  inline?: boolean;
   scrollToDate?: boolean;
-  position?: "left" | "right",
+  placement?: "bottom-start" | "bottom-end",
   offsetTop?: number,
   offsetLeft?: number
-  setup?(picker: Picker): void;
+  setup?(picker: Picker<PickerOptions>): void;
 }
 
-export interface IPickerConfig extends PickerOptions {
+export interface PickerConfig extends PickerOptions {
   plugins?: any[];
-  ExtraOptionsPlugin?: IExtraOptionsPlugin;
-  LockPlugin?: ILockConfig;
-  PresetPlugin?: IPresetConfig;
-  RangePlugin?: IRangeConfig;
-  KeyboardPlugin?: IKeyboardPlugin;
-  TimePlugin?: ITimeConfig;
+  ExtraOptionsPlugin?: ExtraOptions;
+  LockPlugin?: LockOptions;
+  PresetPlugin?: PresetOptions;
+  KeyboardPlugin?: KeyboardOptions;
 }

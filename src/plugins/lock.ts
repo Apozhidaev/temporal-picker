@@ -1,10 +1,9 @@
-// @ts-nocheck
-import { DateTime } from "../core/datetime";
-import { BasePlugin, IEventDetail, IPlugin } from "./base";
+import { DateTime } from "luxon";
+import { BasePlugin, EventDetail, IPlugin } from "./base";
 
-export interface ILockConfig {
-  minDate?: Date | string | number;
-  maxDate?: Date | string | number;
+export interface LockOptions {
+  minDate?: DateTime;
+  maxDate?: DateTime;
   minDays?: number;
   maxDays?: number;
   selectForward?: boolean;
@@ -21,7 +20,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
     onView: this.onView.bind(this),
   };
 
-  public options: ILockConfig = {
+  public options: LockOptions = {
     minDate: null,
     maxDate: null,
     minDays: null,
@@ -31,7 +30,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
     presets: true,
     inseparable: false,
     filter: null,
-  };
+  } as any;
 
   /**
    * Returns plugin name
@@ -47,36 +46,29 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * The function execute on initialize the picker
    */
   public onAttach(): void {
-    if (this.options.minDate) {
-      this.options.minDate = new DateTime(this.options.minDate);
-    }
-
     if (this.options.maxDate) {
-      this.options.maxDate = new DateTime(this.options.maxDate);
-
       if (
-        this.options.maxDate instanceof DateTime &&
-        this.picker.options.calendars > 1 &&
-        this.picker.calendars[0].isSame(this.options.maxDate, "month")
+        this.picker.options.calendars! > 1 &&
+        this.picker.calendars[0].hasSame(this.options.maxDate, "month")
       ) {
-        const d = this.picker.calendars[0].clone().subtract(1, "month");
-        this.picker.gotoDate(d);
+        const d = this.picker.calendars[0].minus({ month: 1 });
+        this.picker.gotoDate(d.toISO());
       }
     }
 
-    if (
-      this.options.minDays ||
-      this.options.maxDays ||
-      this.options.selectForward ||
-      this.options.selectBackward
-    ) {
-      if (!this.picker.options.plugins.includes("RangePlugin")) {
-        const list = ["minDays", "maxDays", "selectForward", "selectBackward"];
-        console.warn(
-          `${this.getName()}: options ${list.join(", ")} required RangePlugin.`
-        );
-      }
-    }
+    // if (
+    //   this.options.minDays ||
+    //   this.options.maxDays ||
+    //   this.options.selectForward ||
+    //   this.options.selectBackward
+    // ) {
+    //   if (!this.picker.options.plugins.includes("RangePlugin")) {
+    //     const list = ["minDays", "maxDays", "selectForward", "selectBackward"];
+    //     console.warn(
+    //       `${this.getName()}: options ${list.join(", ")} required RangePlugin.`
+    //     );
+    //   }
+    // }
 
     this.picker.on("view", this.binds.onView);
   }
@@ -96,26 +88,30 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @param event
    */
   private onView(event: CustomEvent) {
-    const { view, target, date }: IEventDetail = event.detail;
+    const { view, target, date }: Required<EventDetail> = event.detail;
 
     if (view === "CalendarHeader") {
       if (this.options.minDate instanceof DateTime) {
-        if (date.isSameOrBefore(this.options.minDate, "month")) {
+        if (
+          date?.hasSame(this.options.minDate, "month") ||
+          date < this.options.minDate
+        ) {
           target.classList.add("no-previous-month");
         }
       }
 
       if (this.options.maxDate instanceof DateTime) {
-        if (date.isSameOrAfter(this.options.maxDate, "month")) {
+        if (
+          date.hasSame(this.options.maxDate, "month") ||
+          date > this.options.maxDate
+        ) {
           target.classList.add("no-next-month");
         }
       }
     }
 
     if (view === "CalendarDay") {
-      const dateFrom = this.picker.datePicked.length
-        ? this.picker.datePicked[0]
-        : null;
+      const dateFrom = this.picker.datePicked[0];
 
       if (this.testFilter(date)) {
         target.classList.add("locked");
@@ -124,27 +120,31 @@ export class LockPlugin extends BasePlugin implements IPlugin {
 
       if (this.options.inseparable) {
         if (this.options.minDays) {
-          const date1 = date.clone().subtract(this.options.minDays - 1, "day");
-          const date2 = date.clone().add(this.options.minDays - 1, "day");
+          let date1 = date
+            .minus({ day: this.options.minDays - 1 })
+            .startOf("day");
+          let date2 = date
+            .plus({ day: this.options.minDays - 1 })
+            .startOf("day");
           let lockedInPrevDays = false;
           let lockedInNextDays = false;
 
-          while (date1.isBefore(date, "day")) {
+          while (date1 < date) {
             if (this.testFilter(date1)) {
               lockedInPrevDays = true;
               break;
             }
 
-            date1.add(1, "day");
+            date1 = date1.plus({ day: 1 });
           }
 
-          while (date2.isAfter(date, "day")) {
+          while (date2 > date) {
             if (this.testFilter(date2)) {
               lockedInNextDays = true;
               break;
             }
 
-            date2.subtract(1, "day");
+            date2 = date2.minus({ day: 1 });
           }
 
           if (lockedInPrevDays && lockedInNextDays) {
@@ -163,12 +163,14 @@ export class LockPlugin extends BasePlugin implements IPlugin {
     }
 
     if (this.options.presets && view === "PresetPluginButton") {
-      const startDate = new DateTime(target.dataset.start);
-      const endDate = new DateTime(target.dataset.end);
+      const startDate = DateTime.fromISO(target.dataset.start!);
+      const endDate = DateTime.fromISO(target.dataset.end!);
       const diff = endDate.diff(startDate, "day");
 
-      const lessMinDays = this.options.minDays && diff < this.options.minDays;
-      const moreMaxDays = this.options.maxDays && diff > this.options.maxDays;
+      const lessMinDays =
+        this.options.minDays && diff.days < this.options.minDays;
+      const moreMaxDays =
+        this.options.maxDays && diff.days > this.options.maxDays;
 
       if (
         lessMinDays ||
@@ -209,18 +211,18 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @param date2
    * @returns Boolean
    */
-  private rangeIsNotAvailable(date1: DateTime, date2: DateTime): boolean {
+  private rangeIsNotAvailable(date1?: DateTime, date2?: DateTime): boolean {
     if (!date1 || !date2) return false;
 
-    const start = (date1.isSameOrBefore(date2, "day") ? date1 : date2).clone();
-    const end = (date2.isSameOrAfter(date1, "day") ? date2 : date1).clone();
+    let start = date1.hasSame(date2, "day") || date1 < date2 ? date1 : date2;
+    const end = date2.hasSame(date1, "day") || date2 > date1 ? date2 : date1;
 
-    while (start.isSameOrBefore(end, "day")) {
+    while (start.hasSame(end, "day") || start < end) {
       if (this.testFilter(start)) {
         return true;
       }
 
-      start.add(1, "day");
+      start = start.plus({ day: 1 });
     }
 
     return false;
@@ -233,9 +235,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @returns Boolean
    */
   private lockMinDate(date: DateTime): boolean {
-    return this.options.minDate instanceof DateTime
-      ? date.isBefore(this.options.minDate, "day")
-      : false;
+    return this.options.minDate ? date < this.options.minDate : false;
   }
 
   /**
@@ -245,9 +245,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @returns Boolean
    */
   private lockMaxDate(date: DateTime): boolean {
-    return this.options.maxDate instanceof DateTime
-      ? date.isAfter(this.options.maxDate, "day")
-      : false;
+    return this.options.maxDate ? date < this.options.maxDate : false;
   }
 
   /**
@@ -258,10 +256,14 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    */
   private lockMinDays(date: DateTime, start: DateTime): boolean {
     if (this.options.minDays && start) {
-      const minPrev = start.clone().subtract(this.options.minDays - 1, "day");
-      const minNext = start.clone().add(this.options.minDays - 1, "day");
+      const minPrev = start
+        .minus({ day: this.options.minDays - 1 })
+        .startOf("day");
+      const minNext = start
+        .plus({ day: this.options.minDays - 1 })
+        .endOf("day");
 
-      return date.isBetween(minPrev, minNext);
+      return minPrev <= date && date <= minNext;
     }
 
     return false;
@@ -275,10 +277,10 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    */
   private lockMaxDays(date: DateTime, start: DateTime): boolean {
     if (this.options.maxDays && start) {
-      const maxPrev = start.clone().subtract(this.options.maxDays, "day");
-      const maxNext = start.clone().add(this.options.maxDays, "day");
+      const maxPrev = start.minus({ day: this.options.maxDays }).startOf("day");
+      const maxNext = start.plus({ day: this.options.maxDays }).endOf("day");
 
-      return !date.isBetween(maxPrev, maxNext);
+      return date < maxPrev && maxNext < date;
     }
 
     return false;
@@ -292,9 +294,9 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    */
   private lockSelectForward(date: DateTime): boolean {
     if (this.picker.datePicked.length === 1 && this.options.selectForward) {
-      const start = this.picker.datePicked[0].clone();
+      const start = this.picker.datePicked[0].startOf("day");
 
-      return date.isBefore(start, "day");
+      return date < start;
     }
 
     return false;
@@ -308,9 +310,9 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    */
   private lockSelectBackward(date: DateTime): boolean {
     if (this.picker.datePicked.length === 1 && this.options.selectBackward) {
-      const start = this.picker.datePicked[0].clone();
+      const start = this.picker.datePicked[0].endOf("day");
 
-      return date.isAfter(start, "day");
+      return start < date;
     }
 
     return false;
