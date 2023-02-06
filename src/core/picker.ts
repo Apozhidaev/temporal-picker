@@ -89,6 +89,8 @@ export abstract class Picker<TOptions extends PickerConfig> {
 
     this.PluginManager.initialize();
 
+    this.updateInputValues();
+
     if (typeof this.options.setup === "function") {
       this.options.setup(this);
     }

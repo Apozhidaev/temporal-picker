@@ -4,8 +4,8 @@ import type { RangePicker } from "../pickers/range";
 
 export type PresetItem = {
   label: string;
-  start: string;
-  end: string;
+  start?: string;
+  end?: string;
 };
 
 export interface PresetOptions {
@@ -73,6 +73,9 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
         : this.picker.getEndDate();
 
       this.options.presets.forEach(({ label, start, end }) => {
+        if (!start && !end) {
+          return;
+        }
         const item = document.createElement("button");
         item.className = "preset-button unit";
         if (startDate === start && endDate === end) {
@@ -81,8 +84,12 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
           item.classList.remove("selected");
         }
         item.innerHTML = label;
-        item.dataset.start = start;
-        item.dataset.end = end;
+        if (start) {
+          item.dataset.start = start;
+        }
+        if (end) {
+          item.dataset.end = end;
+        }
 
         container.appendChild(item);
 
@@ -114,11 +121,20 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
       if (!(element instanceof HTMLElement)) return;
 
       if (this.isPresetButton(element)) {
-        const startDate = element.dataset.start!;
-        const endDate = element.dataset.end!;
+        const startDate = element.dataset.start;
+        const endDate = element.dataset.end;
 
         if (this.picker.options.autoApply) {
-          this.picker.setDateRange(startDate, endDate);
+          if (startDate && endDate) {
+            this.picker.setDateRange(startDate, endDate);
+          } else {
+            if (startDate) {
+              this.picker.setDateRange(startDate, '');
+            }
+            if (endDate) {
+              this.picker.setDateRange('', endDate);
+            }
+          }
 
           this.picker.trigger("select", {
             start: this.picker.getStartDate(),
@@ -127,7 +143,9 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
 
           this.picker.hide();
         } else {
-          this.picker.datePicked = [DateTime.fromISO(startDate), DateTime.fromISO(endDate)];
+          this.picker.datePicked = [startDate, endDate]
+            .filter(Boolean)
+            .map((x) => DateTime.fromISO(x!));
           this.picker.renderAll();
         }
       }

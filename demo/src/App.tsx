@@ -27,6 +27,7 @@ function App() {
     // });
     // new DatePicker({
     //   element: inputRef.current!,
+    //   date: DateTime.now().toISODate(),
     //   extraOptions: {
     //     resetButton: true,
     //     dropdown:{
@@ -40,12 +41,21 @@ function App() {
     // });
     new RangePicker({
       element: inputRef.current!,
+      strict: false,
+      // autoApply: false,
+      // startDate: DateTime.now().toISODate(),
+      activeInput: 'end',
       presetOptions: {
         presets: [
           {
             label: "Test",
             start: "2022-01-01",
             end: "2023-01-01",
+          },
+          {
+            label: "Test 2",
+            start: "",
+            end: DateTime.now().toISODate(),
           },
         ],
       },

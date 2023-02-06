@@ -23,7 +23,6 @@ export interface PickerOptions {
   css?: string;
   firstDay?: number;
   lang?: string;
-  date?: string | null;
   format?: string;
   grid?: number;
   calendars?: number;

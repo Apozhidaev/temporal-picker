@@ -39,7 +39,6 @@ export class DatePicker extends Picker<DatePickerOptions> {
       ...rest,
       css,
       plugins,
-      date: options.date,
       LockPlugin: lockOptions,
       KeyboardPlugin: keyboardOptions || {},
       ExtraOptionsPlugin: extraOptions,
@@ -145,6 +144,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * Handling parameters passed by the user
    */
   public handleOptions() {
+    this.options.element.dataset.value = this.options.date || "";
     const date = this.getValue();
     if (date) {
       this.calendars[0] = DateTime.fromISO(date);

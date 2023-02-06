@@ -1,10 +1,7 @@
 import merge from "lodash.merge";
 import type { PickerConfig, PickerOptions } from "../types";
 import { Picker } from "../core/picker";
-import {
-  ExtraOptionsPlugin,
-  ExtraOptions,
-} from "../plugins/extra-options";
+import { ExtraOptionsPlugin, ExtraOptions } from "../plugins/extra-options";
 import { KeyboardPlugin, KeyboardOptions } from "../plugins/keyboard";
 import { LockPlugin, LockOptions } from "../plugins/lock";
 import { PresetPlugin, PresetOptions } from "../plugins/preset";
@@ -23,8 +20,9 @@ export type RangePickerOptions = PickerOptions & {
   lockOptions?: LockOptions;
   presetOptions?: PresetOptions;
 
-  startDate?: string | number | Date | null;
-  endDate?: string | number | Date | null;
+  activeInput?: "start" | "end";
+  startDate?: string;
+  endDate?: string;
   strict?: boolean;
   delimiter?: string;
   tooltip?: boolean;
@@ -36,6 +34,8 @@ export type RangePickerOptions = PickerOptions & {
     few?: string;
     many?: string;
     other?: string;
+    startDate?: string;
+    endDate?: string;
   };
 };
 
@@ -84,6 +84,8 @@ export class RangePicker extends Picker<RangePickerOptions> {
           few: "",
           many: "",
           other: "days",
+          startDate: "Start Date",
+          endDate: "End Date",
         },
       },
       {
@@ -115,7 +117,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
 
     const targetDate = this.options.scrollToDate ? this.getStartDate() : null;
     this.renderAll(targetDate ? DateTime.fromISO(targetDate) : undefined);
-    this.ui.container.classList.add('range');
+    this.ui.container.classList.add("range");
   }
 
   public onClickCalendarDay(element: HTMLElement): void {
@@ -145,7 +147,13 @@ export class RangePicker extends Picker<RangePickerOptions> {
 
       if (this.datePicked.length === 1) {
         if (!this.options.strict && this.options.autoApply) {
-          this.setStartDate(this.datePicked[0].toISODate());
+          if (this.options.activeInput === "end") {
+            delete this.options.element.dataset.start;
+            this.setEndDate(this.datePicked[0].toISODate());
+          } else {
+            delete this.options.element.dataset.end;
+            this.setStartDate(this.datePicked[0].toISODate());
+          }
 
           this.trigger("select", {
             start: this.getStartDate(),
@@ -179,11 +187,15 @@ export class RangePicker extends Picker<RangePickerOptions> {
   }
 
   public onClickApplyButton(element: HTMLElement): void {
-    console.log('onClickApplyButton');
     if (this.isApplyButton(element)) {
       if (this.datePicked.length === 1 && !this.options.strict) {
-        this.options.endDate = null;
-        this.setStartDate(this.datePicked[0].toISODate());
+        if (this.options.activeInput === "end") {
+          delete this.options.element.dataset.start;
+          this.setEndDate(this.datePicked[0].toISODate());
+        } else {
+          delete this.options.element.dataset.end;
+          this.setStartDate(this.datePicked[0].toISODate());
+        }
       }
 
       if (this.datePicked.length === 2) {
@@ -203,6 +215,8 @@ export class RangePicker extends Picker<RangePickerOptions> {
   }
 
   public handleOptions(): void {
+    this.options.element.dataset.start = this.options.startDate || "";
+    this.options.element.dataset.end = this.options.endDate || "";
     const date = this.getStartDate();
     if (date) {
       this.calendars[0] = DateTime.fromISO(date);
@@ -230,7 +244,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
    * @param event
    */
   private onShow() {
-    const date = this.getStartDate();
+    const date = this.getStartDate() || this.getEndDate();
     if (this.options.scrollToDate && date) {
       this.gotoDate(date);
     }
@@ -275,10 +289,14 @@ export class RangePicker extends Picker<RangePickerOptions> {
         target.classList.add("start");
       }
 
+      if (end && end.hasSame(date, "day")) {
+        target.classList.add("end");
+      }
+
       if (start && end) {
-        if (end.hasSame(date, "day")) {
-          target.classList.add("end");
-        }
+        // if (end.hasSame(date, "day")) {
+        //   target.classList.add("end");
+        // }
 
         if (date > start && date < end) {
           // todo check startOf
@@ -307,7 +325,6 @@ export class RangePicker extends Picker<RangePickerOptions> {
     const target = event.target;
 
     if (target instanceof HTMLElement) {
-
       const element = target.closest(".unit");
 
       if (!(element instanceof HTMLElement)) return;
@@ -389,13 +406,13 @@ export class RangePicker extends Picker<RangePickerOptions> {
 
     const locales = Object.keys(this.options.locale!);
 
-    // if (!rules.every((x) => locales.includes(x))) {
-    //   console.warn(
-    //     `${this.getName()}: provide locales (${rules.join(
-    //       ", "
-    //     )}) for correct tooltip text.`
-    //   );
-    // }
+    if (!rules.every((x) => locales.includes(x))) {
+      console.warn(
+        `RangePicker: provide locales (${rules.join(
+          ", "
+        )}) for correct tooltip text.`
+      );
+    }
   }
 
   /**
@@ -403,7 +420,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
    *
    * @param date
    */
-  private setStartDate(date: string) {
+  public setStartDate(date: string) {
     this.options.element.dataset.start = date;
 
     const updated = this.updateInputValues();
@@ -418,7 +435,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
    *
    * @param date
    */
-  private setEndDate(date: string) {
+  public setEndDate(date: string) {
     this.options.element.dataset.end = date;
 
     const updated = this.updateInputValues();
@@ -473,7 +490,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
 
     let updated = false;
     const delimiter = startString || endString ? this.options.delimiter : "";
-    const formatString = `${startString}${delimiter}${endString}`;
+    const formatString = delimiter
+      ? `${startString || this.options.locale?.startDate}${delimiter}${
+          endString || this.options.locale?.endDate
+        }`
+      : "";
 
     if (el instanceof HTMLInputElement) {
       if (el.value !== formatString) {
