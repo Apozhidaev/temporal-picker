@@ -44,7 +44,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
       ExtraOptionsPlugin: extraOptions,
     });
 
-    const targetDate = this.options.scrollToDate ? this.getValue() : null;
+    const targetDate = this.options.scrollToDate ? this.getDate() : null;
     this.renderAll(targetDate ? DateTime.fromISO(targetDate) : undefined);
   }
 
@@ -57,17 +57,17 @@ export class DatePicker extends Picker<DatePickerOptions> {
       const date = DateTime.fromMillis(Number(element.dataset.time));
 
       if (this.options.autoApply) {
-        this.setValue(date.toISODate());
+        this.setDate(date.toISODate());
 
         this.trigger("select", {
-          date: this.getValue(),
+          date: this.getDate(),
         });
 
         this.hide();
       } else {
         this.datePicked[0] = date;
 
-        this.trigger("preselect", { date: this.getValue() });
+        this.trigger("preselect", { date: this.getDate() });
 
         this.renderAll();
       }
@@ -82,13 +82,13 @@ export class DatePicker extends Picker<DatePickerOptions> {
     if (this.isApplyButton(element)) {
       if (this.datePicked[0] instanceof DateTime) {
         const date = this.datePicked[0];
-        this.setValue(date.toISODate());
+        this.setDate(date.toISODate());
       }
 
       this.hide();
 
       this.trigger("select", {
-        date: this.getValue(),
+        date: this.getDate(),
       });
     }
   }
@@ -97,7 +97,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    *
    * @returns DateTime
    */
-  public getValue(): string | undefined {
+  public getDate(): string | undefined {
     return this.options.element.dataset.value;
   }
 
@@ -106,7 +106,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    *
    * @param date
    */
-  public setValue(date: string): void {
+  public setDate(date: string): void {
     this.options.element.dataset.value = date;
 
     const updated = this.updateInputValues();
@@ -120,7 +120,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * Update value of input element
    */
   public updateInputValues() {
-    const date = this.getValue();
+    const date = this.getDate();
     const formatString = date
       ? DateTime.fromISO(date)
           .setLocale(this.options.lang!)
@@ -145,7 +145,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    */
   public handleOptions() {
     this.options.element.dataset.value = this.options.date || "";
-    const date = this.getValue();
+    const date = this.getDate();
     if (date) {
       this.calendars[0] = DateTime.fromISO(date);
     } else {
@@ -162,7 +162,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
   }
 
   public getOptionDate(): DateTime | undefined {
-    const date = this.getValue();
+    const date = this.getDate();
     return date ? DateTime.fromISO(date) : undefined;
   }
 }
