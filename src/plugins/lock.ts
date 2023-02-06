@@ -2,8 +2,8 @@ import { DateTime } from "luxon";
 import { BasePlugin, EventDetail, IPlugin } from "./base";
 
 export interface LockOptions {
-  minDate?: DateTime;
-  maxDate?: DateTime;
+  minDate?: string;
+  maxDate?: string;
   minDays?: number;
   maxDays?: number;
   selectForward?: boolean;
@@ -15,22 +15,17 @@ export interface LockOptions {
 
 export class LockPlugin extends BasePlugin implements IPlugin {
   public priority = 1;
+  public minDate?: DateTime;
+  public maxDate?: DateTime;
 
   public binds = {
     onView: this.onView.bind(this),
   };
 
   public options: LockOptions = {
-    minDate: null,
-    maxDate: null,
-    minDays: null,
-    maxDays: null,
-    selectForward: null,
-    selectBackward: null,
     presets: true,
     inseparable: false,
-    filter: null,
-  } as any;
+  };
 
   /**
    * Returns plugin name
@@ -46,10 +41,16 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * The function execute on initialize the picker
    */
   public onAttach(): void {
+    if (this.options.minDate) {
+      this.minDate = DateTime.fromISO(this.options.minDate);
+    }
     if (this.options.maxDate) {
+      this.maxDate = DateTime.fromISO(this.options.maxDate);
+    }
+    if (this.maxDate) {
       if (
         this.picker.options.calendars! > 1 &&
-        this.picker.calendars[0].hasSame(this.options.maxDate, "month")
+        this.picker.calendars[0].hasSame(this.maxDate, "month")
       ) {
         const d = this.picker.calendars[0].minus({ month: 1 });
         this.picker.gotoDate(d.toISO());
@@ -91,19 +92,19 @@ export class LockPlugin extends BasePlugin implements IPlugin {
     const { view, target, date }: Required<EventDetail> = event.detail;
 
     if (view === "CalendarHeader") {
-      if (this.options.minDate instanceof DateTime) {
+      if (this.minDate instanceof DateTime) {
         if (
-          date?.hasSame(this.options.minDate, "month") ||
-          date < this.options.minDate
+          date?.hasSame(this.minDate, "month") ||
+          date < this.minDate
         ) {
           target.classList.add("no-previous-month");
         }
       }
 
-      if (this.options.maxDate instanceof DateTime) {
+      if (this.maxDate instanceof DateTime) {
         if (
-          date.hasSame(this.options.maxDate, "month") ||
-          date > this.options.maxDate
+          date.hasSame(this.maxDate, "month") ||
+          date > this.maxDate
         ) {
           target.classList.add("no-next-month");
         }
@@ -235,7 +236,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @returns Boolean
    */
   private lockMinDate(date: DateTime): boolean {
-    return this.options.minDate ? date < this.options.minDate : false;
+    return this.minDate ? date < this.minDate : false;
   }
 
   /**
@@ -245,7 +246,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @returns Boolean
    */
   private lockMaxDate(date: DateTime): boolean {
-    return this.options.maxDate ? date < this.options.maxDate : false;
+    return this.maxDate ? date < this.maxDate : false;
   }
 
   /**

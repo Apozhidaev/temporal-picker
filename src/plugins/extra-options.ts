@@ -145,10 +145,10 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
 
           if (this.lockPlugin) {
             option.disabled = Boolean(
-              (this.lockPlugin.options.minDate &&
-                optionMonth < this.lockPlugin.options.minDate.startOf("month")) ||
-                (this.lockPlugin.options.maxDate &&
-                  optionMonth < this.lockPlugin.options.maxDate.endOf("month"))
+              (this.lockPlugin.minDate &&
+                optionMonth < this.lockPlugin.minDate.startOf("month")) ||
+                (this.lockPlugin.maxDate &&
+                  optionMonth < this.lockPlugin.maxDate.endOf("month"))
             );
           }
 
@@ -186,8 +186,8 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
         selectYears.className = "month-name--select unit";
 
         const minYear =
-          this.lockPlugin && this.lockPlugin.options.minDate
-            ? this.lockPlugin.options.minDate.year
+          this.lockPlugin && this.lockPlugin.minDate
+            ? this.lockPlugin.minDate.year
             : this.options.dropdown.minYear!;
         const maxYear = this.options.dropdown.maxYear
           ? this.options.dropdown.maxYear
@@ -211,10 +211,10 @@ export class ExtraOptionsPlugin extends BasePlugin implements IPlugin {
 
           if (this.lockPlugin) {
             option.disabled = Boolean(
-              (this.lockPlugin.options.minDate &&
-                optionYear < this.lockPlugin.options.minDate.startOf("year")) ||
-                (this.lockPlugin.options.maxDate &&
-                  optionYear < this.lockPlugin.options.maxDate.endOf("year"))
+              (this.lockPlugin.minDate &&
+                optionYear < this.lockPlugin.minDate.startOf("year")) ||
+                (this.lockPlugin.maxDate &&
+                  optionYear < this.lockPlugin.maxDate.endOf("year"))
             );
           }
 

@@ -43,8 +43,12 @@ function App() {
       element: inputRef.current!,
       strict: false,
       // autoApply: false,
-      // startDate: DateTime.now().toISODate(),
-      activeInput: 'end',
+      startDate: DateTime.now().minus({ month: 1 }).toISODate(),
+      endDate: DateTime.now().toISODate(),
+      activeInput: "end",
+      lockOptions: {
+        minDate: "2022-01-01"
+      },
       presetOptions: {
         presets: [
           {
