@@ -47,7 +47,8 @@ function App() {
       endDate: DateTime.now().toISODate(),
       activeInput: "end",
       lockOptions: {
-        minDate: "2022-01-01"
+        minDate: "2022-01-01",
+        maxDate: DateTime.now().toISODate(),
       },
       presetOptions: {
         presets: [

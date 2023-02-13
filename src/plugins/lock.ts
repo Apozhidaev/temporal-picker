@@ -92,7 +92,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
     const { view, target, date }: Required<EventDetail> = event.detail;
 
     if (view === "CalendarHeader") {
-      if (this.minDate instanceof DateTime) {
+      if (this.minDate) {
         if (
           date?.hasSame(this.minDate, "month") ||
           date < this.minDate
@@ -101,7 +101,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
         }
       }
 
-      if (this.maxDate instanceof DateTime) {
+      if (this.maxDate) {
         if (
           date.hasSame(this.maxDate, "month") ||
           date > this.maxDate
@@ -246,7 +246,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
    * @returns Boolean
    */
   private lockMaxDate(date: DateTime): boolean {
-    return this.maxDate ? date < this.maxDate : false;
+    return this.maxDate ? date > this.maxDate : false;
   }
 
   /**
