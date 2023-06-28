@@ -34,7 +34,10 @@ Step 3.
   month-select="true"
   year-select="true"
   reset-button="true"
-></temporal-picker>
+>
+  <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+  <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
+</temporal-picker>
 
 <script>
   const picker = document.getElementById('picker');
