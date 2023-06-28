@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Temporal Picker</title>
+
+    <script type="module" src="/build/temporal-picker.esm.js"></script>
+    <script nomodule src="/build/temporal-picker.js"></script>
+    <style>
+      temporal-picker::part(start-input) {
+        color: red;
+      }
+
+      temporal-picker::part(end-input) {
+        color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <temporal-picker id="picker"></temporal-picker>
+    <temporal-picker
+      id="range-picker"
+      type="range"
+      month-select="true"
+      year-select="true"
+      reset-button="true"
+    >
+      <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+      <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
+    </temporal-picker>
+    <script>
+      const picker = document.getElementById('picker');
+      picker.addEventListener('valueChange', e => console.log(e));
+
+      const rangePicker = document.getElementById('range-picker');
+      rangePicker.addEventListener('rangeChange', e => console.log(e));
+    </script>
+  </body>
+</html>

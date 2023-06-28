@@ -1,52 +1,8 @@
 # temporal-picker
 
 
-### How to Use
 
-Step 1.
-```bash
-npm i temporal-picker
-```
-
-Step 2.
-```javascript
-import { defineCustomElements } from 'temporal-picker';
-
-defineCustomElements();
-```
-
-Step 3.
-```html
-<style>
-  temporal-picker::part(start-input) {
-    color: red;
-  }
-  temporal-picker::part(end-input) {
-    color: blue;
-  }
-</style>
-
-<temporal-picker id="picker"></temporal-picker>
-
-<temporal-picker
-  id="range-picker"
-  type="range"
-  month-select="true"
-  year-select="true"
-  reset-button="true"
->
-  <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
-  <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
-</temporal-picker>
-
-<script>
-  const picker = document.getElementById('picker');
-  picker.addEventListener('valueChange', e => console.log(e));
-
-  const rangePicker = document.getElementById('range-picker');
-  rangePicker.addEventListener('rangeChange', e => console.log(e));
-</script>
-```
+<!-- Auto Generated Below -->
 
 
 ## Properties
@@ -83,8 +39,25 @@ Step 3.
 
 | Part                     | Description |
 | ------------------------ | ----------- |
-| `"input"`                |             |
-| `"start-input"`          |             |
-| `"end-input"`            |             |
 | `"delimiter"`            |             |
 | `"range-inputs-wrapper"` |             |
+
+
+## Dependencies
+
+### Depends on
+
+- [temporal-input](../temporal-input)
+- [temporal-popup](../temporal-popup)
+
+### Graph
+```mermaid
+graph TD;
+  temporal-picker --> temporal-input
+  temporal-picker --> temporal-popup
+  style temporal-picker fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*
