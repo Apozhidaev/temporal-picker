@@ -32,6 +32,8 @@ export type RangePickerOptions = PickerOptions & {
 
 export class RangePicker extends Picker<RangePickerOptions> {
   public tooltipElement: HTMLElement | undefined;
+  private start: string | undefined;
+  private end: string | undefined;
 
   constructor(options: RangePickerOptions) {
     const { extraOptions, keyboardOptions, lockOptions, presetOptions, ...rest } = options;
@@ -114,10 +116,10 @@ export class RangePicker extends Picker<RangePickerOptions> {
       if (this.datePicked.length === 1) {
         if (!this.options.strict && this.options.autoApply) {
           if (this.options.activeInput === 'end') {
-            delete this.options.element.dataset.start;
+            delete this.start;
             this.setEndDate(this.datePicked[0].toISODate());
           } else {
-            delete this.options.element.dataset.end;
+            delete this.end;
             this.setStartDate(this.datePicked[0].toISODate());
           }
 
@@ -153,10 +155,10 @@ export class RangePicker extends Picker<RangePickerOptions> {
     if (this.isApplyButton(element)) {
       if (this.datePicked.length === 1 && !this.options.strict) {
         if (this.options.activeInput === 'end') {
-          delete this.options.element.dataset.start;
+          delete this.start;
           this.setEndDate(this.datePicked[0].toISODate());
         } else {
-          delete this.options.element.dataset.end;
+          delete this.end;
           this.setStartDate(this.datePicked[0].toISODate());
         }
       }
@@ -175,8 +177,8 @@ export class RangePicker extends Picker<RangePickerOptions> {
   }
 
   public handleOptions(): void {
-    this.options.element.dataset.start = this.options.startDate || '';
-    this.options.element.dataset.end = this.options.endDate || '';
+    this.start = this.options.startDate;
+    this.end = this.options.endDate;
     const date = this.getStartDate();
     if (date) {
       this.calendars[0] = DateTime.fromISO(date);
@@ -193,8 +195,8 @@ export class RangePicker extends Picker<RangePickerOptions> {
    * Clear date selection
    */
   public clear() {
-    delete this.options.element.dataset.start;
-    delete this.options.element.dataset.end;
+    delete this.start;
+    delete this.end;
     super.clear();
   }
 
@@ -356,11 +358,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
    * @param date
    */
   public setStartDate(date: string) {
-    if (this.options.element.dataset.start !== date) {
+    if (this.start !== date) {
       if (date) {
-        this.options.element.dataset.start = DateTime.fromISO(date).toISODate();
+        this.start = DateTime.fromISO(date).toISODate();
       } else {
-        delete this.options.element.dataset.start;
+        delete this.start;
       }
       if (this.calendars.length) {
         this.renderAll();
@@ -374,11 +376,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
    * @param date
    */
   public setEndDate(date: string) {
-    if (this.options.element.dataset.end !== date) {
+    if (this.end !== date) {
       if (date) {
-        this.options.element.dataset.end = DateTime.fromISO(date).toISODate();
+        this.end = DateTime.fromISO(date).toISODate();
       } else {
-        delete this.options.element.dataset.end;
+        delete this.end;
       }
       if (this.calendars.length) {
         this.renderAll();
@@ -393,16 +395,16 @@ export class RangePicker extends Picker<RangePickerOptions> {
    * @param end
    */
   public setDateRange(start: string, end: string) {
-    if (this.options.element.dataset.start !== start || this.options.element.dataset.end !== end) {
+    if (this.start !== start || this.end !== end) {
       if (start) {
-        this.options.element.dataset.start = DateTime.fromISO(start).toISODate();
+        this.start = DateTime.fromISO(start).toISODate();
       } else {
-        delete this.options.element.dataset.start;
+        delete this.start;
       }
       if (end) {
-        this.options.element.dataset.end = DateTime.fromISO(end).toISODate();
+        this.end = DateTime.fromISO(end).toISODate();
       } else {
-        delete this.options.element.dataset.end;
+        delete this.end;
       }
       if (this.calendars.length) {
         this.renderAll();
@@ -411,11 +413,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
   }
 
   public getStartDate() {
-    return this.options.element.dataset.start;
+    return this.start;
   }
 
   public getEndDate() {
-    return this.options.element.dataset.end;
+    return this.end;
   }
 
   /**

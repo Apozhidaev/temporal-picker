@@ -153,7 +153,6 @@ export class TemporalPopup {
         }
 
         this.rangePicker = new RangePicker({
-          element: document.createElement('input'),
           popup: this.el,
           autoApply: this.autoApply,
           extraOptions,
@@ -175,7 +174,6 @@ export class TemporalPopup {
 
       default: {
         this.datePicker = new DatePicker({
-          element: document.createElement('input'),
           popup: this.el,
           autoApply: this.autoApply,
           extraOptions,

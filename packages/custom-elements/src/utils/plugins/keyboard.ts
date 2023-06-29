@@ -8,7 +8,6 @@ export interface KeyboardOptions {
 export class KeyboardPlugin extends BasePlugin implements IPlugin {
   public binds = {
     onKeydown: this.onKeydown.bind(this),
-    handleShow: this.handleShow.bind(this),
     updateTabIndex: this.updateTabIndex.bind(this),
   };
 
@@ -31,11 +30,6 @@ export class KeyboardPlugin extends BasePlugin implements IPlugin {
    * The function execute on initialize the picker
    */
   public onAttach(): void {
-    const element = this.picker.options.element as HTMLElement;
-    element.addEventListener('keydown', this.binds.handleShow, {
-      capture: true,
-    });
-
     this.picker.on('keydown', this.binds.onKeydown);
     this.picker.on('render', this.binds.updateTabIndex);
   }
@@ -44,11 +38,6 @@ export class KeyboardPlugin extends BasePlugin implements IPlugin {
    * - Called automatically via BasePlugin.detach() -
    */
   public onDetach(): void {
-    const element = this.picker.options.element as HTMLElement;
-    element.removeEventListener('keydown', this.binds.handleShow, {
-      capture: true,
-    });
-
     this.picker.off('keydown', this.binds.onKeydown);
     this.picker.off('render', this.binds.updateTabIndex);
   }
@@ -60,14 +49,6 @@ export class KeyboardPlugin extends BasePlugin implements IPlugin {
     Array.from(days).forEach(el => (el.tabIndex = this.options.dayIndex || 0));
     const units = this.picker.ui.container.querySelectorAll<HTMLElement>('.unit:not(.day)');
     Array.from(units).forEach(el => (el.tabIndex = this.options.unitIndex || 0));
-  }
-
-  private handleShow(event: KeyboardEvent) {
-    switch (true) {
-      case ['Escape'].includes(event.code):
-        this.picker.hide();
-        break;
-    }
   }
 
   /**

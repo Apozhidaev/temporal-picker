@@ -13,6 +13,8 @@ export type DatePickerOptions = PickerOptions & {
 };
 
 export class DatePicker extends Picker<DatePickerOptions> {
+  private value: string | undefined;
+
   constructor(options: DatePickerOptions) {
     const { extraOptions, keyboardOptions, lockOptions, ...rest } = options;
     const plugins: any[] = [KeyboardPlugin];
@@ -84,7 +86,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * @returns DateTime
    */
   public getDate(): string | undefined {
-    return this.options.element.dataset.value;
+    return this.value;
   }
 
   /**
@@ -93,11 +95,11 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * @param date
    */
   public setDate(date: string): void {
-    if (this.options.element.dataset.value !== date) {
+    if (this.value !== date) {
       if (date) {
-        this.options.element.dataset.value = DateTime.fromISO(date).toISODate();
+        this.value = DateTime.fromISO(date).toISODate();
       } else {
-        delete this.options.element.dataset.value;
+        delete this.value;
       }
       if (this.calendars.length) {
         this.renderAll();
@@ -109,7 +111,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * Handling parameters passed by the user
    */
   public handleOptions() {
-    this.options.element.dataset.value = this.options.date || '';
+    this.value = this.options.date;
     const date = this.getDate();
     if (date) {
       this.calendars[0] = DateTime.fromISO(date);
@@ -122,7 +124,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
    * Clear date selection
    */
   public clear() {
-    delete this.options.element.dataset.value;
+    delete this.value;
     super.clear();
   }
 

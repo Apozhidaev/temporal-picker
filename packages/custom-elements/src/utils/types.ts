@@ -18,7 +18,6 @@ export interface IPickerElements {
 }
 
 export interface PickerOptions {
-  element: HTMLElement;
   popup: HTMLElement;
   firstDay?: number;
   lang?: string;
