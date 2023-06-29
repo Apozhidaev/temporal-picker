@@ -7,7 +7,7 @@ import {
   createElement,
 } from "react";
 import useEvent from "react-use-event-hook";
-import { TemporalPickerProps } from "./types";
+import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 
 export type Preset = {
   label: string;

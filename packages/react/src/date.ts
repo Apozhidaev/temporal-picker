@@ -7,7 +7,7 @@ import {
   createElement,
 } from "react";
 import useEvent from "react-use-event-hook";
-import { TemporalPickerProps } from "./types";
+import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 
 export type DatePickerProps = Omit<TemporalPickerProps, 'type' | 'start' | 'end'> & {
     onValueChange?: (value?: string) => void;
