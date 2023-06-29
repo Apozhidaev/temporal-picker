@@ -4,3 +4,9 @@
 @import url('./css/lock.css');
 @import url('./css/range.css');
 @import url('./css/preset.css');
+
+:host {
+  --z-index: var(--tp-popup-z-index, 40);
+
+  z-index: var(--z-index);
+}
