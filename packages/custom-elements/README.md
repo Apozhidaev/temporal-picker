@@ -101,6 +101,12 @@ Step 3.
   --tp-popup-color-fg-selected: #fff;
   --tp-popup-color-fg-muted: #64748b;
   --tp-popup-color-fg-accent: #e63757;
+  --tp-popup-color-fg-locked: #9e9e9e;
+  --tp-popup-color-bg-locked: #ffab91;
+  --tp-popup-color-bg-unavailable: #f9f9f9;
+  --tp-popup-color-bg-inrange: #e6effe;
+  --tp-popup-color-bg-tooltip: #fff;
+  --tp-popup-color-fg-tooltip: #1e293b;
   --tp-popup-color-btn-primary-bg: #2e6fda;
   --tp-popup-color-btn-primary-fg: #fff;
   --tp-popup-color-btn-primary-border: #2e6fda;
@@ -132,17 +138,12 @@ Step 3.
   --tp-popup-month-name-font-weight: 700;
   --tp-popup-focus-color: #94a3b8;
   --tp-popup-select-outline-color: #e5e7eb;
-  --tp-popup-color-fg-locked: #9e9e9e;
-  --tp-popup-color-bg-locked: #ffab91;
-  --tp-popup-color-bg-unavailable: #f9f9f9;
-  --tp-popup-color-bg-inrange: #e6effe;
-  --tp-popup-color-bg-tooltip: #fff;
-  --tp-popup-color-fg-tooltip: #1e293b;
 
-  --tp-input-bg-color: #ffffff;
-  --tp-input-color: #111827;
-  --tp-input-disabled-bg-color: #f5f5f5;
-  --tp-input-disabled-color: #57534e;
+  --tp-input-color-bg-default: #ffffff;
+  --tp-input-color-fg-default: #111827;
+  --tp-input-color-bg-disabled: #f5f5f5;
+  --tp-input-color-fg-disabled: #57534e;
+  --tp-input-color-fg-invalid: #e11d48;
   --tp-input-border-radius: 0.375rem;
   --tp-input-font-size: 1rem;
   --tp-input-height: 2.25rem;

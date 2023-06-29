@@ -1,0 +1,46 @@
+{
+  "name": "@temporal-picker/react",
+  "version": "0.0.2",
+  "main": "dist/index.js",
+  "module": "dist/module.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:Apozhidaev/temporal-picker.git",
+  "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "temporal",
+    "picker",
+    "datepicker",
+    "rangepicker",
+    "date",
+    "daterange",
+    "range",
+    "react"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist/common",
+    "build:ts": "tsc && yarn run clean",
+    "build:cjs": "esbuild src/index.ts --format=cjs --bundle --outfile=dist/index.js --external:react* --external:temporal-picker",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/module.js --external:react* --external:temporal-picker",
+    "build": "yarn run build:cjs && yarn run build:esm && yarn run build:ts"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "dependencies": {
+    "react-use-event-hook": "^0.9.3",
+    "temporal-picker": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "esbuild": "^0.16.9",
+    "react": "^18.2.0",
+    "typescript": "^4.9.4"
+  }
+}

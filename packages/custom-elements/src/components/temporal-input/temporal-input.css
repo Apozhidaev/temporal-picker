@@ -1,0 +1,20 @@
+:host {
+  --color: var(--tp-input-color-fg-default, #111827);
+  --invalid-color: var(--tp-input-color-fg-invalid, #e11d48);
+  --font-size: var(--tp-input-font-size, 1rem);
+
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+}
+
+input {
+  border-width: 0;
+  color: var(--color);
+  font-size: var(--font-size);
+}
+
+input:invalid {
+  color: var(--invalid-color);
+}

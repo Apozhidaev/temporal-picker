@@ -11,12 +11,8 @@
     <script type="module" src="/build/temporal-picker.esm.js"></script>
     <script nomodule src="/build/temporal-picker.js"></script>
     <style>
-      temporal-picker::part(start-input) {
-        color: red;
-      }
-
-      temporal-picker::part(end-input) {
-        color: blue;
+      :root {
+        --tp-input-color-fg-invalid: blue;
       }
     </style>
   </head>
