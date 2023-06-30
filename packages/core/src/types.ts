@@ -4,7 +4,8 @@ import { ExtraOptions } from './plugins/extra-options';
 import { KeyboardOptions } from './plugins/keyboard';
 import { LockOptions } from './plugins/lock';
 import { PresetOptions } from './plugins/preset';
-import { PlainType } from './utils';
+
+export type PlainType = 'date' | 'time' | 'datetime' | 'month' | 'day';
 
 export interface IEventDetail {
   view?: string;

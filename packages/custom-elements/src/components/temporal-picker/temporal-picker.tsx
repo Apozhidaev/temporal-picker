@@ -10,7 +10,7 @@ import {
   State,
   Watch,
 } from '@stencil/core';
-import { PlainType } from '../../utils/utils';
+import { PlainType } from '@temporal-picker/core';
 
 export type PlainInstant = { value: string };
 export type RangeInstant = { start: string; end: string };

@@ -1,35 +1,22 @@
-import type { PickerConfig } from "./types";
-import type { EventDetail, IPlugin } from "./plugins/base";
-import { Picker } from "./core/picker";
-import { BasePlugin } from "./plugins/base";
-import { ExtraOptionsPlugin, ExtraOptions } from "./plugins/extra-options";
-import { LockPlugin, LockOptions } from "./plugins/lock";
-import { PresetPlugin, PresetOptions } from "./plugins/preset";
-import { KeyboardPlugin, KeyboardOptions } from "./plugins/keyboard";
-import { DatePicker, DatePickerOptions } from "./pickers/date";
-import { RangePicker, RangePickerOptions } from "./pickers/range";
+import { PlainType } from '@temporal-picker/core';
+type InputType = 'date' | 'time' | 'datetime-local' | 'month' | 'text';
 
-export type {
-  DatePickerOptions,
-  RangePickerOptions,
-  ExtraOptions,
-  LockOptions,
-  PresetOptions,
-  KeyboardOptions,
-  PickerConfig,
-  EventDetail,
-  IPlugin,
-};
+export function toInputType(type: PlainType): InputType {
+  switch (type) {
+    case 'date':
+      return 'date';
+    case 'time':
+      return 'time';
+    case 'datetime':
+      return 'datetime-local';
+    case 'month':
+      return 'month';
+    case 'day':
+      console.log('day type is not supported yet');
+      return 'text';
 
-export {
-  DatePicker,
-  RangePicker,
-  Picker,
-  BasePlugin,
-  ExtraOptionsPlugin,
-  LockPlugin,
-  PresetPlugin,
-  KeyboardPlugin,
-};
-
-export default Picker;
+    default:
+      console.log(`unknown type: ${type}`);
+      return 'text';
+  }
+}

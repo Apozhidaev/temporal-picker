@@ -47,7 +47,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
     const { extraOptions, keyboardOptions, lockOptions, presetOptions, ...rest } = options;
     const plugins: any[] = [KeyboardPlugin];
     if (extraOptions) {
-      if (options.plain === 'month') {
+      if (options.plain === 'month' && extraOptions.dropdown) {
         delete extraOptions.dropdown.months;
       }
       plugins.unshift(ExtraOptionsPlugin);
@@ -136,10 +136,10 @@ export class RangePicker extends Picker<RangePickerOptions> {
         if (!this.options.strict && this.options.autoApply) {
           if (this.options.activeInput === 'end') {
             delete this.start;
-            this.setEndDate(this.datePicked[0].toISODate());
+            this.setEndDate(this.datePicked[0].toISO()!);
           } else {
             delete this.end;
-            this.setStartDate(this.datePicked[0].toISODate());
+            this.setStartDate(this.datePicked[0].toISO()!);
           }
 
           this.trigger('select', {
@@ -153,7 +153,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
 
       if (this.datePicked.length === 2) {
         if (this.options.autoApply) {
-          this.setDateRange(this.datePicked[0].toISODate(), this.datePicked[1].toISODate());
+          this.setDateRange(this.datePicked[0].toISO()!, this.datePicked[1].toISO()!);
 
           this.trigger('select', {
             start: this.getStartDate(),
@@ -175,15 +175,15 @@ export class RangePicker extends Picker<RangePickerOptions> {
       if (this.datePicked.length === 1 && !this.options.strict) {
         if (this.options.activeInput === 'end') {
           delete this.start;
-          this.setEndDate(this.datePicked[0].toISODate());
+          this.setEndDate(this.datePicked[0].toISO()!);
         } else {
           delete this.end;
-          this.setStartDate(this.datePicked[0].toISODate());
+          this.setStartDate(this.datePicked[0].toISO()!);
         }
       }
 
       if (this.datePicked.length === 2) {
-        this.setDateRange(this.datePicked[0].toISODate(), this.datePicked[1].toISODate());
+        this.setDateRange(this.datePicked[0].toISO()!, this.datePicked[1].toISO()!);
       }
 
       this.trigger('select', {

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { Component, Prop, h, Event, EventEmitter } from '@stencil/core';
-import { toInputType, PlainType } from '../../utils/utils';
+import { PlainType } from '@temporal-picker/core';
+import { toInputType } from '../../utils';
 
 export type TemporalInputValue = { value: string };
 

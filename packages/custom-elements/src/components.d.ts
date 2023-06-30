@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { PlainType } from "./utils/utils";
+import { PlainType } from "@temporal-picker/core";
 import { TemporalInputValue } from "./components/temporal-input/temporal-input";
 import { PickerType, PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 import { PickerType as PickerType1, PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
-export { PlainType } from "./utils/utils";
+export { PlainType } from "@temporal-picker/core";
 export { TemporalInputValue } from "./components/temporal-input/temporal-input";
 export { PickerType, PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 export { PickerType as PickerType1, PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";

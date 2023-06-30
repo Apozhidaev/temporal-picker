@@ -53,7 +53,7 @@ export class LockPlugin extends BasePlugin implements IPlugin {
         this.picker.calendars[0].hasSame(this.maxDate, "month")
       ) {
         const d = this.picker.calendars[0].minus({ month: 1 });
-        this.picker.gotoDate(d.toISO());
+        this.picker.gotoDate(d.toISO()!);
       }
     }
 

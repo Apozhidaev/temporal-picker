@@ -19,6 +19,9 @@ export function sameDate(
   if (date1 === date2) {
     return true;
   }
+  if (!date1 || !date2) {
+    return false;
+  }
   return DateTime.fromISO(date1).hasSame(DateTime.fromISO(date2), unit);
 }
 
@@ -80,10 +83,10 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
       container.className = 'preset-plugin-container';
 
       const startDate = this.picker.datePicked[0]
-        ? this.picker.datePicked[0].toISO()
+        ? this.picker.datePicked[0].toISO()!
         : this.picker.getStartDate();
       const endDate = this.picker.datePicked[1]
-        ? this.picker.datePicked[1].toISO()
+        ? this.picker.datePicked[1].toISO()!
         : this.picker.getEndDate();
 
       this.options.presets.forEach(({ label, start, end }) => {
@@ -162,7 +165,7 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
           this.picker.datePicked = [startDate, endDate]
             .filter(Boolean)
             .map(x => DateTime.fromISO(x!));
-          this.picker.gotoDate(this.picker.datePicked[0].toISODate());
+          this.picker.gotoDate(this.picker.datePicked[0].toISO()!);
         }
       }
     }

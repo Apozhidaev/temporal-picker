@@ -50,7 +50,7 @@ export abstract class Picker<TOptions extends PickerConfig> {
 
     this.handleOptions();
 
-    this.ui.shadowRoot = this.options.popup.shadowRoot;
+    this.ui.shadowRoot = this.options.popup.shadowRoot!;
 
     this.ui.container = document.createElement('div');
     this.ui.container.className = 'container';
@@ -287,7 +287,7 @@ export abstract class Picker<TOptions extends PickerConfig> {
 
   protected fromDateTime(value?: DateTime): string | undefined {
     if (value) {
-      return this.options.plain === 'month' ? value.toFormat('yyyy-LL') : value.toISODate();
+      return this.options.plain === 'month' ? value.toFormat('yyyy-LL') : value.toISODate()!;
     }
     return undefined;
   }

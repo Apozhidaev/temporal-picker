@@ -11,14 +11,14 @@ import {
   Method,
 } from '@stencil/core';
 import {
+  PlainType,
   ExtraOptions,
   LockOptions,
   PresetOptions,
   RangePicker,
   DatePicker,
-} from '../../utils';
+} from '@temporal-picker/core';
 import { PickerType, PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
-import { PlainType } from '../../utils/utils';
 
 @Component({
   tag: 'temporal-popup',
@@ -33,11 +33,11 @@ export class TemporalPopup {
    * The type of picker
    */
   @Prop() type: PickerType = 'plain';
-  
-   /**
+
+  /**
    * The type of picker
    */
-   @Prop() plain: PlainType = 'date';
+  @Prop() plain: PlainType = 'date';
 
   /**
    * The start value of date range
