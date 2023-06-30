@@ -16,8 +16,9 @@ import {
   PresetOptions,
   RangePicker,
   DatePicker,
-} from '../../utils/index';
+} from '../../utils';
 import { PickerType, PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
+import { PlainType } from '../../utils/utils';
 
 @Component({
   tag: 'temporal-popup',
@@ -32,6 +33,11 @@ export class TemporalPopup {
    * The type of picker
    */
   @Prop() type: PickerType = 'plain';
+  
+   /**
+   * The type of picker
+   */
+   @Prop() plain: PlainType = 'date';
 
   /**
    * The start value of date range
@@ -153,6 +159,7 @@ export class TemporalPopup {
         }
 
         this.rangePicker = new RangePicker({
+          plain: this.plain,
           popup: this.el,
           autoApply: this.autoApply,
           extraOptions,
@@ -174,6 +181,7 @@ export class TemporalPopup {
 
       default: {
         this.datePicker = new DatePicker({
+          plain: this.plain,
           popup: this.el,
           autoApply: this.autoApply,
           extraOptions,

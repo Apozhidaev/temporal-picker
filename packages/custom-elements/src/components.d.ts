@@ -99,6 +99,10 @@ export namespace Components {
         "min": string;
         "monthSelect": boolean;
         "parent": HTMLElement;
+        /**
+          * The type of picker
+         */
+        "plain": PlainType;
         "presetPosition": 'left' | 'right' | 'top' | 'bottom';
         "resetButton": boolean;
         /**
@@ -293,6 +297,10 @@ declare namespace LocalJSX {
          */
         "onValueChange"?: (event: TemporalPopupCustomEvent<PlainInstant1>) => void;
         "parent"?: HTMLElement;
+        /**
+          * The type of picker
+         */
+        "plain"?: PlainType;
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
         "resetButton"?: boolean;
         /**

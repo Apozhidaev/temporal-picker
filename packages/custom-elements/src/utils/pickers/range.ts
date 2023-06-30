@@ -28,6 +28,14 @@ export type RangePickerOptions = PickerOptions & {
     many?: string;
     other?: string;
   };
+  monthLocale?: {
+    zero?: string;
+    one?: string;
+    two?: string;
+    few?: string;
+    many?: string;
+    other?: string;
+  };
 };
 
 export class RangePicker extends Picker<RangePickerOptions> {
@@ -39,6 +47,9 @@ export class RangePicker extends Picker<RangePickerOptions> {
     const { extraOptions, keyboardOptions, lockOptions, presetOptions, ...rest } = options;
     const plugins: any[] = [KeyboardPlugin];
     if (extraOptions) {
+      if (options.plain === 'month') {
+        delete extraOptions.dropdown.months;
+      }
       plugins.unshift(ExtraOptionsPlugin);
     }
     if (lockOptions) {
@@ -63,6 +74,14 @@ export class RangePicker extends Picker<RangePickerOptions> {
           few: '',
           many: '',
           other: 'days',
+        },
+        monthLocale: {
+          zero: '',
+          one: 'month',
+          two: '',
+          few: '',
+          many: '',
+          other: 'months',
         },
       },
       {
@@ -314,11 +333,19 @@ export class RangePicker extends Picker<RangePickerOptions> {
         });
 
         if (this.options.tooltip) {
-          const diff = this.options.tooltipNumber!(date2.diff(date1, 'day').days + 1);
+          const diff = this.options.tooltipNumber!(
+            date2.diff(date1, this.options.plain === 'month' ? 'month' : 'day')[
+              this.options.plain === 'month' ? 'months' : 'days'
+            ] + 1,
+          );
 
           if (diff > 0) {
             const pluralKey = new Intl.PluralRules(this.options.lang).select(diff);
-            const text = `${diff} ${this.options.locale?.[pluralKey]}`;
+            const text = `${diff} ${
+              (this.options.plain === 'month' ? this.options.monthLocale : this.options.locale)?.[
+                pluralKey
+              ]
+            }`;
 
             this.showTooltip(element, text);
           } else {
@@ -360,7 +387,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
   public setStartDate(date: string) {
     if (this.start !== date) {
       if (date) {
-        this.start = DateTime.fromISO(date).toISODate();
+        this.start = this.fromDateTime(DateTime.fromISO(date));
       } else {
         delete this.start;
       }
@@ -378,7 +405,7 @@ export class RangePicker extends Picker<RangePickerOptions> {
   public setEndDate(date: string) {
     if (this.end !== date) {
       if (date) {
-        this.end = DateTime.fromISO(date).toISODate();
+        this.end = this.fromDateTime(DateTime.fromISO(date));
       } else {
         delete this.end;
       }
@@ -397,12 +424,12 @@ export class RangePicker extends Picker<RangePickerOptions> {
   public setDateRange(start: string, end: string) {
     if (this.start !== start || this.end !== end) {
       if (start) {
-        this.start = DateTime.fromISO(start).toISODate();
+        this.start = this.fromDateTime(DateTime.fromISO(start));
       } else {
         delete this.start;
       }
       if (end) {
-        this.end = DateTime.fromISO(end).toISODate();
+        this.end = this.fromDateTime(DateTime.fromISO(end));
       } else {
         delete this.end;
       }
@@ -428,9 +455,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
   public gotoStart(): void {
     const start = this.getStartDate();
     if (start) {
-      this.calendars[0] = DateTime.fromISO(start).startOf('minute');
+      this.calendars[0] = DateTime.fromISO(start).startOf(
+        this.options.plain === 'month' ? 'year' : 'month',
+      );
     } else {
-      this.calendars[0] = DateTime.now().startOf('minute');
+      this.calendars[0] = DateTime.now().startOf(this.options.plain === 'month' ? 'year' : 'month');
     }
     this.renderAll();
   }
@@ -443,9 +472,11 @@ export class RangePicker extends Picker<RangePickerOptions> {
   public gotoEnd(): void {
     const end = this.getEndDate();
     if (end) {
-      this.calendars[0] = DateTime.fromISO(end).minus({ month: 1 }).startOf('minute');
+      this.calendars[0] = DateTime.fromISO(end)
+        .minus(this.options.plain === 'month' ? { year: 1 } : { month: 1 })
+        .startOf(this.options.plain === 'month' ? 'year' : 'month');
     } else {
-      this.calendars[0] = DateTime.now().startOf('minute');
+      this.calendars[0] = DateTime.now().startOf(this.options.plain === 'month' ? 'year' : 'month');
     }
 
     this.renderAll();

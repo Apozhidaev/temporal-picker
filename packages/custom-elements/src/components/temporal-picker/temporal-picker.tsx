@@ -226,6 +226,7 @@ export class TemporalPicker {
           <temporal-popup
             id="temporal-popup"
             type={this.type}
+            plain={this.plain}
             parent={this.el}
             min={this.min}
             max={this.max}

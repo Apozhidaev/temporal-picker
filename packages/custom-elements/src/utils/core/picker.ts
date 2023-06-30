@@ -1,11 +1,12 @@
 import merge from 'lodash.merge';
 import { DateTime } from 'luxon';
 import Calendar from './calendar';
+import MonthCalendar from './monthCalendar';
 import { PluginManager } from './pluginManager';
 import { IEventDetail, PickerConfig, IPickerElements } from '../types';
 
 export abstract class Picker<TOptions extends PickerConfig> {
-  public Calendar = new Calendar<TOptions>(this);
+  public Calendar: Calendar<TOptions> | MonthCalendar<TOptions>;
   public PluginManager: PluginManager;
 
   public calendars: DateTime[] = [];
@@ -21,6 +22,8 @@ export abstract class Picker<TOptions extends PickerConfig> {
 
   constructor(options: PickerConfig) {
     this.PluginManager = new PluginManager(this);
+    this.Calendar =
+      options.plain === 'month' ? new MonthCalendar<TOptions>(this) : new Calendar<TOptions>(this);
     this.options = merge(
       {
         firstDay: 1,
@@ -136,9 +139,13 @@ export abstract class Picker<TOptions extends PickerConfig> {
   public onClickHeaderButton(element: HTMLElement) {
     if (this.isCalendarHeaderButton(element)) {
       if (element.classList.contains('next-button')) {
-        this.calendars[0] = this.calendars[0].plus({ month: 1 });
+        this.calendars[0] = this.calendars[0].plus(
+          this.options.plain === 'month' ? { year: 1 } : { month: 1 },
+        );
       } else {
-        this.calendars[0] = this.calendars[0].minus({ month: 1 });
+        this.calendars[0] = this.calendars[0].minus(
+          this.options.plain === 'month' ? { year: 1 } : { month: 1 },
+        );
       }
 
       this.renderAll(this.calendars[0]);
@@ -193,7 +200,6 @@ export abstract class Picker<TOptions extends PickerConfig> {
    * Hide the picker
    */
   public hide(): void {
-
     this.datePicked.length = 0;
 
     this.renderAll();
@@ -259,7 +265,7 @@ export abstract class Picker<TOptions extends PickerConfig> {
    * @param date
    */
   public gotoDate(date: string): void {
-    this.calendars[0] = DateTime.fromISO(date).startOf('minute');
+    this.calendars[0] = DateTime.fromISO(date).startOf(this.options.plain === 'month' ? 'year' : 'month');
     this.renderAll();
   }
 
@@ -278,4 +284,11 @@ export abstract class Picker<TOptions extends PickerConfig> {
   public abstract handleOptions(): void;
 
   public abstract getOptionDate(): DateTime | undefined;
+
+  protected fromDateTime(value?: DateTime): string | undefined {
+    if (value) {
+      return this.options.plain === 'month' ? value.toFormat('yyyy-LL') : value.toISODate();
+    }
+    return undefined;
+  }
 }

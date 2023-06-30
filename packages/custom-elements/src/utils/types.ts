@@ -4,6 +4,7 @@ import { ExtraOptions } from './plugins/extra-options';
 import { KeyboardOptions } from './plugins/keyboard';
 import { LockOptions } from './plugins/lock';
 import { PresetOptions } from './plugins/preset';
+import { PlainType } from './utils';
 
 export interface IEventDetail {
   view?: string;
@@ -18,6 +19,7 @@ export interface IPickerElements {
 }
 
 export interface PickerOptions {
+  plain?: PlainType;
   popup: HTMLElement;
   firstDay?: number;
   lang?: string;

@@ -19,6 +19,9 @@ export class DatePicker extends Picker<DatePickerOptions> {
     const { extraOptions, keyboardOptions, lockOptions, ...rest } = options;
     const plugins: any[] = [KeyboardPlugin];
     if (extraOptions) {
+      if (options.plain === 'month') {
+        delete extraOptions.dropdown.months;
+      }
       plugins.unshift(ExtraOptionsPlugin);
     }
     if (lockOptions) {
@@ -97,7 +100,7 @@ export class DatePicker extends Picker<DatePickerOptions> {
   public setDate(date: string): void {
     if (this.value !== date) {
       if (date) {
-        this.value = DateTime.fromISO(date).toISODate();
+        this.value = this.fromDateTime(DateTime.fromISO(date));
       } else {
         delete this.value;
       }
