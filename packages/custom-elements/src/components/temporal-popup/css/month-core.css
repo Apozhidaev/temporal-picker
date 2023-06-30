@@ -1,4 +1,3 @@
-.calendar > .daynames-row.monthsorder-row,
 .calendar > .days-grid.months-grid {
   grid-template-columns: repeat(6, 1fr);
 }

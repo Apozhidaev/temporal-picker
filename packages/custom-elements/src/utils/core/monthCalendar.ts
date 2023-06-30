@@ -93,15 +93,6 @@ export default class MonthCalendar<TOptions extends PickerConfig> {
         target: calendarHeader,
       });
 
-      const dayNames = this.getCalendarDayNamesView();
-      month.appendChild(dayNames);
-      this.picker.trigger('view', {
-        date,
-        view: 'CalendarDayNames',
-        index: i,
-        target: dayNames,
-      });
-
       const daysView = this.getCalendarDaysView(date);
       month.appendChild(daysView);
       this.picker.trigger('view', {
@@ -195,33 +186,6 @@ export default class MonthCalendar<TOptions extends PickerConfig> {
     nextMonth.className = 'next-button unit';
     nextMonth.innerHTML = this.picker.options.locale!.nextMonth!;
     element.appendChild(nextMonth);
-
-    return element;
-  }
-
-  /**
-   * Function for `CalendarDayNames` view
-   *
-   * @param date
-   * @returns HTMLElement
-   */
-  public getCalendarDayNamesView(): HTMLElement {
-    const element = document.createElement('div');
-    element.className = 'daynames-row monthsorder-row';
-
-    for (let w = 1; w <= 6; w++) {
-      const dayName = document.createElement('div');
-      dayName.className = 'dayname';
-      dayName.innerHTML = `${w}`;
-
-      element.appendChild(dayName);
-
-      this.picker.trigger('view', {
-        dayIdx: w,
-        view: 'CalendarDayName',
-        target: dayName,
-      });
-    }
 
     return element;
   }
