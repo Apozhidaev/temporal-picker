@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, DateTimeUnit } from 'luxon';
 import { BasePlugin, EventDetail, IPlugin } from './base';
 import type { RangePicker } from '../pickers/range';
 
@@ -7,6 +7,20 @@ export type PresetItem = {
   start?: string;
   end?: string;
 };
+
+export function sameDate(
+  date1: string | undefined,
+  date2: string | undefined,
+  unit: DateTimeUnit,
+) {
+  if (!date1 && !date2) {
+    return true;
+  }
+  if (date1 === date2) {
+    return true;
+  }
+  return DateTime.fromISO(date1).hasSame(DateTime.fromISO(date2), unit);
+}
 
 export interface PresetOptions {
   presets: PresetItem[];
@@ -66,10 +80,10 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
       container.className = 'preset-plugin-container';
 
       const startDate = this.picker.datePicked[0]
-        ? this.picker.datePicked[0].toISODate()
+        ? this.picker.datePicked[0].toISO()
         : this.picker.getStartDate();
       const endDate = this.picker.datePicked[1]
-        ? this.picker.datePicked[1].toISODate()
+        ? this.picker.datePicked[1].toISO()
         : this.picker.getEndDate();
 
       this.options.presets.forEach(({ label, start, end }) => {
@@ -78,7 +92,9 @@ export class PresetPlugin extends BasePlugin<RangePicker> implements IPlugin {
         }
         const item = document.createElement('button');
         item.className = 'preset-button unit';
-        if (startDate === start && endDate === end) {
+
+        const unit = this.picker.options.plain === 'month' ? 'month' : 'day';
+        if (sameDate(startDate, start, unit) && sameDate(endDate, end, unit)) {
           item.classList.add('selected');
         } else {
           item.classList.remove('selected');
