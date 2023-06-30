@@ -1,11 +1,14 @@
 {
-  "name": "temporal-picker",
-  "version": "2.0.5",
+  "name": "@temporal-picker/custom-elements",
+  "version": "0.0.1",
   "description": "Temporal Picker",
   "main": "dist/components/index.js",
   "types": "dist/components/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
   "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist/"
   ],

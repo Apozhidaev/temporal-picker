@@ -11,6 +11,7 @@ export const config: Config = {
       type: 'dist-custom-elements',
       // customElementsExportBehavior: 'default' | 'auto-define-custom-elements' | 'bundle' | 'single-export-module',
       customElementsExportBehavior: 'bundle',
+      generateTypeDeclarations: true,
     },
     {
       type: 'docs-readme',

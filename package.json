@@ -6,7 +6,9 @@
   "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "features/*",
+      "demo/*"
     ]
   }
 }

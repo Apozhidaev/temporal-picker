@@ -791,6 +791,14 @@
   resolved "https://registry.yarnpkg.com/@stencil/core/-/core-3.4.1.tgz#b4a3d7579fa1ebb312aaed4c3d8f4bd6dece13f1"
   integrity sha512-7rjOmM0W9K5op2gtOQRLERGH1155rv2fm6ppxOzYqqG8ISct4m9skp5XgUBYPu+GSPsJFdRuCIQs0IuVsG/7+g==
 
+"@temporal-picker/react@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/react/-/react-0.0.2.tgz#dad669d4794ae8822a7d51bf105cbc2b75b0c2e1"
+  integrity sha512-ZnNRl1s7Qb3+C0oysI8UjSb1fFQpdayY+LRfRQuGaxHR4pTYVS0pdJJzfoXednY4RYqcHQCxuy38XfSDls10Bw==
+  dependencies:
+    react-use-event-hook "^0.9.3"
+    temporal-picker "^2.0.4"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/react-router",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "build:ts": "tsc",
-    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:react* --external:temporal-picker --external:@temporal-picker/*",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:react* --external:@temporal-picker/*",
     "build": "yarn run build:esm && yarn run build:ts"
   },
   "peerDependencies": {
@@ -35,7 +35,7 @@
   "dependencies": {
     "@temporal-picker/react": "^0.0.2",
     "react-use-event-hook": "^0.9.3",
-    "temporal-picker": "^2.0.4"
+    "@temporal-picker/custom-elements": "^0.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

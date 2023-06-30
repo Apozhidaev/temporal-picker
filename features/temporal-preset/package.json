@@ -1,0 +1,35 @@
+{
+  "name": "temporal-preset",
+  "version": "0.0.1",
+  "description": "Temporal Preset",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:Apozhidaev/temporal-picker.git",
+  "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build:ts": "tsc",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:@temporal-picker/*",
+    "build": "yarn run build:esm && yarn run build:ts"
+  },
+  "dependencies": {
+    "@temporal-picker/custom-elements": "^0.0.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.16.9",
+    "typescript": "^4.9.4"
+  },
+  "license": "MIT",
+  "keywords": [
+    "temporal",
+    "picker",
+    "datepicker",
+    "rangepicker",
+    "plain",
+    "date",
+    "daterange",
+    "range"
+  ]
+}

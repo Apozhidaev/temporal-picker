@@ -1,28 +1,25 @@
-# @temporal-picker/custom-elements
+# temporal-picker
 
 
 ### How to Use
 
 Step 1.
 ```bash
-npm i @temporal-picker/custom-elements
+npm i temporal-picker
 ```
 
 Step 2.
 ```javascript
-import { defineCustomElements } from '@temporal-picker/custom-elements';
+import { defineCustomElement } from 'temporal-picker';
 
-defineCustomElements();
+defineCustomElement();
 ```
 
 Step 3.
 ```html
 <style>
-  temporal-picker::part(start-input) {
-    color: red;
-  }
-  temporal-picker::part(end-input) {
-    color: blue;
+  :root {
+    --tp-input-color-fg-invalid: red;
   }
 </style>
 
