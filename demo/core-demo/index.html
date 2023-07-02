@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Temporal Picker</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div style="display: flex; gap: 24px">
+      <div id="date"></div>
+      <div id="range"></div>
+    </div>
+    <script type="module">
+      import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
+      new DatePopup({
+        element: document.getElementById("date"),
+        palin: "date",
+      });
+      new RangePopup({
+        element: document.getElementById("range"),
+        palin: "date",
+      });
+    </script>
+  </body>
+</html>

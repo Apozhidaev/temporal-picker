@@ -9,6 +9,9 @@ import { KeyboardPlugin, KeyboardOptions } from "./plugins/keyboard";
 import { DatePicker, DatePickerOptions } from "./pickers/date";
 import { RangePicker, RangePickerOptions } from "./pickers/range";
 
+export { DatePopup } from "./popups/DatePopup";
+export { RangePopup } from "./popups/RangePopup";
+
 export type {
   PlainType,
   DatePickerOptions,

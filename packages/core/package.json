@@ -25,7 +25,8 @@
   "scripts": {
     "build:ts": "tsc",
     "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:luxon --external:lodash*",
-    "build": "yarn run build:esm && yarn run build:ts"
+    "build": "yarn run build:esm && yarn run build:ts",
+    "start:demo": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --watch"
   },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.7",

@@ -5,6 +5,7 @@ import { KeyboardOptions } from './plugins/keyboard';
 import { LockOptions } from './plugins/lock';
 import { PresetOptions } from './plugins/preset';
 
+export type PickerType = 'plain' | 'range';
 export type PlainType = 'date' | 'time' | 'datetime' | 'month' | 'day';
 
 export interface IEventDetail {
