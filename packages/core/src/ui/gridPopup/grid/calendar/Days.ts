@@ -28,6 +28,9 @@ export class Days extends Control<Props, GridPopupContext> {
     const { firstDay, plainUnits } = this.getContext(el);
 
     el.className = "days-grid";
+    el.style.display = "grid";
+    el.style.gridTemplateColumns = "repeat(7, 1fr)";
+
     let date = DateTime.fromISO(entry);
     const offsetDays = calcOffsetDays(date, firstDay);
     const totalDays = new Date(

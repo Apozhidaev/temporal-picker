@@ -24,7 +24,9 @@ export class Grid extends Control<Props, GridPopupContext> {
   protected onRender(el: HTMLElement, props: Props) {
     const { grid, calendars, plainUnits } = this.getContext(el);
 
-    el.className = `calendars grid-${grid}`;
+    el.className = `calendars`;
+    el.style.display = "grid";
+    el.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
 
     let date = DateTime.fromISO(props.entry);
     for (let i = 0; i < calendars; i++) {

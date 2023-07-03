@@ -3,6 +3,7 @@ import { PlainType } from "./types";
 
 export type PlainUnits = {
   plain?: PlainType;
+  same: DateTimeUnit;
   entry: DateTimeUnit;
   step: DurationLike;
 };
@@ -12,6 +13,7 @@ export function getPlainUnits(plain?: PlainType): PlainUnits {
     case "month":
       return {
         plain,
+        same: "month",
         entry: "year",
         step: { year: 1 },
       };
@@ -19,6 +21,7 @@ export function getPlainUnits(plain?: PlainType): PlainUnits {
     default:
       return {
         plain,
+        same: "day",
         entry: "month",
         step: { month: 1 },
       };

@@ -18,6 +18,8 @@ export class DayNames extends Control<Props, GridPopupContext> {
     const { firstDay } = this.getContext(el);
 
     el.className = "daynames-row";
+    el.style.display = "grid";
+    el.style.gridTemplateColumns = "repeat(7, 1fr)";
 
     for (let i = 0; i < 7; i++) {
       this.dayName.render(el, { weekday: i + firstDay }, String(i));

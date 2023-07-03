@@ -16,17 +16,28 @@ export class Header extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, { entry }: Props) {
-    const { locale, dictionary } = this.getContext(el);
+    const { locale, dictionary, plainUnits } = this.getContext(el);
 
     el.className = "header";
+    el.style.display = "flex";
+
     const date = DateTime.fromISO(entry);
 
-    const monthName = document.createElement("div");
-    monthName.className = "month-name";
-    monthName.innerHTML = `<span>${date.setLocale(locale).toLocaleString({
-      month: "long",
-    })}</span> ${date.toFormat("yyyy")}`;
-    el.appendChild(monthName);
+    if (plainUnits.plain === "month") {
+      const monthName = document.createElement("div");
+      monthName.className = "month-name";
+      monthName.innerHTML = `<span></span><span>${date.toFormat(
+        "yyyy"
+      )}</span>`;
+      el.appendChild(monthName);
+    } else {
+      const monthName = document.createElement("div");
+      monthName.className = "month-name";
+      monthName.innerHTML = `<span>${date.setLocale(locale).toLocaleString({
+        month: "long",
+      })}</span> ${date.toFormat("yyyy")}`;
+      el.appendChild(monthName);
+    }
 
     const prevMonth = document.createElement("button");
     prevMonth.className = "previous-button unit";
@@ -41,5 +52,9 @@ export class Header extends Control<Props, GridPopupContext> {
       dictionary?.next ||
       '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>';
     el.appendChild(nextMonth);
+
+    el.querySelectorAll("svg").forEach((x) => {
+      x.style.pointerEvents = "none";
+    });
   }
 }
