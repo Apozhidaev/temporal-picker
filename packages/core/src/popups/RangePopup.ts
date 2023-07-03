@@ -28,14 +28,14 @@ export class RangePopup extends DatePopup {
     this.options = options;
     this.plainUnits = getPlainUnits(this.options.palin);
     this.entry = toInstant(DateTime.now().startOf(this.plainUnits.entry));
-   
+
     this.container = this.options.element;
 
     this.container.addEventListener("mouseenter", this.handleMouseenter, true);
   }
 
   protected getUI() {
-    return new UI({
+    const ui = new UI({
       pickCount: 2,
       plainUnits: this.plainUnits,
       firstDay: 1,
@@ -43,6 +43,11 @@ export class RangePopup extends DatePopup {
       grid: 2,
       calendars: 2,
     });
+    ui.render(this.container, {
+      entry: this.entry,
+      picked: this.picked,
+    });
+    return ui;
   }
 
   public destroy() {
@@ -67,7 +72,7 @@ export class RangePopup extends DatePopup {
         const instant = element.dataset.instant;
 
         if (instant) {
-          this.render(instant);
+          this.update(instant);
         }
       }
     }

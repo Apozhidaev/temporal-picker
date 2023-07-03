@@ -50,14 +50,15 @@ export class DatePopup {
     //     e.detail.el.innerHTML = "X";
     //   }
     // });
-    this.container.addEventListener("render", (e) => console.log(e));
-    this.container.addEventListener("layout", (e) => console.log(e));
+    // this.container.addEventListener("render", (e) => console.log(e));
+    // this.container.addEventListener("layout", (e) => console.log(e));
+    // this.container.addEventListener("update", (e) => console.log(e));
 
     this.render();
   }
 
   protected getUI() {
-    return new UI({
+    const ui = new UI({
       pickCount: 1,
       plainUnits: this.plainUnits,
       firstDay: 1,
@@ -65,6 +66,11 @@ export class DatePopup {
       grid: 1,
       calendars: 1,
     });
+    ui.render(this.container, {
+      entry: this.entry,
+      picked: this.picked,
+    });
+    return ui;
   }
 
   public destroy() {
@@ -119,7 +125,7 @@ export class DatePopup {
         } else {
           this.dispatchPreselect();
         }
-        this.render();
+        this.update();
       }
     }
   }
@@ -203,15 +209,24 @@ export class DatePopup {
     return element.classList.contains("cancel-button");
   }
 
-  protected render(hover?: string) {
+  protected render() {
     if (!this.ui) {
       this.ui = this.getUI();
     }
-    this.ui.update(this.container, {
-      hover,
+    this.ui.render(this.container, {
       entry: this.entry,
       picked: this.picked,
     });
+  }
+
+  protected update(hover?: string) {
+    this.ui.update(
+      {
+        hover,
+        entry: this.entry,
+        picked: this.picked,
+      },
+    );
   }
 
   private dispatchSelect() {

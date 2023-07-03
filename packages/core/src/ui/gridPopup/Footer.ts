@@ -14,7 +14,7 @@ export class Footer extends Control<Props, GridPopupContext> {
     return "Footer";
   }
 
-  protected render(el: HTMLElement, { picked }: Props) {
+  protected onRender(el: HTMLElement, { picked }: Props) {
     const { dictionary, pickCount } = this.getContext(el);
     const buttons = document.createElement("div");
     buttons.className = "footer-buttons";
@@ -31,5 +31,10 @@ export class Footer extends Control<Props, GridPopupContext> {
     buttons.appendChild(applyButton);
 
     el.appendChild(buttons);
+  }
+
+  protected onUpdate(el: HTMLElement, props: Props): void {
+    el.innerHTML = '';
+    this.onRender(el, props);
   }
 }

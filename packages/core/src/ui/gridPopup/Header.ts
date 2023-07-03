@@ -12,7 +12,7 @@ export class Header extends Control<Props, GridPopupContext> {
     return "Header";
   }
 
-  protected render(el: HTMLElement) {
+  protected onRender(el: HTMLElement) {
     const { header } = this.getContext(el);
     if (header instanceof HTMLElement) {
       el.appendChild(header);

@@ -2,6 +2,7 @@ import { Control } from "../../../base/Control";
 import { DayNames } from "./DayNames";
 import { Days } from "./Days";
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 type Props = {
   index: number;
@@ -14,6 +15,7 @@ export class Calendar extends Control<Props> {
   private header = new Header();
   private dayNames = new DayNames();
   private days = new Days();
+  private footer = new Footer();
 
   constructor() {
     super();
@@ -23,15 +25,22 @@ export class Calendar extends Control<Props> {
     return "Calendar";
   }
 
-  protected render(
+  protected onRender(
     el: HTMLElement,
     { entry, picked, hover }: Props,
-    namespace: string
   ) {
     el.className = "calendar";
 
-    this.header.memo(el, { entry }, namespace, entry);
-    this.dayNames.memo(el, {}, namespace, entry);
-    this.days.appendTo(el, { entry, picked, hover }, namespace, entry);
+    this.header.render(el, { entry }, entry);
+    this.dayNames.render(el, {}, entry);
+    this.days.render(el, { entry, picked, hover }, entry);
+    this.footer.render(el, {}, entry);
+  }
+
+  protected onUpdate(
+    el: HTMLElement,
+    { entry, picked, hover }: Props,
+  ): void {
+    this.days.update({ entry, picked, hover }, entry);
   }
 }

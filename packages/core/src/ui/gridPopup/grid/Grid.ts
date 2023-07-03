@@ -21,14 +21,14 @@ export class Grid extends Control<Props, GridPopupContext> {
     return "Grid";
   }
 
-  protected render(el: HTMLElement, props: Props, namespace: string) {
+  protected onRender(el: HTMLElement, props: Props) {
     const { grid, calendars, plainUnits } = this.getContext(el);
 
     el.className = `calendars grid-${grid}`;
 
     let date = DateTime.fromISO(props.entry);
     for (let i = 0; i < calendars; i++) {
-      this.calendar.memo(
+      this.calendar.render(
         el,
         {
           index: i,
@@ -36,7 +36,24 @@ export class Grid extends Control<Props, GridPopupContext> {
           picked: props.picked,
           hover: props.hover,
         },
-        namespace,
+        `${i}_${props.entry}`
+      );
+
+      date = date.plus(plainUnits.step);
+    }
+  }
+
+  protected onUpdate(el: HTMLElement, props: Props): void {
+    const { calendars, plainUnits } = this.getContext(el);
+    let date = DateTime.fromISO(props.entry);
+    for (let i = 0; i < calendars; i++) {
+      this.calendar.update(
+        {
+          index: i,
+          entry: toInstant(date, plainUnits.plain),
+          picked: props.picked,
+          hover: props.hover,
+        },
         `${i}_${props.entry}`
       );
 

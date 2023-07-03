@@ -1,24 +1,24 @@
-export abstract class Component<T> {
+import { shallowEqual } from "./utils";
+
+export abstract class Component<P> {
   abstract get type(): string;
-  protected props: Record<string, T> = {};
+  protected props: Record<string, P> = {};
+  protected el: Record<string, HTMLElement> = {};
 
   protected layout(
     el: HTMLElement,
-    props: T,
-    namespace: string,
+    props: P,
     key: string,
     cancelable = false
   ) {
     this.props[key] = props;
-
-    const component = namespace ? `${namespace}.${this.type}` : this.type;
 
     const renderEvent = new CustomEvent("render", {
       cancelable: true,
       bubbles: true,
       composed: true,
       detail: {
-        component,
+        type: this.type,
         key,
         props,
         el,
@@ -27,7 +27,7 @@ export abstract class Component<T> {
     el.dispatchEvent(renderEvent);
 
     if (!renderEvent.defaultPrevented) {
-      this.render(el, props, component);
+      this.onRender(el, props);
     }
 
     const layoutEvent = new CustomEvent("layout", {
@@ -35,7 +35,7 @@ export abstract class Component<T> {
       bubbles: true,
       composed: true,
       detail: {
-        component,
+        type: this.type,
         key,
         props,
         el,
@@ -43,8 +43,41 @@ export abstract class Component<T> {
     });
     el.dispatchEvent(layoutEvent);
 
-    return layoutEvent.defaultPrevented;
+    if (layoutEvent.defaultPrevented) {
+      el.remove();
+    } else {
+      this.el[key] = el;
+    }
   }
 
-  protected abstract render(el: HTMLElement, props: T, namespace: string): void;
+  update(props: P, key = "") {
+    if (shallowEqual(this.props[key], props)) {
+      return;
+    }
+    this.props[key] = props;
+
+    const el = this.el[key];
+    if (el) {
+      const updateEvent = new CustomEvent("update", {
+        cancelable: true,
+        bubbles: true,
+        composed: true,
+        detail: {
+          type: this.type,
+          key,
+          props,
+          el,
+        },
+      });
+      el.dispatchEvent(updateEvent);
+
+      if (!updateEvent.defaultPrevented) {
+        this.onUpdate(el, props);
+      }
+    }
+  }
+
+  protected onUpdate(el: HTMLElement, props: P): void {}
+
+  protected abstract onRender(el: HTMLElement, props: P): void;
 }

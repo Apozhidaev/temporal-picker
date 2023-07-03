@@ -15,14 +15,14 @@ export class DayName extends Control<Props, GridPopupContext> {
     return "DayName";
   }
 
-  protected render(el: HTMLElement, { weekday }: Props) {
+  protected onRender(el: HTMLElement, { weekday }: Props) {
     const { locale } = this.getContext(el);
 
     el.className = "dayname";
 
     const dt = DateTime.utc(2016, 11, 13 + weekday).setLocale(locale);
 
-    el.innerHTML = dt.toLocaleString({ weekday: "short" });
+    el.innerText = dt.toLocaleString({ weekday: "short" });
     el.title = dt.toLocaleString({ weekday: "long" });
   }
 }

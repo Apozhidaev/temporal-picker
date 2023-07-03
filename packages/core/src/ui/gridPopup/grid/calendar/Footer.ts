@@ -8,10 +8,10 @@ export class Footer extends Control<Props> {
   }
 
   get type(): string {
-    return "Footer";
+    return "CalendarFooter";
   }
 
-  protected render(el: HTMLElement, props: Props) {
+  protected onRender(el: HTMLElement, props: Props) {
     el.className = "footer";
   }
 }

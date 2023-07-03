@@ -12,10 +12,10 @@ export class Header extends Control<Props, GridPopupContext> {
   }
 
   get type(): string {
-    return "Header";
+    return "CalendarHeader";
   }
 
-  protected render(el: HTMLElement, { entry }: Props) {
+  protected onRender(el: HTMLElement, { entry }: Props) {
     const { locale, dictionary } = this.getContext(el);
 
     el.className = "header";

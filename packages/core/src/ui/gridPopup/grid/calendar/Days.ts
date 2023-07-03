@@ -24,11 +24,7 @@ export class Days extends Control<Props, GridPopupContext> {
     return "Days";
   }
 
-  protected render(
-    el: HTMLElement,
-    { entry, picked, hover }: Props,
-    namespace: string
-  ) {
+  protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
     const { firstDay, plainUnits } = this.getContext(el);
 
     el.className = "days-grid";
@@ -48,14 +44,36 @@ export class Days extends Control<Props, GridPopupContext> {
 
     for (let idx = 1; idx <= totalDays; idx++) {
       date = date.set({ day: idx });
-      this.day.appendTo(
+      this.day.render(
         el,
         {
           day: toInstant(date, plainUnits.plain),
           picked,
           hover,
         },
-        namespace,
+        `${idx}_${entry}`
+      );
+    }
+  }
+
+  protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
+    const { plainUnits } = this.getContext(el);
+
+    let date = DateTime.fromISO(entry);
+    const totalDays = new Date(
+      date.get("year"),
+      date.get("month"),
+      0
+    ).getDate();
+
+    for (let idx = 1; idx <= totalDays; idx++) {
+      date = date.set({ day: idx });
+      this.day.update(
+        {
+          day: toInstant(date, plainUnits.plain),
+          picked,
+          hover,
+        },
         `${idx}_${entry}`
       );
     }

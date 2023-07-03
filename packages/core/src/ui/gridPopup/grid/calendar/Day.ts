@@ -16,7 +16,7 @@ export class Day extends Control<Props> {
     return "Day";
   }
 
-  protected render(el: HTMLElement, props: Props) {
+  protected onRender(el: HTMLElement, props: Props) {
     el.className = "day unit";
 
     const today = DateTime.now();
@@ -67,5 +67,9 @@ export class Day extends Control<Props> {
       default:
         break;
     }
+  }
+
+  protected onUpdate(el: HTMLElement, props: Props): void {
+    this.onRender(el, props);
   }
 }

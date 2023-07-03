@@ -14,13 +14,13 @@ export class DayNames extends Control<Props, GridPopupContext> {
     return "DayNames";
   }
 
-  protected render(el: HTMLElement, {}: Props, namespace: string) {
+  protected onRender(el: HTMLElement, {}: Props) {
     const { firstDay } = this.getContext(el);
 
     el.className = "daynames-row";
 
     for (let i = 0; i < 7; i++) {
-      this.dayName.appendTo(el, { weekday: i + firstDay }, namespace, `${i}`);
+      this.dayName.render(el, { weekday: i + firstDay }, String(i));
     }
   }
 }

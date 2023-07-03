@@ -1,4 +1,4 @@
-import { Context } from "../base/Context";
+import { Container } from "../base/Container";
 import { Header } from "./Header";
 import { Grid } from "./grid/Grid";
 import { Footer } from "./Footer";
@@ -10,7 +10,7 @@ type Props = {
   hover?: string;
 };
 
-export class GridPopup extends Context<GridPopupContext, Props> {
+export class GridPopup extends Container<GridPopupContext, Props> {
   private header = new Header();
   private grid = new Grid();
   private footer = new Footer();
@@ -19,30 +19,45 @@ export class GridPopup extends Context<GridPopupContext, Props> {
     return "Popup";
   }
 
-  protected render(el: HTMLElement, props: Props, namespace: string) {
+  protected onRender(el: HTMLElement, props: Props) {
     el.className =
       "container extra-options-plugin preset-plugin keyboard-plugin range";
     if (this.context.header) {
-      this.header.memo(el, {}, namespace);
+      this.header.render(el, {});
     }
 
-    this.grid.memo(
+    this.grid.render(
       el,
       {
         entry: props.entry,
         picked: props.picked,
         hover: props.hover,
       },
-      namespace
     );
 
     if (!this.context.autoApply) {
-      this.footer.memo(
+      this.footer.render(
         el,
         {
           picked: props.picked,
         },
-        namespace
+      );
+    }
+  }
+
+  protected onUpdate(el: HTMLElement, props: Props): void {
+    this.grid.update(
+      {
+        entry: props.entry,
+        picked: props.picked,
+        hover: props.hover,
+      },
+    );
+    if (!this.context.autoApply) {
+      this.footer.update(
+        {
+          picked: props.picked,
+        },
       );
     }
   }
