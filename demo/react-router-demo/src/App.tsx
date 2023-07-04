@@ -1,4 +1,4 @@
-import { DatePicker, RangePicker } from "@temporal-picker/react-router";
+import { DatePicker, RangePicker } from "@temporal-picker/react";
 
 function App() {
   return (
@@ -7,25 +7,26 @@ function App() {
         <tr>
           <td>
             <DatePicker
-              param="date"
-              defaultValue="2023-01-01"
-              resetButton
-              aria-selected="false"
+              // param="date"
+              // defaultValue="2023-01-01"
+              // resetButton
+              // aria-selected="false"
             />
           </td>
           <td>
             <RangePicker
-              startParam="start"
-              endParam="end"
-              placement="bottom-end"
-              autoApply
-              resetButton
-              monthSelect
+              // startParam="start"
+              // endParam="end"
+              // placement="bottom-end"
+              // autoApply
+              // resetButton
               yearSelect
-              presets={[
-                { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
-                { label: "Preset 2", start: "2023-01-01" },
-              ]}
+              monthSelect
+              extraSelect
+              // presets={[
+              //   { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
+              //   { label: "Preset 2", start: "2023-01-01" },
+              // ]}
             />
           </td>
         </tr>

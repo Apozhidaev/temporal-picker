@@ -2,12 +2,10 @@ import defaults from "../defaults";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 
-type Options = PopupOptions & {
-  value?: string;
-};
+export type DatePopupOptions = PopupOptions;
 
 export class DatePopup extends CalendarPopup {
-  constructor(options: Options) {
+  constructor(options: DatePopupOptions) {
     super(options);
 
     this.ui = new UI({

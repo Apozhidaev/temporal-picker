@@ -12,9 +12,9 @@
 | `autoApply`      | `auto-apply`      |                               | `boolean`                                            | `undefined`      |
 | `disabled`       | `disabled`        |                               | `boolean`                                            | `undefined`      |
 | `end`            | `end`             | The end value of date range   | `string`                                             | `undefined`      |
+| `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined`      |
 | `max`            | `max`             | The max value                 | `string`                                             | `undefined`      |
 | `min`            | `min`             | The min value                 | `string`                                             | `undefined`      |
-| `monthSelect`    | `month-select`    |                               | `boolean`                                            | `undefined`      |
 | `native`         | `native`          | The native value              | `boolean`                                            | `undefined`      |
 | `placement`      | `placement`       |                               | `"bottom-end" \| "bottom-start"`                     | `'bottom-start'` |
 | `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`         |
@@ -24,15 +24,14 @@
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined`      |
 | `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`        |
 | `value`          | `value`           | The value of date             | `string`                                             | `undefined`      |
-| `yearSelect`     | `year-select`     |                               | `boolean`                                            | `undefined`      |
 
 
 ## Events
 
-| Event         | Description            | Type                                           |
-| ------------- | ---------------------- | ---------------------------------------------- |
-| `rangeChange` | The range change event | `CustomEvent<{ start: string; end: string; }>` |
-| `valueChange` | The value change event | `CustomEvent<{ value: string; }>`              |
+| Event            | Description            | Type                                           |
+| ---------------- | ---------------------- | ---------------------------------------------- |
+| `t-range-change` | The range change event | `CustomEvent<{ start: string; end: string; }>` |
+| `t-value-change` | The value change event | `CustomEvent<{ value: string; }>`              |
 
 
 ## Shadow Parts

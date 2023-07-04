@@ -12,7 +12,7 @@ export class DayName extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "DayName";
+    return "day-name";
   }
 
   protected onRender(el: HTMLElement, { weekday }: Props) {

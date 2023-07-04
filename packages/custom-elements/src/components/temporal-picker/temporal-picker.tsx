@@ -68,19 +68,18 @@ export class TemporalPicker {
   @Prop() resetButton: boolean;
   @Prop() readonly: boolean;
   @Prop() disabled: boolean;
-  @Prop() monthSelect: boolean;
-  @Prop() yearSelect: boolean;
+  @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
 
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false }) valueChange: EventEmitter<PlainInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<PlainInstant>;
 
   /**
    * The range change event
    */
-  @Event({ bubbles: false, composed: false }) rangeChange: EventEmitter<RangeInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-range-change' }) rangeChange: EventEmitter<RangeInstant>;
 
   valueChangeHandler() {
     this.valueChange.emit({ value: this.value });
@@ -155,16 +154,16 @@ export class TemporalPicker {
               max={this.end}
               value={this.start}
               native={this.native}
-              onValueChange={e => {
+              onT-value-change={e => {
                 this.start = e.detail.value;
                 this.popup.start = e.detail.value;
                 this.rangeChangeHandler();
               }}
-              onOpenPopup={() => {
+              onT-open-popup={() => {
                 this.isOpen = true;
                 this.popup.gotoStart();
               }}
-              onClosePopup={() => {
+              onT-close-popup={() => {
                 this.isOpen = false;
               }}
             />
@@ -183,16 +182,16 @@ export class TemporalPicker {
               max={this.max}
               value={this.end}
               native={this.native}
-              onValueChange={e => {
+              onT-value-change={e => {
                 this.end = e.detail.value;
                 this.popup.end = e.detail.value;
                 this.rangeChangeHandler();
               }}
-              onOpenPopup={() => {
+              onT-open-popup={() => {
                 this.isOpen = true;
                 this.popup.gotoEnd();
               }}
-              onClosePopup={() => {
+              onT-close-popup={() => {
                 this.isOpen = false;
               }}
             />
@@ -208,16 +207,16 @@ export class TemporalPicker {
             max={this.max}
             value={this.value}
             native={this.native}
-            onValueChange={e => {
+            onT-value-change={e => {
               this.value = e.detail.value;
               this.popup.value = e.detail.value;
               this.valueChangeHandler();
             }}
-            onOpenPopup={() => {
+            onT-open-popup={() => {
               this.isOpen = true;
               this.popup.gotoDate();
             }}
-            onClosePopup={() => {
+            onT-close-popup={() => {
               this.isOpen = false;
             }}
           />
@@ -235,18 +234,17 @@ export class TemporalPicker {
             end={this.end}
             autoApply={this.autoApply}
             resetButton={this.resetButton}
-            monthSelect={this.monthSelect}
-            yearSelect={this.yearSelect}
-            onValueChange={(e: any) => {
+            extraSelect={this.extraSelect}
+            onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();
             }}
-            onRangeChange={(e: any) => {
+            onT-range-change={(e: any) => {
               this.start = e.detail.start;
               this.end = e.detail.end;
               this.rangeChangeHandler();
             }}
-            onClosePopup={this.closePopupHandler}
+            onT-close-popup={this.closePopupHandler}
           />
         </template>
       </Host>

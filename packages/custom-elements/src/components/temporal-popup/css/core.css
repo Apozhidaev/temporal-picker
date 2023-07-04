@@ -1,51 +1,51 @@
 :host {
-  --color-bg-default: var(--tp-popup-color-bg-default, #fff);
-  --color-bg-secondary: var(--tp-popup-color-bg-secondary, #f2f5f8);
-  --color-fg-default: var(--tp-popup-color-fg-default, #1e293b);
-  --color-fg-primary: var(--tp-popup-color-fg-primary, #2e6fda);
-  --color-fg-secondary: var(--tp-popup-color-fg-secondary, #64748b);
-  --color-fg-selected: var(--tp-popup-color-fg-selected, #fff);
-  --color-fg-muted: var(--tp-popup-color-fg-muted, #64748b);
-  --color-fg-accent: var(--tp-popup-color-fg-accent, #e63757);
-  --color-btn-primary-bg: var(--tp-popup-color-btn-primary-bg, #2e6fda);
-  --color-btn-primary-fg: var(--tp-popup-color-btn-primary-fg, #fff);
-  --color-btn-primary-border: var(--tp-popup-color-btn-primary-border, #2e6fda);
-  --color-btn-primary-hover-bg: var(--tp-popup-color-btn-primary-hover-bg, #2c67cd);
-  --color-btn-primary-hover-fg: var(--tp-popup-color-btn-primary-hover-fg, #fff);
-  --color-btn-primary-hover-border: var(--tp-popup-color-btn-primary-hover-border, #2c67cd);
-  --color-btn-primary-disabled-bg: var(--tp-popup-color-btn-primary-disabled-bg, #80aff8);
-  --color-btn-primary-disabled-fg: var(--tp-popup-color-btn-primary-disabled-fg, #fff);
+  --color-bg-default: var(--t-popup-color-bg-default, #fff);
+  --color-bg-secondary: var(--t-popup-color-bg-secondary, #f2f5f8);
+  --color-fg-default: var(--t-popup-color-fg-default, #1e293b);
+  --color-fg-primary: var(--t-popup-color-fg-primary, #2e6fda);
+  --color-fg-secondary: var(--t-popup-color-fg-secondary, #64748b);
+  --color-fg-selected: var(--t-popup-color-fg-selected, #fff);
+  --color-fg-muted: var(--t-popup-color-fg-muted, #64748b);
+  --color-fg-accent: var(--t-popup-color-fg-accent, #e63757);
+  --color-btn-primary-bg: var(--t-popup-color-btn-primary-bg, #2e6fda);
+  --color-btn-primary-fg: var(--t-popup-color-btn-primary-fg, #fff);
+  --color-btn-primary-border: var(--t-popup-color-btn-primary-border, #2e6fda);
+  --color-btn-primary-hover-bg: var(--t-popup-color-btn-primary-hover-bg, #2c67cd);
+  --color-btn-primary-hover-fg: var(--t-popup-color-btn-primary-hover-fg, #fff);
+  --color-btn-primary-hover-border: var(--t-popup-color-btn-primary-hover-border, #2c67cd);
+  --color-btn-primary-disabled-bg: var(--t-popup-color-btn-primary-disabled-bg, #80aff8);
+  --color-btn-primary-disabled-fg: var(--t-popup-color-btn-primary-disabled-fg, #fff);
   --color-btn-primary-disabled-border: var(
-    --tp-popup-color-btn-primary-disabled-border,
+    --t-popup-color-btn-primary-disabled-border,
     #80aff8
   );
-  --color-btn-secondary-bg: var(--tp-popup-color-btn-secondary-bg, #fff);
-  --color-btn-secondary-fg: var(--tp-popup-color-btn-secondary-fg, #475569);
-  --color-btn-secondary-border: var(--tp-popup-color-btn-secondary-border, #cbd5e1);
-  --color-btn-secondary-hover-bg: var(--tp-popup-color-btn-secondary-hover-bg, #f8fafc);
-  --color-btn-secondary-hover-fg: var(--tp-popup-color-btn-secondary-hover-fg, #475569);
+  --color-btn-secondary-bg: var(--t-popup-color-btn-secondary-bg, #fff);
+  --color-btn-secondary-fg: var(--t-popup-color-btn-secondary-fg, #475569);
+  --color-btn-secondary-border: var(--t-popup-color-btn-secondary-border, #cbd5e1);
+  --color-btn-secondary-hover-bg: var(--t-popup-color-btn-secondary-hover-bg, #f8fafc);
+  --color-btn-secondary-hover-fg: var(--t-popup-color-btn-secondary-hover-fg, #475569);
   --color-btn-secondary-hover-border: var(
-    --tp-popup-color-btn-secondary-hover-border,
+    --t-popup-color-btn-secondary-hover-border,
     #cbd5e1
   );
   --color-btn-secondary-disabled-bg: var(
-    --tp-popup-color-btn-secondary-disabled-bg,
+    --t-popup-color-btn-secondary-disabled-bg,
     #cbd5e1
   );
-  --color-btn-secondary-disabled-fg: var(--tp-popup-color-btn-secondary-disabled-fg, #fff);
+  --color-btn-secondary-disabled-fg: var(--t-popup-color-btn-secondary-disabled-fg, #fff);
   --color-btn-secondary-disabled-border: var(
-    --tp-popup-color-btn-secondary-disabled-border,
+    --t-popup-color-btn-secondary-disabled-border,
     #cbd5e1
   );
-  --color-border-default: var(--tp-popup-color-border-default, #cbd5e1);
-  --color-border-locked: var(--tp-popup-color-border-locked, #f9f9f9);
-  --day-width: var(--tp-popup-day-width, 43px);
-  --day-height: var(--tp-popup-day-height, 37px);
-  --border-radius: var(--tp-popup-border-radius, 2px);
-  --primary-color: var(--tp-popup-primary-color, #2e6fda);
-  --secondary-color: var(--tp-popup-secondary-color, #64748b);
-  --font-family: var(--tp-popup-font-family, inherit);
-  --box-shadow: var(--tp-popup-box-shadow, 0 4px 28px 0 rgb(0 0 0 / 12%));
+  --color-border-default: var(--t-popup-color-border-default, #cbd5e1);
+  --color-border-locked: var(--t-popup-color-border-locked, #f9f9f9);
+  --day-width: var(--t-popup-day-width, 43px);
+  --day-height: var(--t-popup-day-height, 37px);
+  --border-radius: var(--t-popup-border-radius, 2px);
+  --primary-color: var(--t-popup-primary-color, #2e6fda);
+  --secondary-color: var(--t-popup-secondary-color, #64748b);
+  --font-family: var(--t-popup-font-family, inherit);
+  --box-shadow: var(--t-popup-box-shadow, 0 4px 28px 0 rgb(0 0 0 / 12%));
 }
 * {
   box-sizing: border-box;

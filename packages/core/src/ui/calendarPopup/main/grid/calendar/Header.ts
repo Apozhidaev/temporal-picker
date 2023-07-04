@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { dt, toInstant } from "../../../../../utils";
+import { dt } from "../../../../../utils";
 
 type Props = {
   entry: string;
@@ -14,7 +14,7 @@ export class Header extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "CalendarHeader";
+    return "calendar-header";
   }
 
   protected onRender(el: HTMLElement, { entry, index }: Props) {
@@ -63,11 +63,12 @@ export class Header extends Control<Props, PopupContext> {
         const monthMinDate = minDate?.startOf("month");
         const monthMaxDate = maxDate?.startOf("month");
 
-        for (let x = 0; x < 12; x += 1) {
+        for (let x = 1; x <= 12; x += 1) {
           const option = document.createElement("option");
-          const optionMonth = DateTime.fromJSDate(
-            new Date(date.year, x, 1, 0, 0, 0)
-          ); // todo
+          const optionMonth = DateTime.fromObject({
+            year: date.year,
+            month: x,
+          });
 
           option.value = String(x);
           option.text = optionMonth.setLocale(locale).toLocaleString({
@@ -87,7 +88,7 @@ export class Header extends Control<Props, PopupContext> {
         selectMonths.addEventListener("change", (e) => {
           const target = e.target as HTMLSelectElement;
 
-          actions?.gotoInstant(
+          actions?.scrollTo(
             dt(plain).toInstant(
               DateTime.fromISO(entry).set({ month: Number(target.value) })
             ),
@@ -141,7 +142,7 @@ export class Header extends Control<Props, PopupContext> {
       selectYears.addEventListener("change", (e) => {
         const target = e.target as HTMLSelectElement;
 
-        actions?.gotoInstant(
+        actions?.scrollTo(
           dt(plain).toInstant(
             DateTime.fromISO(entry).set({ year: Number(target.value) })
           ),

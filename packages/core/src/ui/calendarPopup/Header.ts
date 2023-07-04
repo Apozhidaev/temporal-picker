@@ -9,7 +9,7 @@ export class Header extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Header";
+    return "calendar-popup-header";
   }
 
   protected onRender(el: HTMLElement) {

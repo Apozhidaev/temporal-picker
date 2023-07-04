@@ -5,7 +5,7 @@ import { t } from "../utils";
 
 type Options = {
   element: HTMLElement;
-  palin: PlainType;
+  plain: PlainType;
 };
 
 export type Dictionary = {
@@ -26,7 +26,7 @@ export type PopupOptions = Options & {
   max?: string;
   minYear?: number;
   maxYear?: number;
-  firstDay: number;
+  firstDay?: number;
   dictionary?: Dictionary;
 };
 
@@ -39,7 +39,7 @@ export abstract class CalendarPopup {
   protected ui!: UI;
 
   constructor(options: Options) {
-    this.plain = options.palin;
+    this.plain = options.plain;
     this.entry = t(this.plain).entry();
 
     this.container = options.element;
@@ -48,15 +48,17 @@ export abstract class CalendarPopup {
     this.container.addEventListener("click", this.handleClick);
   }
 
-  public gotoInstant(instant: string, shift = 0) {
-    this.entry = t(this.plain).startOf(instant, shift);
-    this.render();
+  public scrollTo(value: string, shift = 0) {
+    if (value) {
+      this.entry = t(this.plain).startOf(value, shift);
+      this.render();
+    }
   }
 
-  public select(instants: string[], gotoIndex = 0) {
-    this.picked = [...instants].map(t(this.plain).instant);
+  public select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
+    this.picked = values.filter(Boolean).map(t(this.plain).instant);
     this.picked.sort();
-    this.gotoInstant(instants[gotoIndex] || DateTime.now().toISO()!);
+    this.scrollTo(values[scrollToIndex] || DateTime.now().toISO()!, shift);
   }
 
   public destroy() {
@@ -106,8 +108,6 @@ export abstract class CalendarPopup {
 
         this.picked = [...this.picked, instant];
         this.picked.sort();
-
-        console.log(this.picked);
 
         if (
           this.ui.context.autoApply &&
@@ -232,7 +232,7 @@ export abstract class CalendarPopup {
 
   protected dispatchSelect(values?: (string | undefined)[]) {
     this.container.dispatchEvent(
-      new CustomEvent("select", {
+      new CustomEvent("t-select", {
         detail: {
           values: values || this.picked,
         },
@@ -242,7 +242,7 @@ export abstract class CalendarPopup {
 
   protected dispatchPreselect(values?: (string | undefined)[]) {
     this.container.dispatchEvent(
-      new CustomEvent("preselect", {
+      new CustomEvent("t-pre-select", {
         detail: {
           values: values || this.picked,
         },
@@ -251,10 +251,10 @@ export abstract class CalendarPopup {
   }
 
   protected dispatchClose() {
-    this.container.dispatchEvent(new CustomEvent("close"));
+    this.container.dispatchEvent(new CustomEvent("t-close"));
   }
 
   protected dispatchClear() {
-    this.container.dispatchEvent(new CustomEvent("clear"));
+    this.container.dispatchEvent(new CustomEvent("t-reset"));
   }
 }

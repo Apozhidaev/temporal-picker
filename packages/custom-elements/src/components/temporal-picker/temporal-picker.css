@@ -1,18 +1,18 @@
 :host {
-  --bg-color: var(--tp-input-color-bg-default, #fff);
-  --disabled-bg-color: var(--tp-input-color-bg-disabled, #f5f5f5);
-  --disabled-color: var(--tp-input-color-fg-disabled, #57534e);
-  --border-radius: var(--tp-input-border-radius, 0.375rem);
-  --height: var(--tp-input-height, 2.25rem);
-  --padding: var(--tp-input-padding, 0.375rem 0.75rem);
+  --bg-color: var(--t-input-color-bg-default, #fff);
+  --disabled-bg-color: var(--t-input-color-bg-disabled, #f5f5f5);
+  --disabled-color: var(--t-input-color-fg-disabled, #57534e);
+  --border-radius: var(--t-input-border-radius, 0.375rem);
+  --height: var(--t-input-height, 2.25rem);
+  --padding: var(--t-input-padding, 0.375rem 0.75rem);
   --focus-shadow: var(
-    --tp-input-focus-shadow,
+    --t-input-focus-shadow,
     rgb(255, 255, 255) 0 0 0 0 inset,
     #3b82f6 0 0 0 2px inset,
     rgba(0, 0, 0, 0.05) 0 1px 2px 0
   );
   --border-shadow: var(
-    --tp-input-border-shadow,
+    --t-input-border-shadow,
     rgb(255, 255, 255) 0 0 0 0 inset,
     #d1d5db 0 0 0 1px inset,
     rgba(0, 0, 0, 0.05) 0 1px 2px 0

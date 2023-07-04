@@ -12,25 +12,28 @@
     <script nomodule src="/build/temporal-picker.js"></script>
     <style>
       :root {
-        --tp-input-color-fg-invalid: red;
+        --t-input-color-fg-invalid: red;
       }
     </style>
   </head>
 
   <body>
-    <temporal-picker id="picker" plain="month"></temporal-picker>
-    <temporal-picker
-      id="range-picker"
-      type="range"
-      plain="month"
-      month-select="true"
-      year-select="false"
-      reset-button="true"
-      native="false"
-    >
-      <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
-      <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
-    </temporal-picker>
+    <div id="container">
+      <temporal-picker id="picker" plain="date" auto-apply="false"></temporal-picker>
+      <temporal-picker
+        id="range-picker"
+        type="range"
+        plain="date"
+        extra-select="true"
+        reset-button="true"
+        auto-apply="false"
+        native="false"
+      >
+        <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+        <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
+      </temporal-picker>
+    </div>
+
     <script>
       const picker = document.getElementById('picker');
       picker.addEventListener('valueChange', e => console.log(e));

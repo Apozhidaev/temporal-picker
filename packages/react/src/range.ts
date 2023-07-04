@@ -31,9 +31,8 @@ export const RangePicker = memo(
     const {
       presets,
       autoApply,
-      monthSelect,
       resetButton,
-      yearSelect,
+      extraSelect,
       testId,
       onRangeChange,
       ...pickerProps
@@ -49,9 +48,9 @@ export const RangePicker = memo(
       if (!element) {
         return;
       }
-      element.addEventListener("rangeChange", handleRangeChange);
+      element.addEventListener("t-range-change", handleRangeChange);
       return () => {
-        element.removeEventListener("rangeChange", handleRangeChange);
+        element.removeEventListener("t-range-change", handleRangeChange);
       };
     }, []);
 
@@ -61,8 +60,7 @@ export const RangePicker = memo(
         ...pickerProps,
         "auto-apply": autoApply,
         "reset-button": resetButton,
-        "month-select": monthSelect,
-        "year-select": yearSelect,
+        "extra-select": extraSelect,
         "data-testid": testId,
         type: "range",
         ref: inputRef,

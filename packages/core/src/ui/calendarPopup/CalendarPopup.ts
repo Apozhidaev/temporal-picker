@@ -16,7 +16,7 @@ export class CalendarPopup extends Container<PopupContext, Props> {
   private footer = new Footer();
 
   get type(): string {
-    return "Popup";
+    return "calendar-popup";
   }
 
   protected onRender(el: HTMLElement, props: Props) {

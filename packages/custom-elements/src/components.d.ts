@@ -45,6 +45,7 @@ export namespace Components {
           * The end value of date range
          */
         "end": string;
+        "extraSelect": boolean;
         /**
           * The max value
          */
@@ -53,7 +54,6 @@ export namespace Components {
           * The min value
          */
         "min": string;
-        "monthSelect": boolean;
         /**
           * The native value
          */
@@ -78,7 +78,6 @@ export namespace Components {
           * The value of date
          */
         "value": string;
-        "yearSelect": boolean;
     }
     interface TemporalPopup {
         "autoApply": boolean;
@@ -86,6 +85,7 @@ export namespace Components {
           * The end value of date range
          */
         "end": string;
+        "extraSelect": boolean;
         "gotoDate": () => Promise<void>;
         "gotoEnd": () => Promise<void>;
         "gotoStart": () => Promise<void>;
@@ -97,7 +97,6 @@ export namespace Components {
           * The min value
          */
         "min": string;
-        "monthSelect": boolean;
         "parent": HTMLElement;
         /**
           * The type of picker
@@ -117,7 +116,6 @@ export namespace Components {
           * The start value of date range
          */
         "value": string;
-        "yearSelect": boolean;
     }
     interface TemporalPreset {
         /**
@@ -200,15 +198,15 @@ declare namespace LocalJSX {
         /**
           * The close popup event
          */
-        "onClosePopup"?: (event: TemporalInputCustomEvent<void>) => void;
+        "onT-close-popup"?: (event: TemporalInputCustomEvent<void>) => void;
         /**
           * The close popup event
          */
-        "onOpenPopup"?: (event: TemporalInputCustomEvent<void>) => void;
+        "onT-open-popup"?: (event: TemporalInputCustomEvent<void>) => void;
         /**
           * The value change event
          */
-        "onValueChange"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
+        "onT-value-change"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
         /**
           * The plain of type
          */
@@ -226,6 +224,7 @@ declare namespace LocalJSX {
           * The end value of date range
          */
         "end"?: string;
+        "extraSelect"?: boolean;
         /**
           * The max value
          */
@@ -234,7 +233,6 @@ declare namespace LocalJSX {
           * The min value
          */
         "min"?: string;
-        "monthSelect"?: boolean;
         /**
           * The native value
          */
@@ -242,11 +240,11 @@ declare namespace LocalJSX {
         /**
           * The range change event
          */
-        "onRangeChange"?: (event: TemporalPickerCustomEvent<RangeInstant>) => void;
+        "onT-range-change"?: (event: TemporalPickerCustomEvent<RangeInstant>) => void;
         /**
           * The value change event
          */
-        "onValueChange"?: (event: TemporalPickerCustomEvent<PlainInstant>) => void;
+        "onT-value-change"?: (event: TemporalPickerCustomEvent<PlainInstant>) => void;
         "placement"?: 'bottom-start' | 'bottom-end';
         /**
           * The type of picker
@@ -267,7 +265,6 @@ declare namespace LocalJSX {
           * The value of date
          */
         "value"?: string;
-        "yearSelect"?: boolean;
     }
     interface TemporalPopup {
         "autoApply"?: boolean;
@@ -275,6 +272,7 @@ declare namespace LocalJSX {
           * The end value of date range
          */
         "end"?: string;
+        "extraSelect"?: boolean;
         /**
           * The max value
          */
@@ -283,19 +281,18 @@ declare namespace LocalJSX {
           * The min value
          */
         "min"?: string;
-        "monthSelect"?: boolean;
         /**
           * The close popup event
          */
-        "onClosePopup"?: (event: TemporalPopupCustomEvent<void>) => void;
+        "onT-close-popup"?: (event: TemporalPopupCustomEvent<void>) => void;
         /**
           * The range change event
          */
-        "onRangeChange"?: (event: TemporalPopupCustomEvent<RangeInstant1>) => void;
+        "onT-range-change"?: (event: TemporalPopupCustomEvent<RangeInstant1>) => void;
         /**
           * The value change event
          */
-        "onValueChange"?: (event: TemporalPopupCustomEvent<PlainInstant1>) => void;
+        "onT-value-change"?: (event: TemporalPopupCustomEvent<PlainInstant1>) => void;
         "parent"?: HTMLElement;
         /**
           * The type of picker
@@ -315,7 +312,6 @@ declare namespace LocalJSX {
           * The start value of date range
          */
         "value"?: string;
-        "yearSelect"?: boolean;
     }
     interface TemporalPreset {
         /**

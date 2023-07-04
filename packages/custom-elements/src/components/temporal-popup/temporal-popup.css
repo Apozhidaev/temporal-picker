@@ -1,5 +1,4 @@
 @import url('./css/core.css');
-@import url('./css/month-core.css');
 @import url('./css/extra-options.css');
 @import url('./css/keyboard.css');
 @import url('./css/lock.css');
@@ -7,7 +6,7 @@
 @import url('./css/preset.css');
 
 :host {
-  --z-index: var(--tp-popup-z-index, 40);
+  --z-index: var(--t-popup-z-index, 40);
 
   z-index: var(--z-index);
 }

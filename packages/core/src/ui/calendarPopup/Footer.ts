@@ -11,7 +11,7 @@ export class Footer extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Footer";
+    return "calendar-popup-footer";
   }
 
   protected onRender(el: HTMLElement, { picked }: Props) {

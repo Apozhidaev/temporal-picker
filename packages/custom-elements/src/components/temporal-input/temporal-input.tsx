@@ -42,17 +42,17 @@ export class TemporalInput {
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false }) valueChange: EventEmitter<TemporalInputValue>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<TemporalInputValue>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false }) openPopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-open-popup' }) openPopup: EventEmitter<void>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false }) closePopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' }) closePopup: EventEmitter<void>;
 
   changeHandler(event: TemporalInputValue) {
     if (this.min) {

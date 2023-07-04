@@ -1,7 +1,7 @@
 import { DateTime, DateTimeUnit } from "luxon";
 import { Control } from "../../base/Control";
 import { PopupContext } from "../types";
-import { datesIsNotAvailable, dt } from "../../../utils";
+import { datesIsNotAvailable, dt, t } from "../../../utils";
 
 function sameDate(
   date1: DateTime | undefined,
@@ -30,7 +30,7 @@ export class Presets extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Presets";
+    return "calendar-popup-presets";
   }
 
   protected onRender(el: HTMLElement, props: Props) {
@@ -54,8 +54,7 @@ export class Presets extends Control<Props, PopupContext> {
       item.className = "preset-button unit";
 
       if (
-        dt(plain).sameDate(startPicked, startDate || endDate) &&
-        dt(plain).sameDate(endPicked || startPicked, endDate)
+        dt(plain).sameRanges([startPicked, endPicked], [startDate, endDate])
       ) {
         item.classList.add("selected");
       } else {
@@ -63,10 +62,10 @@ export class Presets extends Control<Props, PopupContext> {
       }
       item.innerHTML = label;
       if (start) {
-        item.dataset.start = start;
+        item.dataset.start = t(plain).instant(start);
       }
       if (end) {
-        item.dataset.end = end;
+        item.dataset.end = t(plain).instant(end);
       }
 
       if (datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {

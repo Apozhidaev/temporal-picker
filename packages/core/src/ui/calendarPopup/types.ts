@@ -42,7 +42,7 @@ export type PopupContext = {
   resetButton?: boolean;
   extraSelect?: boolean;
   actions?: {
-    gotoInstant: (instant: string, index?: number) => void;
+    scrollTo: (instant: string, index?: number) => void;
   };
   presets?: Preset[];
   presetPosition?: 'left' | 'right' | 'top' | 'bottom';

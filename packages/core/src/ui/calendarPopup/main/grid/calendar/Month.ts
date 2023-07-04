@@ -15,7 +15,7 @@ export class Month extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Month";
+    return "grid-month";
   }
 
   protected onRender(el: HTMLElement, props: Props) {

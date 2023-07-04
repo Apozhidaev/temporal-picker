@@ -20,11 +20,11 @@
 
 ## Events
 
-| Event         | Description            | Type                              |
-| ------------- | ---------------------- | --------------------------------- |
-| `closePopup`  | The close popup event  | `CustomEvent<void>`               |
-| `openPopup`   | The close popup event  | `CustomEvent<void>`               |
-| `valueChange` | The value change event | `CustomEvent<{ value: string; }>` |
+| Event            | Description            | Type                              |
+| ---------------- | ---------------------- | --------------------------------- |
+| `t-close-popup`  | The close popup event  | `CustomEvent<void>`               |
+| `t-open-popup`   | The close popup event  | `CustomEvent<void>`               |
+| `t-value-change` | The value change event | `CustomEvent<{ value: string; }>` |
 
 
 ## Shadow Parts

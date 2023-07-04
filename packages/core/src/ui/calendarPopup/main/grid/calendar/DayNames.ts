@@ -11,7 +11,7 @@ export class DayNames extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "DayNames";
+    return "day-names";
   }
 
   protected onRender(el: HTMLElement, {}: Props) {

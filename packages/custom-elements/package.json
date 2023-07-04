@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/custom-elements",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Temporal Picker",
   "main": "dist/components/index.js",
   "types": "dist/components/index.d.ts",

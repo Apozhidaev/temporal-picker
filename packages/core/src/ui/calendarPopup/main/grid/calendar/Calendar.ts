@@ -25,7 +25,7 @@ export class Calendar extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Calendar";
+    return "calendar";
   }
 
   protected onRender(el: HTMLElement, { index, entry, picked, hover }: Props) {

@@ -16,18 +16,17 @@ function App() {
           <td>
             <RangePicker
               start="2022-01-01"
-              end="2022-01-16"
+              end="2022-08-01"
               onRangeChange={(start, end) => {
                 console.log(start, end);
               }}
               placement="bottom-end"
               autoApply
               resetButton
-              monthSelect
-              yearSelect
+              extraSelect
               presets={[
                 { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
-                { label: "Preset 2", start: "2023-01-01" },
+                { label: "Preset 2", end: "2023-01-01" },
               ]}
             />
           </td>

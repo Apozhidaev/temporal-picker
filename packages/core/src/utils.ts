@@ -35,44 +35,6 @@ const plainUnits = {
   } as PlainUnits,
 };
 
-export function getPlainUnits(plain?: PlainType): PlainUnits {
-  switch (plain) {
-    case "month":
-      return {
-        plain,
-        same: "month",
-        diff: "month",
-        entry: "year",
-        step: { year: 1 },
-        unit: { month: 1 },
-        duration: "months",
-        getStep: (n = 1) => ({ year: n }),
-      };
-
-    default:
-      return {
-        plain,
-        same: "day",
-        diff: "day",
-        entry: "month",
-        step: { month: 1 },
-        unit: { day: 1 },
-        duration: "days",
-        getStep: (n = 1) => ({ month: n }),
-      };
-  }
-}
-
-export function toInstant(dt: DateTime, plain?: PlainType): string {
-  switch (plain) {
-    case "month":
-      return dt.toFormat("yyyy-LL");
-
-    default:
-      return dt.toISODate()!;
-  }
-}
-
 export function datesIsNotAvailable(
   min: DateTime | undefined,
   max: DateTime | undefined,
@@ -94,17 +56,23 @@ export function datesIsNotAvailable(
 export function dt(plain: PlainType = "date") {
   const utils = plain === "month" ? plainUnits.month : plainUnits.date;
   return {
-    sameDate: (date1: DateTime | undefined, date2: DateTime | undefined) => {
-      if (!date1 && !date2) {
-        return true;
-      }
-      if (date1 === date2) {
-        return true;
-      }
-      if (!date1 || !date2) {
+    sameRanges: (
+      range1: (DateTime | undefined)[],
+      range2: (DateTime | undefined)[]
+    ) => {
+      const r1 = range1.filter(Boolean).sort();
+      const r2 = range2.filter(Boolean).sort();
+      if (r1.length !== r2.length) {
         return false;
       }
-      return date1.hasSame(date2, utils.same);
+      for (let i = 0; i < r1.length; i++) {
+        const date1 = r1[i]!;
+        const date2 = r2[i]!;
+        if (!date1.hasSame(date2, utils.same)) {
+          return false;
+        }
+      }
+      return true;
     },
     toInstant: (date: DateTime) => {
       switch (plain) {

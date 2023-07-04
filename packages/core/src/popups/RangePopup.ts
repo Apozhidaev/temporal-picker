@@ -18,7 +18,7 @@ type RangeDictionary = Dictionary & {
   months?: TooltipDictionary;
 };
 
-type Options = PopupOptions & {
+export type RangePopupOptions = PopupOptions & {
   dictionary?: RangeDictionary;
   tooltip?: boolean;
   strict?: boolean;
@@ -29,10 +29,10 @@ type Options = PopupOptions & {
 export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
 
-  constructor(options: Options) {
+  constructor(options: RangePopupOptions) {
     super(options);
 
-    if (options.tooltip) {
+    if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
       this.hideTooltip();
     }
@@ -48,12 +48,15 @@ export class RangePopup extends CalendarPopup {
       resetButton: options.resetButton ?? defaults.resetButton,
       extraSelect: options.extraSelect,
       autoApply: options.autoApply ?? defaults.autoApply,
-      strict: options.strict ?? true,
+      strict: options.strict ?? defaults.strict,
       min: options.min,
       max: options.max,
       minYear: options.minYear,
       maxYear: options.maxYear,
-      presets: options.presets,
+      presets: options.presets || [
+        { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
+        { label: "Preset 2", end: "2023-01-01" },
+      ],
       presetPosition: options.presetPosition,
       dictionary: {
         ...options.dictionary,
@@ -109,7 +112,7 @@ export class RangePopup extends CalendarPopup {
         if (instant) {
           this.update(instant);
 
-          if (this.ui.context.tooltipElement) {
+          if (this.tooltipElement) {
             const values = [this.picked[0], instant];
             values.sort();
             const [start, end] = values;
@@ -142,6 +145,11 @@ export class RangePopup extends CalendarPopup {
     this.hideTooltip();
   }
 
+  public render(): void {
+    super.render();
+    this.hideTooltip();
+  }
+
   private onPresetButtonClick(element: HTMLElement): void {
     if (this.isPresetButton(element)) {
       const { start, end } = element.dataset;
@@ -156,7 +164,7 @@ export class RangePopup extends CalendarPopup {
       }
 
       if (this.picked.length > 0) {
-        this.gotoInstant(this.picked[0]);
+        this.scrollTo(this.picked[0]);
       } else {
         this.update();
       }

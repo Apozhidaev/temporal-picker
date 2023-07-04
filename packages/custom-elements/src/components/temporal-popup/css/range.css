@@ -1,7 +1,7 @@
 :host {
-  --color-bg-inrange: var(--tp-popup-color-bg-inrange, #e6effe);
-  --color-bg-tooltip: var(--tp-popup-color-bg-tooltip, #fff);
-  --color-fg-tooltip: var(--tp-popup-color-fg-tooltip, #1e293b);
+  --color-bg-inrange: var(--t-popup-color-bg-inrange, #e6effe);
+  --color-bg-tooltip: var(--t-popup-color-bg-tooltip, #fff);
+  --color-fg-tooltip: var(--t-popup-color-fg-tooltip, #1e293b);
 }
 .range-tooltip {
   background-color: var(--color-bg-tooltip);

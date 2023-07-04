@@ -18,7 +18,7 @@ export class Main extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Main";
+    return "calendar-popup-main";
   }
 
   protected onRender(el: HTMLElement, props: Props) {

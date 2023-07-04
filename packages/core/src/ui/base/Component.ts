@@ -13,7 +13,7 @@ export abstract class Component<P> {
   ) {
     this.props[key] = props;
 
-    const renderEvent = new CustomEvent("render", {
+    const renderEvent = new CustomEvent("t-render", {
       cancelable: true,
       bubbles: true,
       composed: true,
@@ -30,7 +30,7 @@ export abstract class Component<P> {
       this.onRender(el, props);
     }
 
-    const layoutEvent = new CustomEvent("layout", {
+    const layoutEvent = new CustomEvent("t-layout", {
       cancelable,
       bubbles: true,
       composed: true,
@@ -58,7 +58,7 @@ export abstract class Component<P> {
 
     const el = this.el[key];
     if (el) {
-      const updateEvent = new CustomEvent("update", {
+      const updateEvent = new CustomEvent("t-update", {
         cancelable: true,
         bubbles: true,
         composed: true,

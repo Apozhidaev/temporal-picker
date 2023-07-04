@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/react",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "react-use-event-hook": "^0.9.3",
-    "@temporal-picker/custom-elements": "^0.0.1"
+    "@temporal-picker/custom-elements": "^0.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

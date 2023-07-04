@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { Month } from "./Month";
-import { dt, toInstant } from "../../../../../utils";
+import { dt } from "../../../../../utils";
 import { PopupContext } from "../../../types";
 
 type Props = {
@@ -17,7 +17,7 @@ export class Months extends Control<Props, PopupContext> {
   }
 
   get type(): string {
-    return "Months";
+    return "months-grid";
   }
 
   protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {

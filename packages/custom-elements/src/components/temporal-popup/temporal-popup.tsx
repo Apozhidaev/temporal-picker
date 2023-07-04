@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import {
   Component,
   Host,
@@ -10,14 +9,7 @@ import {
   Watch,
   Method,
 } from '@stencil/core';
-import {
-  PlainType,
-  ExtraOptions,
-  LockOptions,
-  PresetOptions,
-  RangePicker,
-  DatePicker,
-} from '@temporal-picker/core';
+import { PlainType, DatePopup, RangePopup } from '@temporal-picker/core';
 import { PickerType, PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
 
 @Component({
@@ -66,143 +58,127 @@ export class TemporalPopup {
 
   @Prop() autoApply: boolean;
   @Prop() resetButton: boolean;
-  @Prop() monthSelect: boolean;
-  @Prop() yearSelect: boolean;
+  @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
 
   @Watch('value')
   watchValueStateHandler(newValue: string) {
-    this.datePicker?.setDate(newValue);
+    this.datePicker?.select([newValue]);
   }
 
   @Method()
   async gotoDate() {
-    if (this.value) {
-      this.datePicker?.gotoDate(this.value);
-    } else {
-      this.datePicker?.gotoDate(DateTime.now().toISODate());
-    }
+    this.datePicker?.select([this.value]);
   }
 
   @Watch('start')
   watchStartStateHandler(newValue: string) {
-    this.rangePicker?.setStartDate(newValue);
+    this.rangePicker?.select([newValue, this.end]);
   }
 
   @Watch('end')
   watchEndStateHandler(newValue: string) {
-    this.rangePicker?.setEndDate(newValue);
+    this.rangePicker?.select([this.start, newValue], 1);
   }
 
   @Method()
   async gotoStart() {
-    this.rangePicker?.gotoStart();
+    this.rangePicker?.select([this.start, this.end]);
   }
 
   @Method()
   async gotoEnd() {
-    this.rangePicker?.gotoEnd();
+    this.rangePicker?.select([this.start, this.end], 1);
   }
 
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false }) valueChange: EventEmitter<PlainInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<PlainInstant>;
 
   /**
    * The range change event
    */
-  @Event({ bubbles: false, composed: false }) rangeChange: EventEmitter<RangeInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-range-change' }) rangeChange: EventEmitter<RangeInstant>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false }) closePopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' }) closePopup: EventEmitter<void>;
 
-  private datePicker: DatePicker;
-  private rangePicker: RangePicker;
+  private datePicker: DatePopup;
+  private rangePicker: RangePopup;
 
   componentDidLoad() {
-    let extraOptions: ExtraOptions;
-    if (this.resetButton || this.monthSelect || this.yearSelect) {
-      extraOptions = {
-        resetButton: this.resetButton,
-        dropdown: {
-          years: this.yearSelect,
-          months: this.monthSelect,
-        },
-      };
-    }
-    let lockOptions: LockOptions;
-    if (this.min || this.max) {
-      lockOptions = {
-        minDate: this.min,
-        maxDate: this.max,
-      };
-    }
-
     switch (this.type) {
       case 'range': {
-        let presetOptions: PresetOptions;
         const presets = Array.from(
           (this.parent || this.el).querySelectorAll<HTMLTemporalPresetElement>('temporal-preset'),
         );
-        if (presets.length > 0) {
-          presetOptions = {
-            presets: presets.map(x => ({
-              start: x.start,
-              end: x.end,
-              label: x.label,
-            })),
-            position: this.presetPosition || 'bottom',
-          };
-        }
-
-        this.rangePicker = new RangePicker({
+        const element = this.el.shadowRoot.getElementById('container');
+        this.rangePicker = new RangePopup({
+          element,
           plain: this.plain,
-          popup: this.el,
           autoApply: this.autoApply,
-          extraOptions,
-          lockOptions,
-          presetOptions,
+          resetButton: this.resetButton,
+          extraSelect: this.extraSelect,
+          min: this.min,
+          max: this.max,
+          presets: presets.map(x => ({
+            start: x.start,
+            end: x.end,
+            label: x.label,
+          })),
+          presetPosition: this.presetPosition,
         });
-        this.rangePicker.on('select', e => {
-          this.rangeChange.emit(e.detail);
-        });
-        this.rangePicker.on('clear', () => {
-          this.rangeChange.emit({ start: '', end: '' });
-        });
-        this.rangePicker.on('close', () => {
+        element.addEventListener('t-select', (e: CustomEvent) => {
+          this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
           this.closePopup.emit();
         });
-        this.rangePicker.setDateRange(this.start, this.end);
+        element.addEventListener('t-reset', () => {
+          this.rangeChange.emit({ start: undefined, end: undefined });
+          this.closePopup.emit();
+        });
+        element.addEventListener('t-close', () => {
+          this.closePopup.emit();
+        });
+        this.rangePicker.select([this.start, this.end]);
         break;
       }
 
       default: {
-        this.datePicker = new DatePicker({
+        const element = this.el.shadowRoot.getElementById('container');
+        this.datePicker = new DatePopup({
+          element,
           plain: this.plain,
-          popup: this.el,
           autoApply: this.autoApply,
-          extraOptions,
-          lockOptions,
+          resetButton: this.resetButton,
+          extraSelect: this.extraSelect,
+          min: this.min,
+          max: this.max,
         });
-        this.datePicker.on('select', e => {
-          this.valueChange.emit({ value: e.detail.date });
-        });
-        this.datePicker.on('clear', () => {
-          this.valueChange.emit({ value: '' });
-        });
-        this.datePicker.on('close', () => {
+        element.addEventListener('t-select', (e: CustomEvent) => {
+          this.valueChange.emit({ value: e.detail.values[0] });
           this.closePopup.emit();
         });
-        this.datePicker.setDate(this.value);
+        element.addEventListener('t-reset', () => {
+          this.valueChange.emit({ value: undefined });
+          this.closePopup.emit();
+        });
+        element.addEventListener('t-close', () => {
+          this.closePopup.emit();
+        });
+        this.datePicker.select([this.value]);
         break;
       }
     }
   }
 
   render() {
-    return <Host></Host>;
+    return (
+      <Host>
+        <div id="container"></div>
+      </Host>
+    );
   }
 }

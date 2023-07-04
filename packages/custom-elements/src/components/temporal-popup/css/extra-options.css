@@ -1,6 +1,6 @@
 :host {
-  --month-name-font-weight: var(--tp-popup-month-name-font-weight, 700);
-  --select-outline-color: var(--tp-popup-select-outline-color, #e5e7eb);
+  --month-name-font-weight: var(--t-popup-month-name-font-weight, 700);
+  --select-outline-color: var(--t-popup-select-outline-color, #e5e7eb);
 }
 .container.extra-options-plugin .calendars .calendar > .header .month-name {
   align-items: center;

@@ -23,9 +23,8 @@ export const DatePicker = memo(
 
     const {
       autoApply,
-      monthSelect,
       resetButton,
-      yearSelect,
+      extraSelect,
       testId,
       onValueChange,
       ...pickerProps
@@ -40,9 +39,9 @@ export const DatePicker = memo(
       if (!element) {
         return;
       }
-      element.addEventListener("valueChange", handleValueChange);
+      element.addEventListener("t-value-change", handleValueChange);
       return () => {
-        element.removeEventListener("valueChange", handleValueChange);
+        element.removeEventListener("t-value-change", handleValueChange);
       };
     }, []);
 
@@ -52,8 +51,7 @@ export const DatePicker = memo(
         ...pickerProps,
         "auto-apply": autoApply,
         "reset-button": resetButton,
-        "month-select": monthSelect,
-        "year-select": yearSelect,
+        "extra-select": extraSelect,
         "data-testid": testId,
         ref: inputRef,
       });
