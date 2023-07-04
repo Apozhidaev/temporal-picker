@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
-import { Control } from "../../../base/Control";
-import { GridPopupContext } from "../../types";
+import { Control } from "../../../../base/Control";
+import { GridPopupContext } from "../../../types";
 
 type Props = {
   entry: string;

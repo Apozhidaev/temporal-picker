@@ -1,10 +1,10 @@
-import { Control } from "../../../base/Control";
+import { Control } from "../../../../base/Control";
 import { DayNames } from "./DayNames";
 import { Days } from "./Days";
 import { Months } from "./Months";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { GridPopupContext } from "../../types";
+import { GridPopupContext } from "../../../types";
 
 type Props = {
   index: number;

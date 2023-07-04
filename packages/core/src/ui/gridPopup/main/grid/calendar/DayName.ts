@@ -1,6 +1,6 @@
-import { Control } from "../../../base/Control";
 import { DateTime } from "luxon";
-import { GridPopupContext } from "../../types";
+import { Control } from "../../../../base/Control";
+import { GridPopupContext } from "../../../types";
 
 type Props = {
   weekday: number;

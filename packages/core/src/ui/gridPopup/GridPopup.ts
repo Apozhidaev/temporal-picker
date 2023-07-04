@@ -1,6 +1,6 @@
 import { Container } from "../base/Container";
 import { Header } from "./Header";
-import { Grid } from "./grid/Grid";
+import { Main } from "./main/Main";
 import { Footer } from "./Footer";
 import { GridPopupContext } from "./types";
 
@@ -12,7 +12,7 @@ type Props = {
 
 export class GridPopup extends Container<GridPopupContext, Props> {
   private header = new Header();
-  private grid = new Grid();
+  private main = new Main();
   private footer = new Footer();
 
   get type(): string {
@@ -26,7 +26,7 @@ export class GridPopup extends Container<GridPopupContext, Props> {
       this.header.render(el, {});
     }
 
-    this.grid.render(
+    this.main.render(
       el,
       {
         entry: props.entry,
@@ -46,7 +46,7 @@ export class GridPopup extends Container<GridPopupContext, Props> {
   }
 
   protected onUpdate(el: HTMLElement, props: Props): void {
-    this.grid.update(
+    this.main.update(
       {
         entry: props.entry,
         picked: props.picked,

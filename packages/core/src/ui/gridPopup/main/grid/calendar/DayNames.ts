@@ -1,6 +1,6 @@
-import { Control } from "../../../base/Control";
+import { Control } from "../../../../base/Control";
 import { DayName } from "./DayName";
-import { GridPopupContext } from "../../types";
+import { GridPopupContext } from "../../../types";
 
 type Props = {};
 

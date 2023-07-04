@@ -1,4 +1,4 @@
-import { Control } from "../../../base/Control";
+import { Control } from "../../../../base/Control";
 
 type Props = {};
 

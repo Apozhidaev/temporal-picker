@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
-import { Control } from "../../base/Control";
+import { Control } from "../../../base/Control";
 import { Calendar } from "./calendar/Calendar";
-import { toInstant } from "../../../utils";
-import { GridPopupContext } from "../types";
+import { toInstant } from "../../../../utils";
+import { GridPopupContext } from "../../types";
 
 type Props = {
   entry: string;

@@ -14,5 +14,22 @@ export type GridPopupContext = {
     next?: string;
     cancel?: string;
     apply?: string;
+    days: {
+      zero: string;
+      one: string;
+      two: string;
+      few: string;
+      many: string;
+      other: string;
+    };
+    months: {
+      zero: string;
+      one: string;
+      two: string;
+      few: string;
+      many: string;
+      other: string;
+    };
   };
+  tooltipElement?: HTMLElement;
 };

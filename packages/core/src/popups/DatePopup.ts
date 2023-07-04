@@ -36,6 +36,7 @@ export class DatePopup {
     this.entry = toInstant(DateTime.now().startOf(this.plainUnits.entry));
 
     this.container = this.options.element;
+    this.container.style.position = "relative";
 
     this.container.addEventListener("click", this.handleClick);
 
@@ -126,9 +127,12 @@ export class DatePopup {
           this.dispatchPreselect();
         }
         this.update();
+        this.onPicked();
       }
     }
   }
+
+  protected onPicked() {}
 
   /**
    *
@@ -220,13 +224,11 @@ export class DatePopup {
   }
 
   protected update(hover?: string) {
-    this.ui.update(
-      {
-        hover,
-        entry: this.entry,
-        picked: this.picked,
-      },
-    );
+    this.ui.update({
+      hover,
+      entry: this.entry,
+      picked: this.picked,
+    });
   }
 
   private dispatchSelect() {
