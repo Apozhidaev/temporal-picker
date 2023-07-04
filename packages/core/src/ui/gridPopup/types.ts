@@ -1,5 +1,11 @@
 import { PlainUnits } from "../../utils";
 
+export type Preset = {
+  label: string;
+  start?: string;
+  end?: string;
+};
+
 export type GridPopupContext = {
   pickCount: number;
   plainUnits: PlainUnits;
@@ -38,4 +44,7 @@ export type GridPopupContext = {
   actions?: {
     gotoInstant: (instant: string, index?: number) => void;
   };
+  presets?: Preset[];
+  presetPosition?: 'left' | 'right' | 'top' | 'bottom';
+  strict?: boolean;
 };

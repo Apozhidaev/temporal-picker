@@ -78,7 +78,7 @@ export class DatePopup {
       calendars: 1,
       resetButton: true,
       extraSelect: true,
-      actions: this
+      actions: this,
     });
     ui.render(this.container, {
       entry: this.entry,
@@ -89,7 +89,7 @@ export class DatePopup {
 
   public destroy() {
     this.container.removeEventListener("click", this.handleClick);
-    this.container.innerHTML = '';
+    this.container.innerHTML = "";
   }
 
   /**
@@ -190,14 +190,17 @@ export class DatePopup {
       const element = target.closest(".unit");
 
       if (!(element instanceof HTMLElement)) return;
-
-      this.onClickHeaderButton(element);
-      this.onClickResetButton(element);
-      this.onClickCalendarUnit(element);
-      this.onClickApplyButton(element);
-      this.onClickCancelButton(element);
+      this.onClick(element);
     }
   };
+
+  protected onClick(element: HTMLElement) {
+    this.onClickHeaderButton(element);
+    this.onClickResetButton(element);
+    this.onClickCalendarUnit(element);
+    this.onClickApplyButton(element);
+    this.onClickCancelButton(element);
+  }
 
   /**
    * Determines if the element is buttons of header (previous month, next month)
@@ -269,31 +272,31 @@ export class DatePopup {
     });
   }
 
-  private dispatchSelect() {
+  protected dispatchSelect(values?: (string | undefined)[]) {
     this.container.dispatchEvent(
       new CustomEvent("select", {
         detail: {
-          values: this.picked,
+          values: values || this.picked,
         },
       })
     );
   }
 
-  private dispatchPreselect() {
+  protected dispatchPreselect(values?: (string | undefined)[]) {
     this.container.dispatchEvent(
       new CustomEvent("preselect", {
         detail: {
-          values: this.picked,
+          values: values || this.picked,
         },
       })
     );
   }
 
-  private dispatchClose() {
+  protected dispatchClose() {
     this.container.dispatchEvent(new CustomEvent("close"));
   }
 
-  private dispatchClear() {
+  protected dispatchClear() {
     this.container.dispatchEvent(new CustomEvent("clear"));
   }
 }

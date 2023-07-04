@@ -15,7 +15,7 @@ export class Footer extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, { picked }: Props) {
-    const { dictionary, pickCount } = this.getContext(el);
+    const { dictionary, pickCount, strict } = this.getContext(el);
     const buttons = document.createElement("div");
     buttons.className = "footer-buttons";
 
@@ -27,14 +27,15 @@ export class Footer extends Control<Props, GridPopupContext> {
     const applyButton = document.createElement("button");
     applyButton.className = "apply-button unit";
     applyButton.innerHTML = dictionary?.apply || "Apply";
-    applyButton.disabled = picked.length !== pickCount;
+    applyButton.disabled =
+      (!!strict && picked.length !== pickCount) || picked.length === 0;
     buttons.appendChild(applyButton);
 
     el.appendChild(buttons);
   }
 
   protected onUpdate(el: HTMLElement, props: Props): void {
-    el.innerHTML = '';
+    el.innerHTML = "";
     this.onRender(el, props);
   }
 }

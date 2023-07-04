@@ -36,6 +36,7 @@ type Options = {
     };
   };
   tooltip?: boolean;
+  strict?: boolean;
 };
 
 export class RangePopup extends DatePopup {
@@ -46,7 +47,13 @@ export class RangePopup extends DatePopup {
     super(options);
     this.options = options;
 
-    this.container.addEventListener("mouseenter", this.handleMouseenter, true);
+    if (this.options.strict || this.options.autoApply) {
+      this.container.addEventListener(
+        "mouseenter",
+        this.handleMouseenter,
+        true
+      );
+    }
   }
 
   protected getUI() {
@@ -63,8 +70,20 @@ export class RangePopup extends DatePopup {
       calendars: 2,
       tooltipElement: this.tooltipElement,
       resetButton: true,
-      // extraSelect: true,
+      extraSelect: true,
+      autoApply: this.options.autoApply,
       actions: this,
+      presets: [
+        {
+          label: "Test 1",
+          start: "2023-01",
+          end: "2023-07",
+        },
+        {
+          label: "Test 2",
+          end: "2023-07",
+        },
+      ],
       dictionary: {
         days: {
           zero: "",
@@ -151,6 +170,45 @@ export class RangePopup extends DatePopup {
   protected render(): void {
     super.render();
     this.hideTooltip();
+  }
+
+  protected onClick(element: HTMLElement): void {
+    super.onClick(element);
+
+    this.onPresetButtonClick(element);
+  }
+
+  private onPresetButtonClick(element: HTMLElement): void {
+    if (this.isPresetButton(element)) {
+      const { start, end } = element.dataset;
+
+      this.picked = [start, end].filter(Boolean) as string[];
+      this.picked.sort();
+
+      if (this.options.autoApply) {
+        this.dispatchSelect([start, end]);
+      } else {
+        this.dispatchPreselect([start, end]);
+      }
+
+      if (this.picked.length > 0) {
+        this.gotoInstant(this.picked[0]);
+      } else {
+        this.update();
+      }
+
+      this.onPickedChacnge();
+    }
+  }
+
+  /**
+   * Determines if HTMLElement is preset buttons
+   *
+   * @param element
+   * @returns Boolean
+   */
+  private isPresetButton(element: HTMLElement) {
+    return element.classList.contains("preset-button");
   }
 
   /**
