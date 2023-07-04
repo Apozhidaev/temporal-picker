@@ -11,7 +11,7 @@ type Props = {
 
 export class Month extends Control<Props, PopupContext> {
   constructor() {
-    super();
+    super("button");
   }
 
   get type(): string {

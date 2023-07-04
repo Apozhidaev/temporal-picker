@@ -236,6 +236,7 @@
   padding: 5px 0;
 }
 .calendar > .days-grid > .day {
+  background-color: var(--color-btn-secondary-bg);
   border: 1px solid transparent;
   border-radius: 2px;
   height: var(--day-height);

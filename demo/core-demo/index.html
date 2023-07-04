@@ -19,7 +19,8 @@
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
       new DatePopup({
         element: document.getElementById("date"),
-        palin: "month",
+        palin: "date",
+        extraSelect: true
       }).render();
       new RangePopup({
         element: document.getElementById("range"),
