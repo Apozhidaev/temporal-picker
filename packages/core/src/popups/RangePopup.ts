@@ -73,6 +73,7 @@ export class RangePopup extends DatePopup {
       extraSelect: true,
       autoApply: this.options.autoApply,
       actions: this,
+      min: "2023-02",
       presets: [
         {
           label: "Test 1",

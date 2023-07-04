@@ -21,7 +21,7 @@ export class GridPopup extends Container<GridPopupContext, Props> {
 
   protected onRender(el: HTMLElement, props: Props) {
     el.className =
-      "container extra-options-plugin preset-plugin keyboard-plugin range";
+      "container extra-options-plugin preset-plugin lock-plugin keyboard-plugin range";
     if (this.context.header) {
       this.header.render(el, {});
     }

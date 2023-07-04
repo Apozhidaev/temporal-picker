@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
-
+import { GridPopupContext } from "../../../types";
+import { datesIsNotAvailable } from "../../../../../utils";
 
 type Props = {
   day: string;
@@ -8,7 +9,7 @@ type Props = {
   hover?: string;
 };
 
-export class Day extends Control<Props> {
+export class Day extends Control<Props, GridPopupContext> {
   constructor() {
     super();
   }
@@ -18,9 +19,12 @@ export class Day extends Control<Props> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
+    const { min, max } = this.getContext(el);
     el.className = "day unit";
 
     const today = DateTime.now();
+    const minDate = min ? DateTime.fromISO(min) : undefined;
+    const maxDate = max ? DateTime.fromISO(max) : undefined;
 
     const instant = DateTime.fromISO(props.day);
     let picked = props.picked;
@@ -67,6 +71,10 @@ export class Day extends Control<Props> {
 
       default:
         break;
+    }
+
+    if (datesIsNotAvailable(minDate, maxDate, instant)) {
+      el.classList.add("not-available");
     }
   }
 

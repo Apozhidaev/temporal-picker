@@ -25,12 +25,30 @@ export class Header extends Control<Props, GridPopupContext> {
       resetButton,
       extraSelect,
       actions,
+      min,
+      max,
+      minYear,
+      maxYear,
     } = this.getContext(el);
 
     el.className = "header";
     el.style.display = "flex";
 
     const date = DateTime.fromISO(entry);
+    const minDate = min ? DateTime.fromISO(min) : undefined;
+    const maxDate = max ? DateTime.fromISO(max) : undefined;
+
+    if (minDate) {
+      if (date.hasSame(minDate, "month") || date < minDate) {
+        el.classList.add("no-previous-month");
+      }
+    }
+
+    if (maxDate) {
+      if (date.hasSame(maxDate, "month") || date > maxDate) {
+        el.classList.add("no-next-month");
+      }
+    }
 
     if (extraSelect) {
       const monthNameWrapper = document.createElement("div");
@@ -42,16 +60,24 @@ export class Header extends Control<Props, GridPopupContext> {
         const selectMonths = document.createElement("select");
         selectMonths.className = "month-name--select month-name--dropdown unit";
 
+        const monthMinDate = minDate?.startOf("month");
+        const monthMaxDate = maxDate?.startOf("month");
+
         for (let x = 0; x < 12; x += 1) {
           const option = document.createElement("option");
           const optionMonth = DateTime.fromJSDate(
             new Date(date.year, x, 1, 0, 0, 0)
-          );
+          ); // todo
 
           option.value = String(x);
           option.text = optionMonth.setLocale(locale).toLocaleString({
             month: "long",
           });
+
+          option.disabled = Boolean(
+            (monthMinDate && optionMonth < monthMinDate) ||
+              (monthMaxDate && optionMonth > monthMaxDate)
+          );
 
           option.selected = optionMonth.month === date.month;
 
@@ -76,10 +102,14 @@ export class Header extends Control<Props, GridPopupContext> {
       const selectYears = document.createElement("select");
       selectYears.className = "month-name--select unit";
 
-      const minYear = DateTime.now().year - 100;
-      const maxYear = minYear + 101;
+      const yearMinDate = minDate?.startOf("year");
+      const yearMaxDate = maxDate?.startOf("year");
 
-      if (date.year > maxYear) {
+      const { year } = DateTime.now();
+      const yearMin = yearMinDate ? yearMinDate.year : minYear || year - 100;
+      const yearMax = yearMaxDate ? yearMaxDate.year : maxYear || year + 1;
+
+      if (date.year > yearMax) {
         const option = document.createElement("option");
         option.value = String(date.year);
         option.text = String(date.year);
@@ -89,7 +119,7 @@ export class Header extends Control<Props, GridPopupContext> {
         selectYears.appendChild(option);
       }
 
-      for (let x = maxYear; x >= minYear; x -= 1) {
+      for (let x = yearMax; x >= yearMin; x -= 1) {
         const option = document.createElement("option");
         option.value = String(x);
         option.text = String(x);
@@ -99,7 +129,7 @@ export class Header extends Control<Props, GridPopupContext> {
         selectYears.appendChild(option);
       }
 
-      if (date.year < minYear) {
+      if (date.year < yearMin) {
         const option = document.createElement("option");
         option.value = String(date.year);
         option.text = String(date.year);

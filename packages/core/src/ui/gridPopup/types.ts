@@ -47,4 +47,8 @@ export type GridPopupContext = {
   presets?: Preset[];
   presetPosition?: 'left' | 'right' | 'top' | 'bottom';
   strict?: boolean;
+  min?: string;
+  max?: string;
+  minYear?: number;
+  maxYear?: number;
 };
