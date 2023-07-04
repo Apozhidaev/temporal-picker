@@ -19,14 +19,13 @@
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
       new DatePopup({
         element: document.getElementById("date"),
-        palin: "date",
-      });
+        palin: "month",
+      }).render();
       new RangePopup({
         element: document.getElementById("range"),
         palin: "month",
         tooltip: true,
-        autoApply: true,
-      });
+      }).render();
     </script>
   </body>
 </html>

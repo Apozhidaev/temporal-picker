@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
-import { GridPopupContext } from "../../../types";
+import { PopupContext } from "../../../types";
 import { datesIsNotAvailable } from "../../../../../utils";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   hover?: string;
 };
 
-export class Month extends Control<Props, GridPopupContext> {
+export class Month extends Control<Props, PopupContext> {
   constructor() {
     super();
   }

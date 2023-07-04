@@ -1,92 +1,63 @@
-import { PickerType, PlainType } from "../types";
-import { GridPopup as UI } from "../ui/gridPopup/GridPopup";
-import { DatePopup } from "./DatePopup";
-import { DateTime } from "luxon";
+import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
+import { CalendarPopup, PopupOptions, Dictionary } from "./CalendarPopup";
+import { t } from "../utils";
+import { Preset } from "../ui/calendarPopup/types";
+import defaults from "../defaults";
 
-type Options = {
-  element: HTMLElement;
-  type: PickerType;
-  palin: PlainType;
-  pickCount: 1 | 2;
-  header?: HTMLElement | string | boolean;
-  autoApply?: boolean;
-  grid?: number;
-  calendars?: number;
-  locale?: string;
-  dictionary?: {
-    previous?: string;
-    next?: string;
-    cancel?: string;
-    apply?: string;
-    days: {
-      zero: string;
-      one: string;
-      two: string;
-      few: string;
-      many: string;
-      other: string;
-    };
-    months: {
-      zero: string;
-      one: string;
-      two: string;
-      few: string;
-      many: string;
-      other: string;
-    };
-  };
-  tooltip?: boolean;
-  strict?: boolean;
+type TooltipDictionary = {
+  zero: string;
+  one: string;
+  two: string;
+  few: string;
+  many: string;
+  other: string;
 };
 
-export class RangePopup extends DatePopup {
+type RangeDictionary = Dictionary & {
+  days?: TooltipDictionary;
+  months?: TooltipDictionary;
+};
+
+type Options = PopupOptions & {
+  dictionary?: RangeDictionary;
+  tooltip?: boolean;
+  strict?: boolean;
+  presets?: Preset[];
+  presetPosition?: "left" | "right" | "top" | "bottom";
+};
+
+export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
-  public options: Options;
 
   constructor(options: Options) {
     super(options);
-    this.options = options;
 
-    if (this.options.strict || this.options.autoApply) {
-      this.container.addEventListener(
-        "mouseenter",
-        this.handleMouseenter,
-        true
-      );
-    }
-  }
-
-  protected getUI() {
-    if (this.options.tooltip) {
+    if (options.tooltip) {
       this.tooltipElement = document.createElement("span");
       this.hideTooltip();
     }
-    const ui = new UI({
+    this.ui = new UI({
+      actions: this,
+      plain: this.plain,
       pickCount: 2,
-      plainUnits: this.plainUnits,
-      firstDay: 1,
-      locale: "en-US",
+      firstDay: options.firstDay ?? defaults.firstDay,
+      locale: options.locale ?? defaults.lacale,
       grid: 2,
       calendars: 2,
       tooltipElement: this.tooltipElement,
-      resetButton: true,
-      extraSelect: true,
-      autoApply: this.options.autoApply,
-      actions: this,
-      min: "2023-02",
-      presets: [
-        {
-          label: "Test 1",
-          start: "2023-01",
-          end: "2023-07",
-        },
-        {
-          label: "Test 2",
-          end: "2023-07",
-        },
-      ],
+      resetButton: options.resetButton ?? defaults.resetButton,
+      extraSelect: options.extraSelect,
+      autoApply: options.autoApply ?? defaults.autoApply,
+      strict: options.strict ?? true,
+      min: options.min,
+      max: options.max,
+      minYear: options.minYear,
+      maxYear: options.maxYear,
+      presets: options.presets,
+      presetPosition: options.presetPosition,
       dictionary: {
-        days: {
+        ...options.dictionary,
+        days: options.dictionary?.days || {
           zero: "",
           one: "day",
           two: "",
@@ -94,7 +65,7 @@ export class RangePopup extends DatePopup {
           many: "",
           other: "days",
         },
-        months: {
+        months: options.dictionary?.months || {
           zero: "",
           one: "month",
           two: "",
@@ -102,13 +73,16 @@ export class RangePopup extends DatePopup {
           many: "",
           other: "months",
         },
-      } as Options["dictionary"],
+      } as RangeDictionary,
     });
-    ui.render(this.container, {
-      entry: this.entry,
-      picked: this.picked,
-    });
-    return ui;
+
+    if (this.ui.context.strict || this.ui.context.autoApply) {
+      this.container.addEventListener(
+        "mouseenter",
+        this.handleMouseenter,
+        true
+      );
+    }
   }
 
   public destroy() {
@@ -135,20 +109,18 @@ export class RangePopup extends DatePopup {
         if (instant) {
           this.update(instant);
 
-          if (this.options.tooltip) {
+          if (this.ui.context.tooltipElement) {
             const values = [this.picked[0], instant];
             values.sort();
-            const [start, end] = values.map((x) => DateTime.fromISO(x));
-            const diff =
-              end.diff(start, this.plainUnits.diff)[this.plainUnits.duration] +
-              1;
+            const [start, end] = values;
+            const diff = t(this.plain).diff(start, end);
             if (diff > 0) {
               const pluralKey = new Intl.PluralRules(
                 this.ui.context.locale
               ).select(diff);
 
               const text = `${diff} ${
-                this.ui.context.dictionary?.[this.plainUnits.duration]?.[
+                t(this.plain).durationRecord(this.ui.context.dictionary)?.[
                   pluralKey
                 ]
               }`;
@@ -163,20 +135,11 @@ export class RangePopup extends DatePopup {
     }
   };
 
-  protected onPickedChacnge(): void {
-    super.onPickedChacnge();
-    this.hideTooltip();
-  }
-
-  protected render(): void {
-    super.render();
-    this.hideTooltip();
-  }
-
   protected onClick(element: HTMLElement): void {
     super.onClick(element);
 
     this.onPresetButtonClick(element);
+    this.hideTooltip();
   }
 
   private onPresetButtonClick(element: HTMLElement): void {
@@ -186,7 +149,7 @@ export class RangePopup extends DatePopup {
       this.picked = [start, end].filter(Boolean) as string[];
       this.picked.sort();
 
-      if (this.options.autoApply) {
+      if (this.ui.context.autoApply) {
         this.dispatchSelect([start, end]);
       } else {
         this.dispatchPreselect([start, end]);
@@ -197,8 +160,6 @@ export class RangePopup extends DatePopup {
       } else {
         this.update();
       }
-
-      this.onPickedChacnge();
     }
   }
 

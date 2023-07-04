@@ -1,5 +1,5 @@
 import { Control } from "../../base/Control";
-import { GridPopupContext } from "../types";
+import { PopupContext } from "../types";
 import { Grid } from "./grid/Grid";
 import { Presets } from "./Presets";
 
@@ -9,7 +9,7 @@ type Props = {
   hover?: string;
 };
 
-export class Main extends Control<Props, GridPopupContext> {
+export class Main extends Control<Props, PopupContext> {
   private grid = new Grid();
   private presetsContainer = new Presets();
 

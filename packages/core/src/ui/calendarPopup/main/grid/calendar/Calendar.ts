@@ -4,7 +4,7 @@ import { Days } from "./Days";
 import { Months } from "./Months";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { GridPopupContext } from "../../../types";
+import { PopupContext } from "../../../types";
 
 type Props = {
   index: number;
@@ -13,7 +13,7 @@ type Props = {
   hover?: string;
 };
 
-export class Calendar extends Control<Props, GridPopupContext> {
+export class Calendar extends Control<Props, PopupContext> {
   private header = new Header();
   private dayNames = new DayNames();
   private days = new Days();
@@ -29,12 +29,12 @@ export class Calendar extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, { index, entry, picked, hover }: Props) {
-    const { plainUnits } = this.getContext(el);
+    const { plain } = this.getContext(el);
 
     el.className = "calendar";
 
     this.header.render(el, { index, entry }, entry);
-    if (plainUnits.plain === "month") {
+    if (plain === "month") {
       this.months.render(el, { entry, picked, hover }, entry);
     } else {
       this.dayNames.render(el, {}, entry);
@@ -44,8 +44,8 @@ export class Calendar extends Control<Props, GridPopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
-    const { plainUnits } = this.getContext(el);
-    if (plainUnits.plain === "month") {
+    const { plain } = this.getContext(el);
+    if (plain === "month") {
       this.months.update({ entry, picked, hover }, entry);
     } else {
       this.days.update({ entry, picked, hover }, entry);

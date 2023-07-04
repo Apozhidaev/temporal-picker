@@ -1,7 +1,7 @@
 import { DateTime, DateTimeUnit } from "luxon";
 import { Control } from "../../base/Control";
-import { GridPopupContext } from "../types";
-import { datesIsNotAvailable } from "../../../utils";
+import { PopupContext } from "../types";
+import { datesIsNotAvailable, dt } from "../../../utils";
 
 function sameDate(
   date1: DateTime | undefined,
@@ -24,7 +24,7 @@ type Props = {
   picked: string[];
 };
 
-export class Presets extends Control<Props, GridPopupContext> {
+export class Presets extends Control<Props, PopupContext> {
   constructor() {
     super();
   }
@@ -34,7 +34,7 @@ export class Presets extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { presets, plainUnits, min, max } = this.getContext(el);
+    const { presets, min, max, plain } = this.getContext(el);
 
     el.className = "preset-plugin-container";
 
@@ -54,8 +54,8 @@ export class Presets extends Control<Props, GridPopupContext> {
       item.className = "preset-button unit";
 
       if (
-        sameDate(startPicked, startDate || endDate, plainUnits.same) &&
-        sameDate(endPicked || startPicked, endDate, plainUnits.same)
+        dt(plain).sameDate(startPicked, startDate || endDate) &&
+        dt(plain).sameDate(endPicked || startPicked, endDate)
       ) {
         item.classList.add("selected");
       } else {

@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../base/Control";
 import { Calendar } from "./calendar/Calendar";
-import { toInstant } from "../../../../utils";
-import { GridPopupContext } from "../../types";
+import { t, toInstant } from "../../../../utils";
+import { PopupContext } from "../../types";
 
 type Props = {
   entry: string;
@@ -10,11 +10,11 @@ type Props = {
   hover?: string;
 };
 
-export class Grid extends Control<Props, GridPopupContext> {
+export class Grid extends Control<Props, PopupContext> {
   private calendar = new Calendar();
 
   constructor() {
-    super("main");
+    super();
   }
 
   get type(): string {
@@ -22,44 +22,44 @@ export class Grid extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { grid, calendars, plainUnits } = this.getContext(el);
+    const { grid, calendars, plain } = this.getContext(el);
 
-    el.className = `calendars`;
+    el.className = `calendars grid-${grid}`;
     el.style.display = "grid";
     el.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
 
-    let date = DateTime.fromISO(props.entry);
+    let calendarEntry = props.entry;
     for (let i = 0; i < calendars; i++) {
       this.calendar.render(
         el,
         {
           index: i,
-          entry: toInstant(date, plainUnits.plain),
+          entry: calendarEntry,
           picked: props.picked,
           hover: props.hover,
         },
-        `${i}_${props.entry}`
+        calendarEntry
       );
 
-      date = date.plus(plainUnits.step);
+      calendarEntry = t(plain).next(calendarEntry);
     }
   }
 
   protected onUpdate(el: HTMLElement, props: Props): void {
-    const { calendars, plainUnits } = this.getContext(el);
-    let date = DateTime.fromISO(props.entry);
+    const { calendars, plain } = this.getContext(el);
+    let calendarEntry = props.entry;
     for (let i = 0; i < calendars; i++) {
       this.calendar.update(
         {
           index: i,
-          entry: toInstant(date, plainUnits.plain),
+          entry: calendarEntry,
           picked: props.picked,
           hover: props.hover,
         },
-        `${i}_${props.entry}`
+        calendarEntry
       );
 
-      date = date.plus(plainUnits.step);
+      calendarEntry = t(plain).next(calendarEntry);
     }
   }
 }

@@ -1,14 +1,14 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
-import { GridPopupContext } from "../../../types";
-import { toInstant } from "../../../../../utils";
+import { PopupContext } from "../../../types";
+import { dt, toInstant } from "../../../../../utils";
 
 type Props = {
   entry: string;
   index: number;
 };
 
-export class Header extends Control<Props, GridPopupContext> {
+export class Header extends Control<Props, PopupContext> {
   constructor() {
     super();
   }
@@ -19,9 +19,9 @@ export class Header extends Control<Props, GridPopupContext> {
 
   protected onRender(el: HTMLElement, { entry, index }: Props) {
     const {
+      plain,
       locale,
       dictionary,
-      plainUnits,
       resetButton,
       extraSelect,
       actions,
@@ -54,7 +54,7 @@ export class Header extends Control<Props, GridPopupContext> {
       const monthNameWrapper = document.createElement("div");
       monthNameWrapper.className = "month-name";
 
-      if (plainUnits.plain === "month") {
+      if (plain === "month") {
         monthNameWrapper.innerHTML = `<span></span>`;
       } else {
         const selectMonths = document.createElement("select");
@@ -88,9 +88,8 @@ export class Header extends Control<Props, GridPopupContext> {
           const target = e.target as HTMLSelectElement;
 
           actions?.gotoInstant(
-            toInstant(
-              DateTime.fromISO(entry).set({ month: Number(target.value) }),
-              plainUnits.plain
+            dt(plain).toInstant(
+              DateTime.fromISO(entry).set({ month: Number(target.value) })
             ),
             index
           );
@@ -143,9 +142,8 @@ export class Header extends Control<Props, GridPopupContext> {
         const target = e.target as HTMLSelectElement;
 
         actions?.gotoInstant(
-          toInstant(
-            DateTime.fromISO(entry).set({ year: Number(target.value) }),
-            plainUnits.plain
+          dt(plain).toInstant(
+            DateTime.fromISO(entry).set({ year: Number(target.value) })
           ),
           index
         );
@@ -155,7 +153,7 @@ export class Header extends Control<Props, GridPopupContext> {
 
       el.appendChild(monthNameWrapper);
     } else {
-      if (plainUnits.plain === "month") {
+      if (plain === "month") {
         const monthName = document.createElement("div");
         monthName.className = "month-name";
         monthName.innerHTML = `<span></span><span>${date.toFormat(

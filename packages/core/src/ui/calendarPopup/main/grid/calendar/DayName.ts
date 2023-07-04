@@ -1,12 +1,12 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
-import { GridPopupContext } from "../../../types";
+import { PopupContext } from "../../../types";
 
 type Props = {
   weekday: number;
 };
 
-export class DayName extends Control<Props, GridPopupContext> {
+export class DayName extends Control<Props, PopupContext> {
   constructor() {
     super();
   }

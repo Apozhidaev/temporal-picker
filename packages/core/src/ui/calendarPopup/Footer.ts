@@ -1,11 +1,11 @@
 import { Control } from "../base/Control";
-import { GridPopupContext } from "./types";
+import { PopupContext } from "./types";
 
 type Props = {
   picked: string[];
 };
 
-export class Footer extends Control<Props, GridPopupContext> {
+export class Footer extends Control<Props, PopupContext> {
   constructor() {
     super("footer");
   }

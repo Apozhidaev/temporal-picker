@@ -1,10 +1,10 @@
 import { Control } from "../../../../base/Control";
 import { DayName } from "./DayName";
-import { GridPopupContext } from "../../../types";
+import { PopupContext } from "../../../types";
 
 type Props = {};
 
-export class DayNames extends Control<Props, GridPopupContext> {
+export class DayNames extends Control<Props, PopupContext> {
   private dayName = new DayName();
   constructor() {
     super();

@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { Day } from "./Day";
-import { toInstant } from "../../../../../utils";
-import { GridPopupContext } from "../../../types";
+import { dt } from "../../../../../utils";
+import { PopupContext } from "../../../types";
 
 function calcOffsetDays(date: DateTime, firstDay: number): number {
   return date.weekday - firstDay;
@@ -14,7 +14,7 @@ type Props = {
   hover?: string;
 };
 
-export class Days extends Control<Props, GridPopupContext> {
+export class Days extends Control<Props, PopupContext> {
   private day = new Day();
   constructor() {
     super();
@@ -25,7 +25,7 @@ export class Days extends Control<Props, GridPopupContext> {
   }
 
   protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
-    const { firstDay, plainUnits } = this.getContext(el);
+    const { firstDay, plain } = this.getContext(el);
 
     el.className = "days-grid";
     el.style.display = "grid";
@@ -50,7 +50,7 @@ export class Days extends Control<Props, GridPopupContext> {
       this.day.render(
         el,
         {
-          day: toInstant(date, plainUnits.plain),
+          day: dt(plain).toInstant(date),
           picked,
           hover,
         },
@@ -60,7 +60,7 @@ export class Days extends Control<Props, GridPopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
-    const { plainUnits } = this.getContext(el);
+    const { plain } = this.getContext(el);
 
     let date = DateTime.fromISO(entry);
     const totalDays = new Date(
@@ -73,7 +73,7 @@ export class Days extends Control<Props, GridPopupContext> {
       date = date.set({ day: idx });
       this.day.update(
         {
-          day: toInstant(date, plainUnits.plain),
+          day: dt(plain).toInstant(date),
           picked,
           hover,
         },

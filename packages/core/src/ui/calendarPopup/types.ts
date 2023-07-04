@@ -1,4 +1,4 @@
-import { PlainUnits } from "../../utils";
+import { PlainType } from "../../types";
 
 export type Preset = {
   label: string;
@@ -6,9 +6,9 @@ export type Preset = {
   end?: string;
 };
 
-export type GridPopupContext = {
+export type PopupContext = {
+  plain?: PlainType;
   pickCount: number;
-  plainUnits: PlainUnits;
   grid: number;
   calendars: number;
   firstDay: number;
@@ -21,7 +21,7 @@ export type GridPopupContext = {
     cancel?: string;
     apply?: string;
     reset?: string;
-    days: {
+    days?: {
       zero: string;
       one: string;
       two: string;
@@ -29,7 +29,7 @@ export type GridPopupContext = {
       many: string;
       other: string;
     };
-    months: {
+    months?: {
       zero: string;
       one: string;
       two: string;

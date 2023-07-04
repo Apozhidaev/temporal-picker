@@ -1,2 +1,6 @@
-export const defaultFirstDay = 1;
-export const defaultLacale = "en-US";
+export default {
+  lacale: "en-US",
+  firstDay: 1,
+  autoApply: false,
+  resetButton: true,
+};
