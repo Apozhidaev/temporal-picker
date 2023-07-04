@@ -25,7 +25,7 @@ export class Months extends Control<Props, GridPopupContext> {
 
     el.className = "days-grid";
     el.style.display = "grid";
-    el.style.gridTemplateColumns = `repeat(${6}, 1fr)`;
+    el.style.gridTemplateColumns = `repeat(${4}, 1fr)`;
 
     let date = DateTime.fromISO(entry);
 

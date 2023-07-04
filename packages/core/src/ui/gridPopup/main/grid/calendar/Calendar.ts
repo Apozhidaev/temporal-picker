@@ -28,12 +28,12 @@ export class Calendar extends Control<Props, GridPopupContext> {
     return "Calendar";
   }
 
-  protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
+  protected onRender(el: HTMLElement, { index, entry, picked, hover }: Props) {
     const { plainUnits } = this.getContext(el);
 
     el.className = "calendar";
 
-    this.header.render(el, { entry }, entry);
+    this.header.render(el, { index, entry }, entry);
     if (plainUnits.plain === "month") {
       this.months.render(el, { entry, picked, hover }, entry);
     } else {

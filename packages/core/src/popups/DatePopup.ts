@@ -27,7 +27,7 @@ export class DatePopup {
   public options: Options;
   public plainUnits: PlainUnits;
   public container: HTMLElement;
-  public ui!: UI;
+  protected ui!: UI;
 
   constructor(options: Options) {
     this.options = options;
@@ -58,6 +58,16 @@ export class DatePopup {
     this.render();
   }
 
+  public gotoInstant(instant: string, index = 0) {
+    this.entry = toInstant(
+      DateTime.fromISO(instant)
+        .startOf(this.plainUnits.entry)
+        .minus(this.plainUnits.getStep(index)),
+      this.plainUnits.plain
+    );
+    this.render();
+  }
+
   protected getUI() {
     const ui = new UI({
       pickCount: 1,
@@ -66,6 +76,9 @@ export class DatePopup {
       locale: "en-US",
       grid: 1,
       calendars: 1,
+      resetButton: true,
+      extraSelect: true,
+      actions: this
     });
     ui.render(this.container, {
       entry: this.entry,
@@ -76,13 +89,14 @@ export class DatePopup {
 
   public destroy() {
     this.container.removeEventListener("click", this.handleClick);
+    this.container.innerHTML = '';
   }
 
   /**
    *
    * @param element
    */
-  public onClickHeaderButton(element: HTMLElement) {
+  private onClickHeaderButton(element: HTMLElement) {
     if (this.isCalendarHeaderButton(element)) {
       if (element.classList.contains("next-button")) {
         this.entry = toInstant(
@@ -104,7 +118,20 @@ export class DatePopup {
    *
    * @param element
    */
-  public onClickCalendarUnit(element: HTMLElement) {
+  private onClickResetButton(element: HTMLElement) {
+    if (this.isResetButton(element)) {
+      this.picked = [];
+      this.render();
+      this.onPickedChacnge();
+      this.dispatchClear();
+    }
+  }
+
+  /**
+   *
+   * @param element
+   */
+  private onClickCalendarUnit(element: HTMLElement) {
     if (this.isCalendarUnit(element)) {
       const instant = element.dataset.instant;
 
@@ -127,18 +154,18 @@ export class DatePopup {
           this.dispatchPreselect();
         }
         this.update();
-        this.onPicked();
+        this.onPickedChacnge();
       }
     }
   }
 
-  protected onPicked() {}
+  protected onPickedChacnge() {}
 
   /**
    *
    * @param element
    */
-  public onClickApplyButton(element: HTMLElement) {
+  private onClickApplyButton(element: HTMLElement) {
     if (this.isApplyButton(element)) {
       this.dispatchSelect();
     }
@@ -149,7 +176,7 @@ export class DatePopup {
    * @param element
    * @returns
    */
-  public onClickCancelButton(element: HTMLElement) {
+  private onClickCancelButton(element: HTMLElement) {
     if (this.isCancelButton(element)) {
       this.dispatchClose();
       return;
@@ -165,6 +192,7 @@ export class DatePopup {
       if (!(element instanceof HTMLElement)) return;
 
       this.onClickHeaderButton(element);
+      this.onClickResetButton(element);
       this.onClickCalendarUnit(element);
       this.onClickApplyButton(element);
       this.onClickCancelButton(element);
@@ -177,10 +205,20 @@ export class DatePopup {
    * @param element
    * @returns Boolean
    */
-  private isCalendarHeaderButton(element: HTMLElement): boolean {
+  protected isCalendarHeaderButton(element: HTMLElement): boolean {
     return ["previous-button", "next-button"].some((x) =>
       element.classList.contains(x)
     );
+  }
+
+  /**
+   * Determines if the element is buttons of header (previous month, next month)
+   *
+   * @param element
+   * @returns Boolean
+   */
+  protected isResetButton(element: HTMLElement): boolean {
+    return element.classList.contains("reset-button");
   }
 
   /**
@@ -199,7 +237,7 @@ export class DatePopup {
    * @param element
    * @returns Boolean
    */
-  private isApplyButton(element: HTMLElement): boolean {
+  protected isApplyButton(element: HTMLElement): boolean {
     return element.classList.contains("apply-button");
   }
 
@@ -209,7 +247,7 @@ export class DatePopup {
    * @param element
    * @returns Boolean
    */
-  private isCancelButton(element: HTMLElement): boolean {
+  protected isCancelButton(element: HTMLElement): boolean {
     return element.classList.contains("cancel-button");
   }
 
@@ -253,5 +291,9 @@ export class DatePopup {
 
   private dispatchClose() {
     this.container.dispatchEvent(new CustomEvent("close"));
+  }
+
+  private dispatchClear() {
+    this.container.dispatchEvent(new CustomEvent("clear"));
   }
 }

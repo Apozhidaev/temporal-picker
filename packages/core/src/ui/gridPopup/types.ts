@@ -14,6 +14,7 @@ export type GridPopupContext = {
     next?: string;
     cancel?: string;
     apply?: string;
+    reset?: string;
     days: {
       zero: string;
       one: string;
@@ -32,4 +33,9 @@ export type GridPopupContext = {
     };
   };
   tooltipElement?: HTMLElement;
+  resetButton?: boolean;
+  extraSelect?: boolean;
+  actions?: {
+    gotoInstant: (instant: string, index?: number) => void;
+  };
 };

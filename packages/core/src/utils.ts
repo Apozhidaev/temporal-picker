@@ -8,6 +8,7 @@ export type PlainUnits = {
   entry: DateTimeUnit;
   step: DurationLikeObject;
   duration: 'months' | 'days';
+  getStep: (n: number) => DurationLikeObject;
 };
 
 export function getPlainUnits(plain?: PlainType): PlainUnits {
@@ -20,6 +21,7 @@ export function getPlainUnits(plain?: PlainType): PlainUnits {
         entry: "year",
         step: { year: 1 },
         duration: 'months',
+        getStep: (n = 1) => ({ year: n })
       };
 
     default:
@@ -30,6 +32,7 @@ export function getPlainUnits(plain?: PlainType): PlainUnits {
         entry: "month",
         step: { month: 1 },
         duration: 'days',
+        getStep: (n = 1) => ({ month: n })
       };
   }
 }

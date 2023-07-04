@@ -62,6 +62,9 @@ export class RangePopup extends DatePopup {
       grid: 2,
       calendars: 2,
       tooltipElement: this.tooltipElement,
+      resetButton: true,
+      // extraSelect: true,
+      actions: this,
       dictionary: {
         days: {
           zero: "",
@@ -140,13 +143,18 @@ export class RangePopup extends DatePopup {
     }
   };
 
-  protected onPicked(): void {
-    super.onPicked();
+  protected onPickedChacnge(): void {
+    super.onPickedChacnge();
+    this.hideTooltip();
+  }
+
+  protected render(): void {
+    super.render();
     this.hideTooltip();
   }
 
   /**
-   * Displays tooltip of selected days
+   * Displays tooltip of selected units
    *
    * @param element
    * @param text
@@ -160,16 +168,16 @@ export class RangePopup extends DatePopup {
 
     const container = this.container.getBoundingClientRect();
     const tooltip = this.tooltipElement.getBoundingClientRect();
-    const day = element.getBoundingClientRect();
-    let top = day.top;
-    let left = day.left;
+    const unit = element.getBoundingClientRect();
+    let top = unit.top;
+    let left = unit.left;
 
     top -= container.top;
     left -= container.left;
 
     top -= tooltip.height;
     left -= tooltip.width / 2;
-    left += day.width / 2;
+    left += unit.width / 2;
 
     this.tooltipElement.style.top = `${top}px`;
     this.tooltipElement.style.left = `${left}px`;
