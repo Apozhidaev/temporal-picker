@@ -1,40 +1,19 @@
-import { DateTime, DateTimeUnit } from "luxon";
+import { DateTime } from "luxon";
 import { Control } from "../../base/Control";
 import { PopupContext } from "../types";
 import { datesIsNotAvailable, dt, t } from "../../../utils";
-
-function sameDate(
-  date1: DateTime | undefined,
-  date2: DateTime | undefined,
-  unit: DateTimeUnit
-) {
-  if (!date1 && !date2) {
-    return true;
-  }
-  if (date1 === date2) {
-    return true;
-  }
-  if (!date1 || !date2) {
-    return false;
-  }
-  return date1.hasSame(date2, unit);
-}
 
 type Props = {
   picked: string[];
 };
 
 export class Presets extends Control<Props, PopupContext> {
-  constructor() {
-    super();
-  }
-
   get type(): string {
     return "calendar-popup-presets";
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { presets, min, max, plain } = this.getContext(el);
+    const { presets, min, max, plain } = this.context;
 
     el.className = "preset-plugin-container";
 

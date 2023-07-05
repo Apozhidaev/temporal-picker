@@ -53,13 +53,24 @@ export function datesIsNotAvailable(
   return false;
 }
 
+export function samePicked(picked: string[], values: string[]): boolean {
+  if (picked.length !== values.length) {
+    return false;
+  }
+  for (let i = 0; i < picked.length; i++) {
+    const pick = picked[i];
+    const value = values[i];
+    if (pick !== value) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function dt(plain: PlainType = "date") {
   const utils = plain === "month" ? plainUnits.month : plainUnits.date;
   return {
-    sameRanges: (
-      range1: (DateTime | undefined)[],
-      range2: (DateTime | undefined)[]
-    ) => {
+    sameRanges: (range1: (DateTime | undefined)[], range2: (DateTime | undefined)[]) => {
       const r1 = range1.filter(Boolean).sort();
       const r2 = range2.filter(Boolean).sort();
       if (r1.length !== r2.length) {
@@ -90,24 +101,16 @@ export function t(plain: PlainType = "date") {
   const utils = plain === "month" ? plainUnits.month : plainUnits.date;
   return {
     entry: () => dt(plain).toInstant(DateTime.now().startOf(utils.entry)),
-    instant: (instant: string) =>
-      dt(plain).toInstant(DateTime.fromISO(instant)),
+    instant: (instant: string) => dt(plain).toInstant(DateTime.fromISO(instant)),
     startOf: (instant: string, shift = 0) =>
       dt(plain).toInstant(
-        DateTime.fromISO(instant)
-          .startOf(utils.entry)
-          .minus(utils.getStep(shift))
+        DateTime.fromISO(instant).startOf(utils.entry).minus(utils.getStep(shift))
       ),
-    next: (entry: string) =>
-      dt(plain).toInstant(DateTime.fromISO(entry).plus(utils.step)),
-    previous: (entry: string) =>
-      dt(plain).toInstant(DateTime.fromISO(entry).minus(utils.step)),
-    nextUnit: (instant: string) =>
-      dt(plain).toInstant(DateTime.fromISO(instant).plus(utils.unit)),
+    next: (entry: string) => dt(plain).toInstant(DateTime.fromISO(entry).plus(utils.step)),
+    previous: (entry: string) => dt(plain).toInstant(DateTime.fromISO(entry).minus(utils.step)),
+    nextUnit: (instant: string) => dt(plain).toInstant(DateTime.fromISO(instant).plus(utils.unit)),
     diff: (start: string, end: string) =>
-      DateTime.fromISO(end).diff(DateTime.fromISO(start), utils.diff)[
-        utils.duration
-      ] + 1,
+      DateTime.fromISO(end).diff(DateTime.fromISO(start), utils.diff)[utils.duration] + 1,
     durationRecord: (obj?: {
       [key in typeof utils.duration]?: Record<string, string>;
     }) => obj?.[utils.duration],

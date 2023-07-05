@@ -10,10 +10,17 @@ type Props = {
   hover?: string;
 };
 
-export class CalendarPopup extends Container<PopupContext, Props> {
-  private header = new Header();
-  private main = new Main();
-  private footer = new Footer();
+export class CalendarPopup extends Container<Props, PopupContext> {
+  private header;
+  private main;
+  private footer;
+
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.header = new Header(host, context);
+    this.main = new Main(host, context);
+    this.footer = new Footer(host, context);
+  }
 
   get type(): string {
     return "calendar-popup";

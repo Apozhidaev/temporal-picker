@@ -6,8 +6,8 @@ type Props = {
 };
 
 export class Footer extends Control<Props, PopupContext> {
-  constructor() {
-    super("footer");
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context, "footer");
   }
 
   get type(): string {
@@ -15,7 +15,7 @@ export class Footer extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, { picked }: Props) {
-    const { dictionary, pickCount, strict } = this.getContext(el);
+    const { dictionary, pickCount, strict } = this.context;
     const buttons = document.createElement("div");
     buttons.className = "footer-buttons";
 

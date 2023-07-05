@@ -70,6 +70,10 @@ export class TemporalPicker {
   @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
   @Prop() tooltip: boolean;
+  @Prop() customLayout: boolean;
+  @Prop() locale: string;
+  @Prop() firstDay: number;
+  @Prop() strict: boolean;
 
   /**
    * The value change event
@@ -228,7 +232,7 @@ export class TemporalPicker {
             id="temporal-popup"
             type={this.type}
             plain={this.plain}
-            parent={this.el}
+            picker={this.el}
             min={this.min}
             max={this.max}
             value={this.value}
@@ -238,6 +242,10 @@ export class TemporalPicker {
             resetButton={this.resetButton}
             extraSelect={this.extraSelect}
             tooltip={this.tooltip}
+            customLayout={this.customLayout}
+            locale={this.locale}
+            firstDay={this.firstDay}
+            strict={this.strict}
             onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();

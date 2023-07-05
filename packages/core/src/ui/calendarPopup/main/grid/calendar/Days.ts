@@ -15,9 +15,11 @@ type Props = {
 };
 
 export class Days extends Control<Props, PopupContext> {
-  private day = new Day();
-  constructor() {
-    super();
+  private day;
+
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.day = new Day(host, context);
   }
 
   get type(): string {
@@ -25,7 +27,7 @@ export class Days extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
-    const { firstDay, plain } = this.getContext(el);
+    const { firstDay, plain } = this.context;
 
     el.className = "days-grid";
     el.style.display = "grid";
@@ -60,7 +62,7 @@ export class Days extends Control<Props, PopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
-    const { plain } = this.getContext(el);
+    const { plain } = this.context;
 
     let date = DateTime.fromISO(entry);
     const totalDays = new Date(

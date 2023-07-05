@@ -1,18 +1,20 @@
-import { Component } from "./Component";
+import { Component, Context } from "./Component";
 
-export const context_key = Symbol("context_key");
-
-export abstract class Container<T, P> extends Component<P> {
-  public context: T;
-
-  constructor(context: T) {
-    super();
-    this.context = context;
-  }
-
+export abstract class Container<P, C extends Context = Context> extends Component<P, C> {
   render(el: HTMLElement, props: P, key = "") {
     el.innerHTML = "";
-    (el as HTMLElement & { [context_key]?: T })[context_key] = this.context;
     this.layout(el, props, key);
+    this.el[key] = el;
+
+    this.host.dispatchEvent(
+      new CustomEvent("t-layout", {
+        detail: {
+          type: this.type,
+          key,
+          props,
+          el,
+        },
+      })
+    );
   }
 }

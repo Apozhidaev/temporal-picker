@@ -10,11 +10,13 @@ type Props = {
 };
 
 export class Main extends Control<Props, PopupContext> {
-  private grid = new Grid();
-  private presetsContainer = new Presets();
+  private grid;
+  private presetsContainer;
 
-  constructor() {
-    super("main");
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context, "main");
+    this.grid = new Grid(host, context);
+    this.presetsContainer = new Presets(host, context);
   }
 
   get type(): string {
@@ -22,7 +24,7 @@ export class Main extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { presets, tooltipElement, presetPosition } = this.getContext(el);
+    const { presets, tooltipElement, presetPosition } = this.context;
 
     this.grid.render(el, props);
 
@@ -39,12 +41,12 @@ export class Main extends Control<Props, PopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, props: Props): void {
-    const { presets } = this.getContext(el);
+    const { presets } = this.context;
 
     this.grid.update(props);
 
     if (Array.isArray(presets) && presets.length > 0) {
-      this.presetsContainer.update(props);
+      this.presetsContainer.update({ picked: props.picked });
     }
   }
 }

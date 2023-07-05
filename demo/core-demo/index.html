@@ -18,17 +18,23 @@
     <script type="module">
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
       new DatePopup(document.getElementById("date"), {
-        palin: "date",
+        plain: "date",
         extraSelect: true,
       });
+
+      document
+        .getElementById("range")
+        .addEventListener("t-layout", (e) => console.log(e));
       const range = new RangePopup(document.getElementById("range"), {
-        palin: "month",
+        plain: "month",
         // extraSelect: true,
         // tooltip: false,
+        strict: false,
+        autoApply: false
       });
-      range.setOptions({
-        tooltip: false,
-      });
+      // range.setOptions({
+      //   tooltip: false,
+      // });
     </script>
   </body>
 </html>

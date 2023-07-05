@@ -1,22 +1,15 @@
-import {
-  memo,
-  useRef,
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  createElement,
-} from "react";
+import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
 import useEvent from "react-use-event-hook";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 
-export type Preset = {
+export type RangePreset = {
   label: string;
   start?: string;
   end?: string;
 };
 
 export type RangePickerProps = Omit<TemporalPickerProps, "type" | "value"> & {
-  presets?: Preset[];
+  presets?: RangePreset[];
   onRangeChange?: (start?: string, end?: string) => void;
 };
 
@@ -34,9 +27,12 @@ export const RangePicker = memo(
       resetButton,
       extraSelect,
       presetPosition,
+      firstDay,
+      customLayout,
       testId,
       className,
       onRangeChange,
+      onViewChange,
       ...pickerProps
     } = props;
 
@@ -56,15 +52,42 @@ export const RangePicker = memo(
       };
     }, []);
 
+    const handleViewChange = useEvent((event) => {
+      onViewChange?.(event);
+    });
+
+    useEffect(() => {
+      const element = pickerRef.current;
+      if (!element) {
+        return;
+      }
+      element.addEventListener("t-layout", handleViewChange);
+      if (customLayout) {
+        element.addEventListener("t-render", handleViewChange);
+        element.addEventListener("t-mount", handleViewChange);
+        element.addEventListener("t-update", handleViewChange);
+      }
+      return () => {
+        element.removeEventListener("t-layout", handleViewChange);
+        if (customLayout) {
+          element.removeEventListener("t-render", handleViewChange);
+          element.removeEventListener("t-mount", handleViewChange);
+          element.removeEventListener("t-update", handleViewChange);
+        }
+      };
+    }, [customLayout]);
+
     return createElement(
       "temporal-picker",
       {
         ...pickerProps,
-        "class": className,
+        class: className,
         "auto-apply": autoApply,
         "reset-button": resetButton,
         "extra-select": extraSelect,
         "preset-position": presetPosition,
+        "first-day": firstDay,
+        "custom-layout": customLayout,
         "data-testid": testId,
         type: "range",
         ref: pickerRef,

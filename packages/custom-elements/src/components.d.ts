@@ -40,12 +40,15 @@ export namespace Components {
     }
     interface TemporalPicker {
         "autoApply": boolean;
+        "customLayout": boolean;
         "disabled": boolean;
         /**
           * The end value of date range
          */
         "end": string;
         "extraSelect": boolean;
+        "firstDay": number;
+        "locale": string;
         /**
           * The max value
          */
@@ -70,6 +73,7 @@ export namespace Components {
           * The start value of date range
          */
         "start": string;
+        "strict": boolean;
         "tooltip": boolean;
         /**
           * The type of picker
@@ -82,11 +86,14 @@ export namespace Components {
     }
     interface TemporalPopup {
         "autoApply": boolean;
+        "customLayout": boolean;
         /**
           * The end value of date range
          */
         "end": string;
         "extraSelect": boolean;
+        "firstDay": number;
+        "locale": string;
         /**
           * The max value
          */
@@ -95,7 +102,7 @@ export namespace Components {
           * The min value
          */
         "min": string;
-        "parent": HTMLElement;
+        "picker": HTMLElement;
         /**
           * The type of picker
          */
@@ -105,10 +112,12 @@ export namespace Components {
         "scrollToEnd": () => Promise<void>;
         "scrollToStart": () => Promise<void>;
         "scrollToValue": () => Promise<void>;
+        "select": (values: string[], scrollToIndex?: number, shift?: number) => Promise<void>;
         /**
           * The start value of date range
          */
         "start": string;
+        "strict": boolean;
         "tooltip": boolean;
         /**
           * The type of picker
@@ -221,12 +230,15 @@ declare namespace LocalJSX {
     }
     interface TemporalPicker {
         "autoApply"?: boolean;
+        "customLayout"?: boolean;
         "disabled"?: boolean;
         /**
           * The end value of date range
          */
         "end"?: string;
         "extraSelect"?: boolean;
+        "firstDay"?: number;
+        "locale"?: string;
         /**
           * The max value
          */
@@ -259,6 +271,7 @@ declare namespace LocalJSX {
           * The start value of date range
          */
         "start"?: string;
+        "strict"?: boolean;
         "tooltip"?: boolean;
         /**
           * The type of picker
@@ -271,11 +284,14 @@ declare namespace LocalJSX {
     }
     interface TemporalPopup {
         "autoApply"?: boolean;
+        "customLayout"?: boolean;
         /**
           * The end value of date range
          */
         "end"?: string;
         "extraSelect"?: boolean;
+        "firstDay"?: number;
+        "locale"?: string;
         /**
           * The max value
          */
@@ -296,7 +312,7 @@ declare namespace LocalJSX {
           * The value change event
          */
         "onT-value-change"?: (event: TemporalPopupCustomEvent<PlainInstant1>) => void;
-        "parent"?: HTMLElement;
+        "picker"?: HTMLElement;
         /**
           * The type of picker
          */
@@ -307,6 +323,7 @@ declare namespace LocalJSX {
           * The start value of date range
          */
         "start"?: string;
+        "strict"?: boolean;
         "tooltip"?: boolean;
         /**
           * The type of picker

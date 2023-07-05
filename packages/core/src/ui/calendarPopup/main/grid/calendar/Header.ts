@@ -9,10 +9,6 @@ type Props = {
 };
 
 export class Header extends Control<Props, PopupContext> {
-  constructor() {
-    super();
-  }
-
   get type(): string {
     return "calendar-header";
   }
@@ -29,7 +25,7 @@ export class Header extends Control<Props, PopupContext> {
       max,
       minYear,
       maxYear,
-    } = this.getContext(el);
+    } = this.context;
 
     el.className = "header";
     el.style.display = "flex";

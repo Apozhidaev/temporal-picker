@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/custom-elements",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "temporal picker custom-elements",
   "main": "dist/components/index.js",
   "types": "dist/components/index.d.ts",
@@ -14,14 +14,13 @@
   ],
   "scripts": {
     "build": "stencil build --docs",
-    "start": "stencil build --dev --watch --serve",
+    "dev": "stencil build --dev --watch --serve",
     "generate": "stencil generate"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@stencil/core": "^3.0.0",
-    "@temporal-picker/core": "^0.0.2",
-    "lodash.merge": "^4.6.2",
+    "@temporal-picker/core": "^0.0.3",
     "luxon": "^3.3.0"
   },
   "devDependencies": {

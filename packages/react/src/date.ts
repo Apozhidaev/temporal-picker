@@ -1,17 +1,13 @@
-import {
-  memo,
-  useRef,
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  createElement,
-} from "react";
+import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
 import useEvent from "react-use-event-hook";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 
-export type DatePickerProps = Omit<TemporalPickerProps, 'type' | 'start' | 'end'> & {
-    onValueChange?: (value?: string) => void;
-  };
+export type DatePickerProps = Omit<
+  TemporalPickerProps,
+  "type" | "start" | "end" | "presetPosition" | "strict"
+> & {
+  onValueChange?: (value?: string) => void;
+};
 
 export const DatePicker = memo(
   forwardRef(function TemporalPicker(
@@ -25,10 +21,12 @@ export const DatePicker = memo(
       autoApply,
       resetButton,
       extraSelect,
-      presetPosition,
+      firstDay,
+      customLayout,
       testId,
       className,
       onValueChange,
+      onViewChange,
       ...pickerProps
     } = props;
 
@@ -47,17 +45,41 @@ export const DatePicker = memo(
       };
     }, []);
 
-    return createElement(
-      "temporal-picker",
-      {
-        ...pickerProps,
-        "class": className,
-        "auto-apply": autoApply,
-        "reset-button": resetButton,
-        "extra-select": extraSelect,
-        "preset-position": presetPosition,
-        "data-testid": testId,
-        ref: pickerRef,
-      });
+    const handleViewChange = useEvent((event) => {
+      onViewChange?.(event);
+    });
+
+    useEffect(() => {
+      const element = pickerRef.current;
+      if (!element) {
+        return;
+      }
+      element.addEventListener("t-layout", handleViewChange);
+      if (customLayout) {
+        element.addEventListener("t-render", handleViewChange);
+        element.addEventListener("t-mount", handleViewChange);
+        element.addEventListener("t-update", handleViewChange);
+      }
+      return () => {
+        element.removeEventListener("t-layout", handleViewChange);
+        if (customLayout) {
+          element.removeEventListener("t-render", handleViewChange);
+          element.removeEventListener("t-mount", handleViewChange);
+          element.removeEventListener("t-update", handleViewChange);
+        }
+      };
+    }, [customLayout]);
+
+    return createElement("temporal-picker", {
+      ...pickerProps,
+      class: className,
+      "auto-apply": autoApply,
+      "reset-button": resetButton,
+      "extra-select": extraSelect,
+      "first-day": firstDay,
+      "custom-layout": customLayout,
+      "data-testid": testId,
+      ref: pickerRef,
+    });
   })
 );

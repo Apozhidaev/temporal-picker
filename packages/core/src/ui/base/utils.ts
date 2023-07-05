@@ -3,12 +3,7 @@ export function shallowEqual(propsA: any, propsB: any) {
     return true;
   }
 
-  if (
-    typeof propsA !== "object" ||
-    !propsA ||
-    typeof propsB !== "object" ||
-    !propsB
-  ) {
+  if (typeof propsA !== "object" || !propsA || typeof propsB !== "object" || !propsB) {
     return false;
   }
 

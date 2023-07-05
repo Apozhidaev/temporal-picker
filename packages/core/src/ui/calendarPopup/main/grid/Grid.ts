@@ -10,10 +10,11 @@ type Props = {
 };
 
 export class Grid extends Control<Props, PopupContext> {
-  private calendar = new Calendar();
+  private calendar;
 
-  constructor() {
-    super();
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.calendar = new Calendar(host, context);
   }
 
   get type(): string {
@@ -21,7 +22,7 @@ export class Grid extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { grid, calendars, plain } = this.getContext(el);
+    const { grid, calendars, plain } = this.context;
 
     el.className = `calendars grid-${grid}`;
     el.style.display = "grid";
@@ -45,7 +46,7 @@ export class Grid extends Control<Props, PopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, props: Props): void {
-    const { calendars, plain } = this.getContext(el);
+    const { calendars, plain } = this.context;
     let calendarEntry = props.entry;
     for (let i = 0; i < calendars; i++) {
       this.calendar.update(

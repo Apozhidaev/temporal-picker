@@ -7,16 +7,12 @@ type Props = {
 };
 
 export class DayName extends Control<Props, PopupContext> {
-  constructor() {
-    super();
-  }
-
   get type(): string {
     return "day-name";
   }
 
   protected onRender(el: HTMLElement, { weekday }: Props) {
-    const { locale } = this.getContext(el);
+    const { locale } = this.context;
 
     el.className = "dayname";
 

@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { t } from "../utils";
+import { samePicked, t } from "../utils";
 
 export type Options = {
   plain: PlainType;
@@ -28,6 +28,7 @@ export type PopupOptions = Options & {
   maxYear?: number;
   firstDay?: number;
   dictionary?: Dictionary;
+  customLayout?: boolean;
 };
 
 export abstract class CalendarPopup {
@@ -46,8 +47,7 @@ export abstract class CalendarPopup {
     this.options = options;
     this.plain = options.plain;
 
-    this.picked =
-      options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+    this.picked = options.values?.filter(Boolean).map(t(this.plain).instant) || [];
 
     if (this.picked.length > 0) {
       this.picked.sort();
@@ -62,8 +62,7 @@ export abstract class CalendarPopup {
     this.entry = t(this.plain).entry();
 
     if (options.values) {
-      this.picked =
-        options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+      this.picked = options.values?.filter(Boolean).map(t(this.plain).instant) || [];
 
       if (this.picked.length > 0) {
         this.picked.sort();
@@ -80,8 +79,8 @@ export abstract class CalendarPopup {
   public select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
     this.picked = values.filter(Boolean).map(t(this.plain).instant);
     this.picked.sort();
-    const diff = values.length - this.picked.length;
-    this.scrollTo(this.picked[scrollToIndex - diff], shift);
+    const scrollToValue = this.picked[Math.min(scrollToIndex, this.picked.length - 1)];
+    this.scrollTo(scrollToValue, shift);
   }
 
   public destroy() {
@@ -132,10 +131,7 @@ export abstract class CalendarPopup {
         this.picked = [...this.picked, instant];
         this.picked.sort();
 
-        if (
-          this.ui.context.autoApply &&
-          this.picked.length === this.ui.context.pickCount
-        ) {
+        if (this.ui.context.autoApply && this.picked.length === this.ui.context.pickCount) {
           this.dispatchSelect();
         } else {
           this.dispatchPreselect();
@@ -193,9 +189,7 @@ export abstract class CalendarPopup {
    * @returns Boolean
    */
   protected isCalendarHeaderButton(element: HTMLElement): boolean {
-    return ["previous-button", "next-button"].some((x) =>
-      element.classList.contains(x)
-    );
+    return ["previous-button", "next-button"].some((x) => element.classList.contains(x));
   }
 
   /**

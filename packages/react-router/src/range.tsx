@@ -8,10 +8,7 @@ import {
 } from "@temporal-picker/react";
 import { sameValues } from "./utils";
 
-export type RangePickerProps = Omit<
-  TemporalPickerProps,
-  "start" | "end" | "onRangeChange"
-> & {
+export type RangePickerProps = Omit<TemporalPickerProps, "start" | "end" | "onRangeChange"> & {
   startParam: string;
   endParam: string;
   defaultStart?: string;
@@ -26,26 +23,21 @@ export const RangePicker = memo(
     const inputRef = useRef<HTMLTemporalPickerElement>(null);
     useImperativeHandle(ref, () => inputRef.current!);
     const [searchParams, setSearchParams] = useSearchParams();
-    const { startParam, endParam, defaultStart, defaultEnd, ...pickerProps } =
-      props;
+    const { startParam, endParam, defaultStart, defaultEnd, ...pickerProps } = props;
 
-    const startValue = searchParams.has(startParam)
-      ? searchParams.get(startParam)
-      : defaultStart;
+    const startValue = searchParams.has(startParam) ? searchParams.get(startParam) : defaultStart;
 
-    const endValue = searchParams.has(endParam)
-      ? searchParams.get(endParam)
-      : defaultEnd;
+    const endValue = searchParams.has(endParam) ? searchParams.get(endParam) : defaultEnd;
 
     const handleRangeChange = useEvent((start, end) => {
       searchParams.delete(startParam);
       searchParams.delete(endParam);
 
       if (!sameValues(start, defaultStart)) {
-        searchParams.set(startParam, start);
+        searchParams.set(startParam, start || "");
       }
       if (!sameValues(end, defaultEnd)) {
-        searchParams.set(endParam, end);
+        searchParams.set(endParam, end || "");
       }
 
       setSearchParams(searchParams, { replace: true });

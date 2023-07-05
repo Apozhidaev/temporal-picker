@@ -5,9 +5,11 @@ import { PopupContext } from "../../../types";
 type Props = {};
 
 export class DayNames extends Control<Props, PopupContext> {
-  private dayName = new DayName();
-  constructor() {
-    super();
+  private dayName;
+
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.dayName = new DayName(host, context);
   }
 
   get type(): string {
@@ -15,7 +17,7 @@ export class DayNames extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, {}: Props) {
-    const { firstDay } = this.getContext(el);
+    const { firstDay } = this.context;
 
     el.className = "daynames-row";
     el.style.display = "grid";

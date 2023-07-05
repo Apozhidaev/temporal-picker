@@ -14,14 +14,19 @@ type Props = {
 };
 
 export class Calendar extends Control<Props, PopupContext> {
-  private header = new Header();
-  private dayNames = new DayNames();
-  private days = new Days();
-  private months = new Months();
-  private footer = new Footer();
+  private header;
+  private dayNames;
+  private days;
+  private months;
+  private footer;
 
-  constructor() {
-    super();
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.header = new Header(host, context);
+    this.dayNames = new DayNames(host, context);
+    this.days = new Days(host, context);
+    this.months = new Months(host, context);
+    this.footer = new Footer(host, context);
   }
 
   get type(): string {
@@ -29,7 +34,7 @@ export class Calendar extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, { index, entry, picked, hover }: Props) {
-    const { plain } = this.getContext(el);
+    const { plain } = this.context;
 
     el.className = "calendar";
 
@@ -44,7 +49,7 @@ export class Calendar extends Control<Props, PopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
-    const { plain } = this.getContext(el);
+    const { plain } = this.context;
     if (plain === "month") {
       this.months.update({ entry, picked, hover }, entry);
     } else {

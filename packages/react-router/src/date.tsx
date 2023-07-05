@@ -2,16 +2,13 @@ import { memo, useRef, forwardRef, useImperativeHandle } from "react";
 import useEvent from "react-use-event-hook";
 import { useSearchParams } from "react-router-dom";
 import {
-  DatePicker as TemporalPicker,
-  DatePickerProps as TemporalPickerProps,
+  DatePicker as Picker,
+  DatePickerProps as PickerProps,
   HTMLTemporalPickerElement,
 } from "@temporal-picker/react";
 import { sameValues } from "./utils";
 
-export type DatePickerProps = Omit<
-  TemporalPickerProps,
-  "value" | "onValueChange"
-> & {
+export type DatePickerProps = Omit<PickerProps, "value" | "onValueChange"> & {
   param: string;
   defaultValue?: string;
 };
@@ -26,30 +23,26 @@ export const DatePicker = memo(
     const [searchParams, setSearchParams] = useSearchParams();
     const { param, defaultValue, ...pickerProps } = props;
 
-    const paramValue = searchParams.has(param)
-      ? searchParams.get(param)
-      : defaultValue;
+    const paramValue = searchParams.has(param) ? searchParams.get(param) : defaultValue;
 
     const handleValueChange = useEvent((value) => {
       searchParams.delete(param);
 
       if (!sameValues(value, defaultValue)) {
-        searchParams.set(param, value);
+        searchParams.set(param, value || "");
       }
 
       setSearchParams(searchParams, { replace: true });
     });
 
     return (
-      <TemporalPicker
+      <Picker
         {...pickerProps}
         ref={inputRef}
         value={paramValue || undefined}
         onValueChange={handleValueChange}
         aria-selected={
-          "aria-selected" in pickerProps
-            ? pickerProps["aria-selected"]
-            : searchParams.has(param)
+          "aria-selected" in pickerProps ? pickerProps["aria-selected"] : searchParams.has(param)
         }
       />
     );

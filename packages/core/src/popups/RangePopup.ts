@@ -29,14 +29,14 @@ export type RangePopupOptions = PopupOptions & {
 export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
 
-  constructor(element: HTMLElement, protected options: RangePopupOptions) {
+  constructor(element: HTMLElement, protected options: RangePopupOptions, private host = element) {
     super(element, options);
 
     if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
       this.hideTooltip();
     }
-    this.ui = new UI({
+    this.ui = new UI(host, {
       actions: this,
       plain: this.plain,
       tooltipElement: this.tooltipElement,
@@ -55,6 +55,7 @@ export class RangePopup extends CalendarPopup {
       maxYear: options.maxYear,
       presets: options.presets,
       presetPosition: options.presetPosition,
+      customLayout: options.customLayout,
       dictionary: mergeOptions(options.dictionary, {
         days: {
           zero: "",
@@ -76,11 +77,7 @@ export class RangePopup extends CalendarPopup {
     });
 
     if (this.ui.context.strict || this.ui.context.autoApply) {
-      this.container.addEventListener(
-        "mouseenter",
-        this.handleMouseenter,
-        true
-      );
+      this.container.addEventListener("mouseenter", this.handleMouseenter, true);
     }
 
     this.render();
@@ -96,7 +93,7 @@ export class RangePopup extends CalendarPopup {
       delete this.tooltipElement;
     }
 
-    this.ui = new UI({
+    this.ui = new UI(this.host, {
       actions: this,
       plain: this.plain,
       tooltipElement: this.tooltipElement,
@@ -115,6 +112,7 @@ export class RangePopup extends CalendarPopup {
       maxYear: options.maxYear ?? this.ui.context.maxYear,
       presets: options.presets ?? this.ui.context.presets,
       presetPosition: options.presetPosition ?? this.ui.context.presetPosition,
+      customLayout: options.customLayout,
       dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
     });
 
@@ -123,11 +121,7 @@ export class RangePopup extends CalendarPopup {
 
   public destroy() {
     super.destroy();
-    this.container.removeEventListener(
-      "mouseenter",
-      this.handleMouseenter,
-      true
-    );
+    this.container.removeEventListener("mouseenter", this.handleMouseenter, true);
   }
 
   handleMouseenter = (e: MouseEvent) => {
@@ -151,14 +145,10 @@ export class RangePopup extends CalendarPopup {
             const [start, end] = values;
             const diff = t(this.plain).diff(start, end);
             if (diff > 0) {
-              const pluralKey = new Intl.PluralRules(
-                this.ui.context.locale
-              ).select(diff);
+              const pluralKey = new Intl.PluralRules(this.ui.context.locale).select(diff);
 
               const text = `${diff} ${
-                t(this.plain).durationRecord(this.ui.context.dictionary)?.[
-                  pluralKey
-                ]
+                t(this.plain).durationRecord(this.ui.context.dictionary)?.[pluralKey]
               }`;
 
               this.showTooltip(element, text);

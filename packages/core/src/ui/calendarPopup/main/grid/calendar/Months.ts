@@ -11,9 +11,11 @@ type Props = {
 };
 
 export class Months extends Control<Props, PopupContext> {
-  private month = new Month();
-  constructor() {
-    super();
+  private month;
+
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context);
+    this.month = new Month(host, context);
   }
 
   get type(): string {
@@ -21,7 +23,7 @@ export class Months extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
-    const { plain } = this.getContext(el);
+    const { plain } = this.context;
 
     el.className = "days-grid";
     el.style.display = "grid";
@@ -45,7 +47,7 @@ export class Months extends Control<Props, PopupContext> {
   }
 
   protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
-    const { plain } = this.getContext(el);
+    const { plain } = this.context;
 
     let date = DateTime.fromISO(entry);
     for (let idx = 1; idx <= 12; idx++) {

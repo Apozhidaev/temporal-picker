@@ -1,4 +1,5 @@
 import { PlainType } from "../../types";
+import { Context } from "../base/Component";
 
 export type Preset = {
   label: string;
@@ -6,7 +7,7 @@ export type Preset = {
   end?: string;
 };
 
-export type PopupContext = {
+export type PopupContext = Context & {
   plain?: PlainType;
   pickCount: number;
   grid: number;

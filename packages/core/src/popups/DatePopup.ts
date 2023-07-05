@@ -6,10 +6,10 @@ import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 export type DatePopupOptions = PopupOptions;
 
 export class DatePopup extends CalendarPopup {
-  constructor(element: HTMLElement, protected options: DatePopupOptions) {
+  constructor(element: HTMLElement, protected options: DatePopupOptions, private host = element) {
     super(element, options);
     this.options = options;
-    this.ui = new UI({
+    this.ui = new UI(host, {
       actions: this,
       plain: this.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
@@ -24,6 +24,7 @@ export class DatePopup extends CalendarPopup {
       max: options.max,
       minYear: options.minYear,
       maxYear: options.maxYear,
+      customLayout: options.customLayout,
       dictionary: options.dictionary,
     });
     this.render();
@@ -31,7 +32,7 @@ export class DatePopup extends CalendarPopup {
 
   public setOptions(options: Partial<PopupOptions>): void {
     super.setOptions(options);
-    this.ui = new UI({
+    this.ui = new UI(this.host, {
       actions: this,
       plain: this.plain,
       firstDay: options.firstDay ?? this.ui.context.firstDay,
@@ -46,6 +47,7 @@ export class DatePopup extends CalendarPopup {
       max: options.max ?? this.ui.context.max,
       minYear: options.minYear ?? this.ui.context.minYear,
       maxYear: options.maxYear ?? this.ui.context.maxYear,
+      customLayout: options.customLayout ?? this.ui.context.customLayout,
       dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
     });
     this.render();

@@ -19,7 +19,7 @@ import { PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
 })
 export class TemporalPopup {
   @Element() el: HTMLElement;
-  @Prop() parent: HTMLElement;
+  @Prop() picker: HTMLElement;
 
   /**
    * The type of picker
@@ -61,6 +61,10 @@ export class TemporalPopup {
   @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
   @Prop() tooltip: boolean;
+  @Prop() customLayout: boolean;
+  @Prop() locale: string;
+  @Prop() firstDay: number;
+  @Prop() strict: boolean;
 
   @Watch('type')
   @Watch('plain')
@@ -71,6 +75,10 @@ export class TemporalPopup {
   @Watch('extraSelect')
   @Watch('presetPosition')
   @Watch('tooltip')
+  @Watch('customLayout')
+  @Watch('locale')
+  @Watch('firstDay')
+  @Watch('strict')
   watchOptions(newValue: string, _: string, name: string) {
     if (this.type === 'range') {
       this.rangePopup?.setOptions({ [name]: newValue });
@@ -81,17 +89,23 @@ export class TemporalPopup {
 
   @Watch('value')
   watchValue(newValue: string) {
-    this.datePopup?.select([newValue]);
+    if (!this.picker) {
+      this.datePopup?.select([newValue]);
+    }
   }
 
   @Watch('start')
   watchStart(newValue: string) {
-    this.rangePopup?.select([newValue, this.end]);
+    if (!this.picker) {
+      this.rangePopup?.select([newValue, this.end]);
+    }
   }
 
   @Watch('end')
   watchEnd(newValue: string) {
-    this.rangePopup?.select([this.start, newValue], 1);
+    if (!this.picker) {
+      this.rangePopup?.select([this.start, newValue], 1);
+    }
   }
 
   @Method()
@@ -101,12 +115,19 @@ export class TemporalPopup {
 
   @Method()
   async scrollToStart() {
+    this.focusIndex = 0;
     this.rangePopup?.select([this.start, this.end]);
   }
 
   @Method()
   async scrollToEnd() {
+    this.focusIndex = 1;
     this.rangePopup?.select([this.start, this.end], 1);
+  }
+
+  @Method()
+  async select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
+    this.rangePopup?.select(values, scrollToIndex, shift);
   }
 
   /**
@@ -129,64 +150,84 @@ export class TemporalPopup {
 
   private datePopup: DatePopup;
   private rangePopup: RangePopup;
+  private focusIndex = 0;
 
   componentDidLoad() {
+    const element = this.el.shadowRoot.getElementById('container');
+    element.addEventListener('t-close', () => {
+      this.closePopup.emit();
+    });
+    const host = this.picker || this.el;
     switch (this.type) {
       case 'range': {
         const presets = Array.from(
-          (this.parent || this.el).querySelectorAll<HTMLTemporalPresetElement>('temporal-preset'),
+          host.querySelectorAll<HTMLTemporalPresetElement>('temporal-preset'),
         );
-        const element = this.el.shadowRoot.getElementById('container');
-        this.rangePopup = new RangePopup(element, {
-          plain: this.plain,
-          autoApply: this.autoApply,
-          resetButton: this.resetButton,
-          extraSelect: this.extraSelect,
-          min: this.min,
-          max: this.max,
-          presets: presets.map(x => ({
-            start: x.start,
-            end: x.end,
-            label: x.label,
-          })),
-          presetPosition: this.presetPosition,
-          tooltip: this.tooltip,
-          values: [this.start, this.end],
-        });
+        this.rangePopup = new RangePopup(
+          element,
+          {
+            plain: this.plain,
+            autoApply: this.autoApply,
+            resetButton: this.resetButton,
+            extraSelect: this.extraSelect,
+            min: this.min,
+            max: this.max,
+            presets: presets.map(x => ({
+              start: x.start,
+              end: x.end,
+              label: x.label,
+            })),
+            presetPosition: this.presetPosition,
+            tooltip: this.tooltip,
+            customLayout: this.customLayout,
+            locale: this.locale,
+            firstDay: this.firstDay,
+            strict: this.strict,
+            values: [this.start, this.end],
+          },
+          host,
+        );
         element.addEventListener('t-select', (e: CustomEvent) => {
-          this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
+          if (e.detail.values.length < 2 && this.focusIndex === 1) {
+            this.rangeChange.emit({
+              start: undefined,
+              end: e.detail.values[0],
+            });
+          } else {
+            this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
+          }
           this.closePopup.emit();
         });
         element.addEventListener('t-reset', () => {
           this.rangeChange.emit({ start: undefined, end: undefined });
           this.closePopup.emit();
         });
-        element.addEventListener('t-close', () => {
-          this.closePopup.emit();
-        });
         break;
       }
 
       default: {
-        const element = this.el.shadowRoot.getElementById('container');
-        this.datePopup = new DatePopup(element, {
-          plain: this.plain,
-          autoApply: this.autoApply,
-          resetButton: this.resetButton,
-          extraSelect: this.extraSelect,
-          min: this.min,
-          max: this.max,
-          values: [this.value],
-        });
+        this.datePopup = new DatePopup(
+          element,
+          {
+            plain: this.plain,
+            autoApply: this.autoApply,
+            resetButton: this.resetButton,
+            extraSelect: this.extraSelect,
+            min: this.min,
+            max: this.max,
+            customLayout: this.customLayout,
+            locale: this.locale,
+            firstDay: this.firstDay,
+            values: [this.value],
+          },
+          host,
+        );
         element.addEventListener('t-select', (e: CustomEvent) => {
           this.valueChange.emit({ value: e.detail.values[0] });
           this.closePopup.emit();
         });
         element.addEventListener('t-reset', () => {
           this.valueChange.emit({ value: undefined });
-          this.closePopup.emit();
-        });
-        element.addEventListener('t-close', () => {
           this.closePopup.emit();
         });
         break;

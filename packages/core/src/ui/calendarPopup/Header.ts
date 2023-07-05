@@ -4,8 +4,8 @@ import { PopupContext } from "./types";
 type Props = {};
 
 export class Header extends Control<Props, PopupContext> {
-  constructor() {
-    super("header");
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context, "header");
   }
 
   get type(): string {
@@ -13,7 +13,7 @@ export class Header extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement) {
-    const { header } = this.getContext(el);
+    const { header } = this.context;
     if (header instanceof HTMLElement) {
       el.appendChild(header);
     }

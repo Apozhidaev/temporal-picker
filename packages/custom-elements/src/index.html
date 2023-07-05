@@ -30,9 +30,12 @@
         tooltip="true"
         start="2023-01-01"
         end="2023-02-15"
+        custom-layout="true"
+        strict="false"
+        auto-apply="false"
       >
         <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
-        <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
+        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
       </temporal-picker>
     </div>
 
@@ -42,6 +45,11 @@
 
       const rangePicker = document.getElementById('range-picker');
       rangePicker.addEventListener('t-range-change', e => console.log(e));
+
+      rangePicker.addEventListener('t-render', e => {
+        console.log(e);
+        // e.preventDefault();
+      });
     </script>
   </body>
 </html>

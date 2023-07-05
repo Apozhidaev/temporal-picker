@@ -20,6 +20,12 @@ function App() {
               onRangeChange={(start, end) => {
                 console.log(start, end);
               }}
+              onViewChange={(e) => {
+                console.log(e);
+                // e.detail.el.innerHTML = "";
+                // e.preventDefault();
+              }}
+              customLayout
               placement="bottom-end"
               autoApply
               resetButton

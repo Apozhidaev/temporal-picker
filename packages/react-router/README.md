@@ -57,7 +57,11 @@ export type PickerProps = {
   autoApply?: boolean;
   resetButton?: boolean;
   extraSelect?: boolean;
+  customLayout?: boolean;
+  firstDay?: number;
+  locale?: string;
   testId?: string;
+  onViewChange?: (event: CustomEvent<ViewDetail>) => void;
 };
 
 export type PlainPickerProps = PickerProps & {
@@ -77,6 +81,7 @@ export type RangePickerProps = PickerProps & {
   }[];
   presetPosition?: "bottom" | "left" | "right" | "top";
   tooltip?: boolean;
+  strict?: boolean;
 };
 ```
 

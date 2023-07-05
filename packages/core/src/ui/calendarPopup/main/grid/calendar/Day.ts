@@ -10,8 +10,8 @@ type Props = {
 };
 
 export class Day extends Control<Props, PopupContext> {
-  constructor() {
-    super("button");
+  constructor(host: HTMLElement, context: PopupContext) {
+    super(host, context, "button");
   }
 
   get type(): string {
@@ -19,7 +19,7 @@ export class Day extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { min, max } = this.getContext(el);
+    const { min, max } = this.context;
     el.className = "day unit";
 
     const today = DateTime.now();
