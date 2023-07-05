@@ -1,7 +1,7 @@
 {
   "name": "@temporal-picker/custom-elements",
-  "version": "0.0.3",
-  "description": "Temporal Picker",
+  "version": "0.0.4",
+  "description": "temporal picker custom-elements",
   "main": "dist/components/index.js",
   "types": "dist/components/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@stencil/core": "^3.0.0",
-    "@temporal-picker/core": "^0.0.1",
+    "@temporal-picker/core": "^0.0.2",
     "lodash.merge": "^4.6.2",
     "luxon": "^3.3.0"
   },

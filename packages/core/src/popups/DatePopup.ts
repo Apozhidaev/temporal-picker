@@ -1,18 +1,19 @@
 import defaults from "../defaults";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
+import { mergeOptions } from "../utils";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 
 export type DatePopupOptions = PopupOptions;
 
 export class DatePopup extends CalendarPopup {
-  constructor(options: DatePopupOptions) {
-    super(options);
-
+  constructor(element: HTMLElement, protected options: DatePopupOptions) {
+    super(element, options);
+    this.options = options;
     this.ui = new UI({
       actions: this,
       plain: this.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
-      locale: options.locale ?? defaults.lacale,
+      locale: options.locale ?? defaults.locale,
       pickCount: 1,
       grid: 1,
       calendars: 1,
@@ -25,5 +26,28 @@ export class DatePopup extends CalendarPopup {
       maxYear: options.maxYear,
       dictionary: options.dictionary,
     });
+    this.render();
+  }
+
+  public setOptions(options: Partial<PopupOptions>): void {
+    super.setOptions(options);
+    this.ui = new UI({
+      actions: this,
+      plain: this.plain,
+      firstDay: options.firstDay ?? this.ui.context.firstDay,
+      locale: options.locale ?? this.ui.context.locale,
+      pickCount: 1,
+      grid: 1,
+      calendars: 1,
+      resetButton: options.resetButton ?? this.ui.context.resetButton,
+      extraSelect: options.extraSelect ?? this.ui.context.extraSelect,
+      autoApply: options.autoApply ?? this.ui.context.autoApply,
+      min: options.min ?? this.ui.context.min,
+      max: options.max ?? this.ui.context.max,
+      minYear: options.minYear ?? this.ui.context.minYear,
+      maxYear: options.maxYear ?? this.ui.context.maxYear,
+      dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
+    });
+    this.render();
   }
 }

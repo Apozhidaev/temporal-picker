@@ -11,23 +11,24 @@
   </head>
 
   <body>
-    <div style="display: flex; gap: 24px; align-items: flex-start;">
+    <div style="display: flex; gap: 24px; align-items: flex-start">
       <div id="date"></div>
       <div id="range"></div>
     </div>
     <script type="module">
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
-      new DatePopup({
-        element: document.getElementById("date"),
+      new DatePopup(document.getElementById("date"), {
         palin: "date",
-        extraSelect: true
-      }).render();
-      new RangePopup({
-        element: document.getElementById("range"),
-        palin: "month",
-        tooltip: true,
         extraSelect: true,
-      }).render();
+      });
+      const range = new RangePopup(document.getElementById("range"), {
+        palin: "month",
+        // extraSelect: true,
+        // tooltip: false,
+      });
+      range.setOptions({
+        tooltip: false,
+      });
     </script>
   </body>
 </html>

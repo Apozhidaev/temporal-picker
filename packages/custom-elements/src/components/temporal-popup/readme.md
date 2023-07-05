@@ -19,6 +19,7 @@
 | `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
+| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
 | `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`   |
 | `value`          | `value`           | The start value of date range | `string`                                             | `undefined` |
 
@@ -34,7 +35,7 @@
 
 ## Methods
 
-### `gotoDate() => Promise<void>`
+### `scrollToEnd() => Promise<void>`
 
 
 
@@ -44,7 +45,7 @@ Type: `Promise<void>`
 
 
 
-### `gotoEnd() => Promise<void>`
+### `scrollToStart() => Promise<void>`
 
 
 
@@ -54,7 +55,7 @@ Type: `Promise<void>`
 
 
 
-### `gotoStart() => Promise<void>`
+### `scrollToValue() => Promise<void>`
 
 
 

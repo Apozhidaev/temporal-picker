@@ -5,14 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { PlainType } from "@temporal-picker/core";
+import { PickerType, PlainType } from "@temporal-picker/core";
 import { TemporalInputValue } from "./components/temporal-input/temporal-input";
-import { PickerType, PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
-import { PickerType as PickerType1, PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
-export { PlainType } from "@temporal-picker/core";
+import { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
+import { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
+export { PickerType, PlainType } from "@temporal-picker/core";
 export { TemporalInputValue } from "./components/temporal-input/temporal-input";
-export { PickerType, PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
-export { PickerType as PickerType1, PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
+export { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
+export { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
 export namespace Components {
     interface TemporalInput {
         "disabled": boolean;
@@ -70,6 +70,7 @@ export namespace Components {
           * The start value of date range
          */
         "start": string;
+        "tooltip": boolean;
         /**
           * The type of picker
          */
@@ -86,9 +87,6 @@ export namespace Components {
          */
         "end": string;
         "extraSelect": boolean;
-        "gotoDate": () => Promise<void>;
-        "gotoEnd": () => Promise<void>;
-        "gotoStart": () => Promise<void>;
         /**
           * The max value
          */
@@ -104,14 +102,18 @@ export namespace Components {
         "plain": PlainType;
         "presetPosition": 'left' | 'right' | 'top' | 'bottom';
         "resetButton": boolean;
+        "scrollToEnd": () => Promise<void>;
+        "scrollToStart": () => Promise<void>;
+        "scrollToValue": () => Promise<void>;
         /**
           * The start value of date range
          */
         "start": string;
+        "tooltip": boolean;
         /**
           * The type of picker
          */
-        "type": PickerType1;
+        "type": PickerType;
         /**
           * The start value of date range
          */
@@ -257,6 +259,7 @@ declare namespace LocalJSX {
           * The start value of date range
          */
         "start"?: string;
+        "tooltip"?: boolean;
         /**
           * The type of picker
          */
@@ -304,10 +307,11 @@ declare namespace LocalJSX {
           * The start value of date range
          */
         "start"?: string;
+        "tooltip"?: boolean;
         /**
           * The type of picker
          */
-        "type"?: PickerType1;
+        "type"?: PickerType;
         /**
           * The start value of date range
          */

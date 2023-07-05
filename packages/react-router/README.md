@@ -1,4 +1,4 @@
-# @temporal-picker/react
+# @temporal-picker/react-router
 
 The DatePicker (RangePicker) component base on React-Router and [temporal-picker](https://www.npmjs.com/package/temporal-picker).
 
@@ -75,6 +75,8 @@ export type RangePickerProps = PickerProps & {
     start?: string;
     end?: string;
   }[];
+  presetPosition?: "bottom" | "left" | "right" | "top";
+  tooltip?: boolean;
 };
 ```
 

@@ -26,8 +26,10 @@
         plain="date"
         extra-select="true"
         reset-button="true"
-        auto-apply="false"
         native="false"
+        tooltip="true"
+        start="2023-01-01"
+        end="2023-02-15"
       >
         <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
         <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
@@ -36,10 +38,10 @@
 
     <script>
       const picker = document.getElementById('picker');
-      picker.addEventListener('valueChange', e => console.log(e));
+      picker.addEventListener('t-value-change', e => console.log(e));
 
       const rangePicker = document.getElementById('range-picker');
-      rangePicker.addEventListener('rangeChange', e => console.log(e));
+      rangePicker.addEventListener('t-range-change', e => console.log(e));
     </script>
   </body>
 </html>

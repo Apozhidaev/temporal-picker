@@ -3,9 +3,9 @@ import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { t } from "../utils";
 
-type Options = {
-  element: HTMLElement;
+export type Options = {
   plain: PlainType;
+  values?: string[];
 };
 
 export type Dictionary = {
@@ -32,33 +32,56 @@ export type PopupOptions = Options & {
 
 export abstract class CalendarPopup {
   public entry;
-  public picked: string[] = [];
+  public picked: string[];
 
   public plain: PlainType;
   public container: HTMLElement;
   protected ui!: UI;
 
-  constructor(options: Options) {
-    this.plain = options.plain;
-    this.entry = t(this.plain).entry();
-
-    this.container = options.element;
+  constructor(element: HTMLElement, protected options: Options) {
+    this.container = element;
     this.container.style.position = "relative";
-
     this.container.addEventListener("click", this.handleClick);
+
+    this.options = options;
+    this.plain = options.plain;
+
+    this.picked =
+      options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+
+    if (this.picked.length > 0) {
+      this.picked.sort();
+      this.entry = t(this.plain).startOf(this.picked[0]);
+    } else {
+      this.entry = t(this.plain).entry();
+    }
   }
 
-  public scrollTo(value: string, shift = 0) {
-    if (value) {
-      this.entry = t(this.plain).startOf(value, shift);
-      this.render();
+  public setOptions(options: Partial<Options>) {
+    this.plain = this.options.plain ?? options.plain;
+    this.entry = t(this.plain).entry();
+
+    if (options.values) {
+      this.picked =
+        options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+
+      if (this.picked.length > 0) {
+        this.picked.sort();
+        this.entry = t(this.plain).startOf(this.picked[0]);
+      }
     }
+  }
+
+  public scrollTo(value: string = DateTime.now().toISO()!, shift = 0) {
+    this.entry = t(this.plain).startOf(value, shift);
+    this.render();
   }
 
   public select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
     this.picked = values.filter(Boolean).map(t(this.plain).instant);
     this.picked.sort();
-    this.scrollTo(values[scrollToIndex] || DateTime.now().toISO()!, shift);
+    const diff = values.length - this.picked.length;
+    this.scrollTo(this.picked[scrollToIndex - diff], shift);
   }
 
   public destroy() {
@@ -215,7 +238,7 @@ export abstract class CalendarPopup {
     return element.classList.contains("cancel-button");
   }
 
-  public render() {
+  protected render() {
     this.ui.render(this.container, {
       entry: this.entry,
       picked: this.picked,

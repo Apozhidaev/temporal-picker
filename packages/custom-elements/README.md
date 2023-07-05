@@ -65,6 +65,7 @@ Step 3.
 | `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined`      |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined`      |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined`      |
+| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined`      |
 | `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`        |
 | `value`          | `value`           | The value of date             | `string`                                             | `undefined`      |
 

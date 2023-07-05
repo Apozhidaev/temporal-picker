@@ -25,6 +25,7 @@ export const DatePicker = memo(
       autoApply,
       resetButton,
       extraSelect,
+      presetPosition,
       testId,
       className,
       onValueChange,
@@ -54,6 +55,7 @@ export const DatePicker = memo(
         "auto-apply": autoApply,
         "reset-button": resetButton,
         "extra-select": extraSelect,
+        "preset-position": presetPosition,
         "data-testid": testId,
         ref: pickerRef,
       });

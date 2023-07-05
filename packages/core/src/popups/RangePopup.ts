@@ -1,21 +1,21 @@
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { CalendarPopup, PopupOptions, Dictionary } from "./CalendarPopup";
-import { t } from "../utils";
+import { mergeOptions, t } from "../utils";
 import { Preset } from "../ui/calendarPopup/types";
 import defaults from "../defaults";
 
-type TooltipDictionary = {
-  zero: string;
-  one: string;
-  two: string;
-  few: string;
-  many: string;
-  other: string;
+export type PluralDictionary = {
+  zero?: string;
+  one?: string;
+  two?: string;
+  few?: string;
+  many?: string;
+  other?: string;
 };
 
-type RangeDictionary = Dictionary & {
-  days?: TooltipDictionary;
-  months?: TooltipDictionary;
+export type RangeDictionary = Dictionary & {
+  days?: PluralDictionary;
+  months?: PluralDictionary;
 };
 
 export type RangePopupOptions = PopupOptions & {
@@ -29,8 +29,8 @@ export type RangePopupOptions = PopupOptions & {
 export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
 
-  constructor(options: RangePopupOptions) {
-    super(options);
+  constructor(element: HTMLElement, protected options: RangePopupOptions) {
+    super(element, options);
 
     if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
@@ -39,28 +39,24 @@ export class RangePopup extends CalendarPopup {
     this.ui = new UI({
       actions: this,
       plain: this.plain,
+      tooltipElement: this.tooltipElement,
       pickCount: 2,
-      firstDay: options.firstDay ?? defaults.firstDay,
-      locale: options.locale ?? defaults.lacale,
       grid: 2,
       calendars: 2,
-      tooltipElement: this.tooltipElement,
+      firstDay: options.firstDay ?? defaults.firstDay,
+      locale: options.locale ?? defaults.locale,
       resetButton: options.resetButton ?? defaults.resetButton,
-      extraSelect: options.extraSelect,
       autoApply: options.autoApply ?? defaults.autoApply,
       strict: options.strict ?? defaults.strict,
+      extraSelect: options.extraSelect,
       min: options.min,
       max: options.max,
       minYear: options.minYear,
       maxYear: options.maxYear,
-      presets: options.presets || [
-        { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
-        { label: "Preset 2", end: "2023-01-01" },
-      ],
+      presets: options.presets,
       presetPosition: options.presetPosition,
-      dictionary: {
-        ...options.dictionary,
-        days: options.dictionary?.days || {
+      dictionary: mergeOptions(options.dictionary, {
+        days: {
           zero: "",
           one: "day",
           two: "",
@@ -68,7 +64,7 @@ export class RangePopup extends CalendarPopup {
           many: "",
           other: "days",
         },
-        months: options.dictionary?.months || {
+        months: {
           zero: "",
           one: "month",
           two: "",
@@ -76,7 +72,7 @@ export class RangePopup extends CalendarPopup {
           many: "",
           other: "months",
         },
-      } as RangeDictionary,
+      }),
     });
 
     if (this.ui.context.strict || this.ui.context.autoApply) {
@@ -86,6 +82,43 @@ export class RangePopup extends CalendarPopup {
         true
       );
     }
+
+    this.render();
+  }
+
+  public setOptions(options: Partial<RangePopupOptions>): void {
+    super.setOptions(options);
+
+    if (options.tooltip ?? this.options.tooltip) {
+      this.tooltipElement = document.createElement("span");
+      this.hideTooltip();
+    } else {
+      delete this.tooltipElement;
+    }
+
+    this.ui = new UI({
+      actions: this,
+      plain: this.plain,
+      tooltipElement: this.tooltipElement,
+      pickCount: 2,
+      grid: 2,
+      calendars: 2,
+      firstDay: options.firstDay ?? this.ui.context.firstDay,
+      locale: options.locale ?? this.ui.context.locale,
+      resetButton: options.resetButton ?? this.ui.context.resetButton,
+      autoApply: options.autoApply ?? this.ui.context.autoApply,
+      strict: options.strict ?? this.ui.context.strict,
+      extraSelect: options.extraSelect ?? this.ui.context.extraSelect,
+      min: options.min ?? this.ui.context.min,
+      max: options.max ?? this.ui.context.max,
+      minYear: options.minYear ?? this.ui.context.minYear,
+      maxYear: options.maxYear ?? this.ui.context.maxYear,
+      presets: options.presets ?? this.ui.context.presets,
+      presetPosition: options.presetPosition ?? this.ui.context.presetPosition,
+      dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
+    });
+
+    this.render();
   }
 
   public destroy() {

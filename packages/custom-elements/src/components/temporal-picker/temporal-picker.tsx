@@ -10,11 +10,10 @@ import {
   State,
   Watch,
 } from '@stencil/core';
-import { PlainType } from '@temporal-picker/core';
+import { PickerType, PlainType } from '@temporal-picker/core';
 
 export type PlainInstant = { value: string };
 export type RangeInstant = { start: string; end: string };
-export type PickerType = 'plain' | 'range';
 
 @Component({
   tag: 'temporal-picker',
@@ -70,16 +69,19 @@ export class TemporalPicker {
   @Prop() disabled: boolean;
   @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
+  @Prop() tooltip: boolean;
 
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<PlainInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' })
+  valueChange: EventEmitter<PlainInstant>;
 
   /**
    * The range change event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-range-change' }) rangeChange: EventEmitter<RangeInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-range-change' })
+  rangeChange: EventEmitter<RangeInstant>;
 
   valueChangeHandler() {
     this.valueChange.emit({ value: this.value });
@@ -92,7 +94,7 @@ export class TemporalPicker {
   @State() isOpen: boolean = false;
 
   @Watch('isOpen')
-  watchOpenStateHandler(newValue: boolean) {
+  watchOpenState(newValue: boolean) {
     if (newValue) {
       document.addEventListener('click', this.documentClickHandler, true);
       document.body.appendChild(this.popup);
@@ -161,7 +163,7 @@ export class TemporalPicker {
               }}
               onT-open-popup={() => {
                 this.isOpen = true;
-                this.popup.gotoStart();
+                this.popup.scrollToStart();
               }}
               onT-close-popup={() => {
                 this.isOpen = false;
@@ -189,7 +191,7 @@ export class TemporalPicker {
               }}
               onT-open-popup={() => {
                 this.isOpen = true;
-                this.popup.gotoEnd();
+                this.popup.scrollToEnd();
               }}
               onT-close-popup={() => {
                 this.isOpen = false;
@@ -214,7 +216,7 @@ export class TemporalPicker {
             }}
             onT-open-popup={() => {
               this.isOpen = true;
-              this.popup.gotoDate();
+              this.popup.scrollToValue();
             }}
             onT-close-popup={() => {
               this.isOpen = false;
@@ -235,6 +237,7 @@ export class TemporalPicker {
             autoApply={this.autoApply}
             resetButton={this.resetButton}
             extraSelect={this.extraSelect}
+            tooltip={this.tooltip}
             onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();

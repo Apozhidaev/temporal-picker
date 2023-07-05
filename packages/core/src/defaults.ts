@@ -1,5 +1,5 @@
 export default {
-  lacale: "en-US",
+  locale: "en-US",
   firstDay: 1,
   autoApply: true,
   resetButton: true,

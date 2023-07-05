@@ -1,7 +1,7 @@
-import { DateTime, DateTimeUnit, DurationLikeObject, Duration } from "luxon";
+import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
-export type PlainUnits = {
+type PlainUnits = {
   plain?: PlainType;
   same: DateTimeUnit;
   diff: DateTimeUnit;
@@ -112,4 +112,22 @@ export function t(plain: PlainType = "date") {
       [key in typeof utils.duration]?: Record<string, string>;
     }) => obj?.[utils.duration],
   };
+}
+
+export function mergeOptions<T extends Record<string, any>>(
+  income?: any,
+  current?: T
+): T | undefined {
+  if (!current && !income) return undefined;
+  if (!current) return income;
+  if (!income) return current;
+  const keys: (keyof T)[] = Object.keys(income);
+  keys.forEach((key) => {
+    if (typeof current[key] === "object" && typeof income[key] === "object") {
+      current[key] = mergeOptions(current[key], income[key]) as any;
+    } else {
+      current[key] = income[key];
+    }
+  });
+  return current;
 }

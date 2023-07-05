@@ -9,8 +9,8 @@ import {
   Watch,
   Method,
 } from '@stencil/core';
-import { PlainType, DatePopup, RangePopup } from '@temporal-picker/core';
-import { PickerType, PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
+import { PickerType, PlainType, DatePopup, RangePopup } from '@temporal-picker/core';
+import { PlainInstant, RangeInstant } from '../temporal-picker/temporal-picker';
 
 @Component({
   tag: 'temporal-popup',
@@ -60,54 +60,75 @@ export class TemporalPopup {
   @Prop() resetButton: boolean;
   @Prop() extraSelect: boolean;
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
+  @Prop() tooltip: boolean;
 
-  @Watch('value')
-  watchValueStateHandler(newValue: string) {
-    this.datePicker?.select([newValue]);
+  @Watch('type')
+  @Watch('plain')
+  @Watch('min')
+  @Watch('max')
+  @Watch('autoApply')
+  @Watch('resetButton')
+  @Watch('extraSelect')
+  @Watch('presetPosition')
+  @Watch('tooltip')
+  watchOptions(newValue: string, _: string, name: string) {
+    if (this.type === 'range') {
+      this.rangePopup?.setOptions({ [name]: newValue });
+    } else {
+      this.datePopup?.setOptions({ [name]: newValue });
+    }
   }
 
-  @Method()
-  async gotoDate() {
-    this.datePicker?.select([this.value]);
+  @Watch('value')
+  watchValue(newValue: string) {
+    this.datePopup?.select([newValue]);
   }
 
   @Watch('start')
-  watchStartStateHandler(newValue: string) {
-    this.rangePicker?.select([newValue, this.end]);
+  watchStart(newValue: string) {
+    this.rangePopup?.select([newValue, this.end]);
   }
 
   @Watch('end')
-  watchEndStateHandler(newValue: string) {
-    this.rangePicker?.select([this.start, newValue], 1);
+  watchEnd(newValue: string) {
+    this.rangePopup?.select([this.start, newValue], 1);
   }
 
   @Method()
-  async gotoStart() {
-    this.rangePicker?.select([this.start, this.end]);
+  async scrollToValue() {
+    this.datePopup?.select([this.value]);
   }
 
   @Method()
-  async gotoEnd() {
-    this.rangePicker?.select([this.start, this.end], 1);
+  async scrollToStart() {
+    this.rangePopup?.select([this.start, this.end]);
+  }
+
+  @Method()
+  async scrollToEnd() {
+    this.rangePopup?.select([this.start, this.end], 1);
   }
 
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<PlainInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' })
+  valueChange: EventEmitter<PlainInstant>;
 
   /**
    * The range change event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-range-change' }) rangeChange: EventEmitter<RangeInstant>;
+  @Event({ bubbles: false, composed: false, eventName: 't-range-change' })
+  rangeChange: EventEmitter<RangeInstant>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' }) closePopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' })
+  closePopup: EventEmitter<void>;
 
-  private datePicker: DatePopup;
-  private rangePicker: RangePopup;
+  private datePopup: DatePopup;
+  private rangePopup: RangePopup;
 
   componentDidLoad() {
     switch (this.type) {
@@ -116,8 +137,7 @@ export class TemporalPopup {
           (this.parent || this.el).querySelectorAll<HTMLTemporalPresetElement>('temporal-preset'),
         );
         const element = this.el.shadowRoot.getElementById('container');
-        this.rangePicker = new RangePopup({
-          element,
+        this.rangePopup = new RangePopup(element, {
           plain: this.plain,
           autoApply: this.autoApply,
           resetButton: this.resetButton,
@@ -130,6 +150,8 @@ export class TemporalPopup {
             label: x.label,
           })),
           presetPosition: this.presetPosition,
+          tooltip: this.tooltip,
+          values: [this.start, this.end],
         });
         element.addEventListener('t-select', (e: CustomEvent) => {
           this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
@@ -142,20 +164,19 @@ export class TemporalPopup {
         element.addEventListener('t-close', () => {
           this.closePopup.emit();
         });
-        this.rangePicker.select([this.start, this.end]);
         break;
       }
 
       default: {
         const element = this.el.shadowRoot.getElementById('container');
-        this.datePicker = new DatePopup({
-          element,
+        this.datePopup = new DatePopup(element, {
           plain: this.plain,
           autoApply: this.autoApply,
           resetButton: this.resetButton,
           extraSelect: this.extraSelect,
           min: this.min,
           max: this.max,
+          values: [this.value],
         });
         element.addEventListener('t-select', (e: CustomEvent) => {
           this.valueChange.emit({ value: e.detail.values[0] });
@@ -168,7 +189,6 @@ export class TemporalPopup {
         element.addEventListener('t-close', () => {
           this.closePopup.emit();
         });
-        this.datePicker.select([this.value]);
         break;
       }
     }

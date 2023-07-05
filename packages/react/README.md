@@ -78,6 +78,8 @@ export type RangePickerProps = PickerProps & {
     start?: string;
     end?: string;
   }[];
+  presetPosition?: "bottom" | "left" | "right" | "top";
+  tooltip?: boolean;
 };
 ```
 
