@@ -25,8 +25,8 @@ export const RangePicker = memo(
     props: RangePickerProps,
     ref: React.ForwardedRef<HTMLTemporalPickerElement>
   ) {
-    const inputRef = useRef<HTMLTemporalPickerElement>(null);
-    useImperativeHandle(ref, () => inputRef.current!);
+    const pickerRef = useRef<HTMLTemporalPickerElement>(null);
+    useImperativeHandle(ref, () => pickerRef.current!);
 
     const {
       presets,
@@ -34,6 +34,7 @@ export const RangePicker = memo(
       resetButton,
       extraSelect,
       testId,
+      className,
       onRangeChange,
       ...pickerProps
     } = props;
@@ -44,7 +45,7 @@ export const RangePicker = memo(
     });
 
     useEffect(() => {
-      const element = inputRef.current;
+      const element = pickerRef.current;
       if (!element) {
         return;
       }
@@ -58,12 +59,13 @@ export const RangePicker = memo(
       "temporal-picker",
       {
         ...pickerProps,
+        "class": className,
         "auto-apply": autoApply,
         "reset-button": resetButton,
         "extra-select": extraSelect,
         "data-testid": testId,
         type: "range",
-        ref: inputRef,
+        ref: pickerRef,
       },
       ...(presets || []).map((preset) =>
         createElement("temporal-preset", { ...preset, key: preset.label })

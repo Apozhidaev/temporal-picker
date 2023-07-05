@@ -18,14 +18,15 @@ export const DatePicker = memo(
     props: DatePickerProps,
     ref: React.ForwardedRef<HTMLTemporalPickerElement>
   ) {
-    const inputRef = useRef<HTMLTemporalPickerElement>(null);
-    useImperativeHandle(ref, () => inputRef.current!);
+    const pickerRef = useRef<HTMLTemporalPickerElement>(null);
+    useImperativeHandle(ref, () => pickerRef.current!);
 
     const {
       autoApply,
       resetButton,
       extraSelect,
       testId,
+      className,
       onValueChange,
       ...pickerProps
     } = props;
@@ -35,7 +36,7 @@ export const DatePicker = memo(
     });
 
     useEffect(() => {
-      const element = inputRef.current;
+      const element = pickerRef.current;
       if (!element) {
         return;
       }
@@ -49,11 +50,12 @@ export const DatePicker = memo(
       "temporal-picker",
       {
         ...pickerProps,
+        "class": className,
         "auto-apply": autoApply,
         "reset-button": resetButton,
         "extra-select": extraSelect,
         "data-testid": testId,
-        ref: inputRef,
+        ref: pickerRef,
       });
   })
 );
