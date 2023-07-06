@@ -19,7 +19,7 @@ export class Month extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { min, max } = this.context;
+    const { min, max, locale } = this.context;
     el.className = "day unit";
 
     const today = DateTime.now();
@@ -34,7 +34,7 @@ export class Month extends Control<Props, PopupContext> {
     }
     const dayPicked = picked.map((x) => DateTime.fromISO(x));
 
-    el.innerText = instant.toFormat("LLL");
+    el.innerText = instant.setLocale(locale).toFormat("LLL");
     el.dataset.instant = props.month;
 
     if (instant.hasSame(today, "month")) {

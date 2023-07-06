@@ -1,23 +1,18 @@
 import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { samePicked, t } from "../utils";
+import { t } from "../utils";
 
 export type Options = {
   plain: PlainType;
   values?: string[];
 };
 
-export type Dictionary = {
-  cancel?: string;
-  apply?: string;
-  reset?: string;
-  next?: string;
-  previous?: string;
-};
-
 export type PopupOptions = Options & {
   locale?: string;
+  localeCancel?: string;
+  localeApply?: string;
+  localeClear?: string;
   header?: HTMLElement | string | boolean;
   autoApply?: boolean;
   resetButton?: boolean;
@@ -27,7 +22,6 @@ export type PopupOptions = Options & {
   minYear?: number;
   maxYear?: number;
   firstDay?: number;
-  dictionary?: Dictionary;
   customLayout?: boolean;
 };
 

@@ -1,25 +1,10 @@
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { CalendarPopup, PopupOptions, Dictionary } from "./CalendarPopup";
-import { mergeOptions, t } from "../utils";
+import { CalendarPopup, PopupOptions } from "./CalendarPopup";
+import { t } from "../utils";
 import { Preset } from "../ui/calendarPopup/types";
 import defaults from "../defaults";
 
-export type PluralDictionary = {
-  zero?: string;
-  one?: string;
-  two?: string;
-  few?: string;
-  many?: string;
-  other?: string;
-};
-
-export type RangeDictionary = Dictionary & {
-  days?: PluralDictionary;
-  months?: PluralDictionary;
-};
-
 export type RangePopupOptions = PopupOptions & {
-  dictionary?: RangeDictionary;
   tooltip?: boolean;
   strict?: boolean;
   presets?: Preset[];
@@ -60,24 +45,9 @@ export class RangePopup extends CalendarPopup {
       presets: options.presets,
       presetPosition: options.presetPosition,
       customLayout: options.customLayout,
-      dictionary: mergeOptions(options.dictionary, {
-        days: {
-          zero: "",
-          one: "day",
-          two: "",
-          few: "",
-          many: "",
-          other: "days",
-        },
-        months: {
-          zero: "",
-          one: "month",
-          two: "",
-          few: "",
-          many: "",
-          other: "months",
-        },
-      }),
+      localeClear: options.localeClear,
+      localeApply: options.localeApply,
+      localeCancel: options.localeCancel,
     });
 
     if (this.ui.context.strict || this.ui.context.autoApply) {
@@ -116,8 +86,10 @@ export class RangePopup extends CalendarPopup {
       maxYear: options.maxYear ?? this.ui.context.maxYear,
       presets: options.presets ?? this.ui.context.presets,
       presetPosition: options.presetPosition ?? this.ui.context.presetPosition,
-      customLayout: options.customLayout,
-      dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
+      customLayout: options.customLayout ?? this.ui.context.customLayout,
+      localeClear: options.localeClear ?? this.ui.context.localeClear,
+      localeApply: options.localeApply ?? this.ui.context.localeApply,
+      localeCancel: options.localeCancel ?? this.ui.context.localeCancel,
     });
 
     this.render();
@@ -147,15 +119,9 @@ export class RangePopup extends CalendarPopup {
             const values = [this.picked[0], instant];
             values.sort();
             const [start, end] = values;
-            const diff = t(this.plain).diff(start, end);
-            if (diff > 0) {
-              const pluralKey = new Intl.PluralRules(this.ui.context.locale).select(diff);
-
-              const text = `${diff} ${
-                t(this.plain).durationRecord(this.ui.context.dictionary)?.[pluralKey]
-              }`;
-
-              this.showTooltip(element, text);
+            const diff = t(this.plain).diff(start, end, this.ui.context.locale);
+            if (diff) {
+              this.showTooltip(element, diff);
             } else {
               this.hideTooltip();
             }

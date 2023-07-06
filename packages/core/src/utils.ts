@@ -1,5 +1,6 @@
 import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
+import defaults from "./defaults";
 
 type PlainUnits = {
   plain?: PlainType;
@@ -53,20 +54,6 @@ export function datesIsNotAvailable(
   return false;
 }
 
-export function samePicked(picked: string[], values: string[]): boolean {
-  if (picked.length !== values.length) {
-    return false;
-  }
-  for (let i = 0; i < picked.length; i++) {
-    const pick = picked[i];
-    const value = values[i];
-    if (pick !== value) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export function dt(plain: PlainType = "date") {
   const utils = plain === "month" ? plainUnits.month : plainUnits.date;
   return {
@@ -109,28 +96,11 @@ export function t(plain: PlainType = "date") {
     next: (entry: string) => dt(plain).toInstant(DateTime.fromISO(entry).plus(utils.step)),
     previous: (entry: string) => dt(plain).toInstant(DateTime.fromISO(entry).minus(utils.step)),
     nextUnit: (instant: string) => dt(plain).toInstant(DateTime.fromISO(instant).plus(utils.unit)),
-    diff: (start: string, end: string) =>
-      DateTime.fromISO(end).diff(DateTime.fromISO(start), utils.diff)[utils.duration] + 1,
-    durationRecord: (obj?: {
-      [key in typeof utils.duration]?: Record<string, string>;
-    }) => obj?.[utils.duration],
+    diff: (start: string, end: string, locale: string) =>
+      DateTime.fromISO(end)
+        .setLocale(locale)
+        .diff(DateTime.fromISO(start), utils.diff)
+        .plus(utils.unit)
+        .toHuman(),
   };
-}
-
-export function mergeOptions<T extends Record<string, any>>(
-  income?: any,
-  current?: T
-): T | undefined {
-  if (!current && !income) return undefined;
-  if (!current) return income;
-  if (!income) return current;
-  const keys: (keyof T)[] = Object.keys(income);
-  keys.forEach((key) => {
-    if (typeof current[key] === "object" && typeof income[key] === "object") {
-      current[key] = mergeOptions(current[key], income[key]) as any;
-    } else {
-      current[key] = income[key];
-    }
-  });
-  return current;
 }

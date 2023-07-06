@@ -1,6 +1,5 @@
 import defaults from "../defaults";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { mergeOptions } from "../utils";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 
 export type DatePopupOptions = PopupOptions;
@@ -28,7 +27,9 @@ export class DatePopup extends CalendarPopup {
       minYear: options.minYear,
       maxYear: options.maxYear,
       customLayout: options.customLayout,
-      dictionary: options.dictionary,
+      localeClear: options.localeClear,
+      localeApply: options.localeApply,
+      localeCancel: options.localeCancel,
     });
     this.render();
   }
@@ -51,7 +52,9 @@ export class DatePopup extends CalendarPopup {
       minYear: options.minYear ?? this.ui.context.minYear,
       maxYear: options.maxYear ?? this.ui.context.maxYear,
       customLayout: options.customLayout ?? this.ui.context.customLayout,
-      dictionary: mergeOptions(options.dictionary, this.ui.context.dictionary),
+      localeClear: options.localeClear ?? this.ui.context.localeClear,
+      localeApply: options.localeApply ?? this.ui.context.localeApply,
+      localeCancel: options.localeCancel ?? this.ui.context.localeCancel,
     });
     this.render();
   }
