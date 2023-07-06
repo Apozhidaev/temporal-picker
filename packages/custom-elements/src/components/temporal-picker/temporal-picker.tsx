@@ -10,7 +10,7 @@ import {
   State,
   Watch,
 } from '@stencil/core';
-import { PickerType, PlainType } from '@temporal-picker/core';
+import { PickerType, PlainType, Presentation } from '@temporal-picker/core';
 
 export type PlainInstant = { value: string };
 export type RangeInstant = { start: string; end: string };
@@ -22,6 +22,10 @@ export type RangeInstant = { start: string; end: string };
 })
 export class TemporalPicker {
   @Element() el: HTMLElement;
+  /**
+   * The type of picker
+   */
+  @Prop() picker: Presentation = 'input';
   /**
    * The type of picker
    */
@@ -62,7 +66,7 @@ export class TemporalPicker {
    */
   @Prop() native: boolean;
 
-  @Prop() placement: 'bottom-start' | 'bottom-end' = 'bottom-start';
+  @Prop() placement: 'bottom' | 'bottom-start' | 'bottom-end' = 'bottom';
   @Prop() autoApply: boolean;
   @Prop() resetButton: boolean;
   @Prop() readonly: boolean;
@@ -125,6 +129,7 @@ export class TemporalPicker {
 
   componentDidLoad() {
     this.popup = this.el.shadowRoot.getElementById('temporal-popup') as HTMLTemporalPopupElement;
+    this.popup.removeAttribute('id');
     document.body.appendChild(this.popup);
     this.popper = createPopper(this.el, this.popup, {
       placement: this.placement,
@@ -138,95 +143,115 @@ export class TemporalPicker {
       ],
     });
     document.body.removeChild(this.popup);
+
+    this.el.focus = (...args: any[]) => {
+      if (this.type === 'range') {
+        this.el.shadowRoot.getElementById('start-input').focus(...args);
+      } else {
+        this.el.shadowRoot.getElementById('input').focus(...args);
+      }
+    };
+  }
+
+  private getPresentation() {
+    if (this.picker === 'icon') {
+      return (
+        <button
+          onClick={() => {
+            this.isOpen = !this.isOpen;
+          }}
+        >
+          test
+        </button>
+      );
+    }
+    return this.type === 'range' ? (
+      <div part="range-inputs-wrapper" class="range-inputs-wrapper">
+        <temporal-input
+          id="start-input"
+          disabled={this.disabled}
+          readonly={this.readonly}
+          class="start-input"
+          exportparts="input: start-input"
+          plain={this.plain}
+          min={this.min}
+          max={this.end}
+          value={this.start}
+          native={this.native}
+          onT-value-change={e => {
+            this.start = e.detail.value;
+            this.popup.start = e.detail.value;
+            this.rangeChangeHandler();
+          }}
+          onT-open-popup={() => {
+            this.isOpen = true;
+            this.popup.scrollToStart();
+          }}
+          onT-close-popup={() => {
+            this.isOpen = false;
+          }}
+        />
+        <div class="delimiter-wrapper" part="delimiter-wrapper">
+          <div part="delimiter" class="delimiter">
+            &mdash;
+          </div>
+        </div>
+        <temporal-input
+          disabled={this.disabled}
+          readonly={this.readonly}
+          exportparts="input: end-input"
+          class="end-input"
+          plain={this.plain}
+          min={this.start}
+          max={this.max}
+          value={this.end}
+          native={this.native}
+          onT-value-change={e => {
+            this.end = e.detail.value;
+            this.popup.end = e.detail.value;
+            this.rangeChangeHandler();
+          }}
+          onT-open-popup={() => {
+            this.isOpen = true;
+            this.popup.scrollToEnd();
+          }}
+          onT-close-popup={() => {
+            this.isOpen = false;
+          }}
+        />
+      </div>
+    ) : (
+      <temporal-input
+        id="input"
+        disabled={this.disabled}
+        readonly={this.readonly}
+        class="input"
+        exportparts="input"
+        plain={this.plain}
+        min={this.min}
+        max={this.max}
+        value={this.value}
+        native={this.native}
+        onT-value-change={e => {
+          this.value = e.detail.value;
+          this.popup.value = e.detail.value;
+          this.valueChangeHandler();
+        }}
+        onT-open-popup={() => {
+          this.isOpen = true;
+          this.popup.scrollToValue();
+        }}
+        onT-close-popup={() => {
+          this.isOpen = false;
+        }}
+      />
+    );
   }
 
   render() {
     return (
-      <Host>
-        {this.type === 'range' ? (
-          <div
-            part="range-inputs-wrapper"
-            class="range-inputs-wrapper"
-            aria-disabled={this.disabled}
-            aria-readonly={this.readonly}
-          >
-            <temporal-input
-              disabled={this.disabled}
-              readonly={this.readonly}
-              class="start-input"
-              exportparts="input: start-input"
-              plain={this.plain}
-              min={this.min}
-              max={this.end}
-              value={this.start}
-              native={this.native}
-              onT-value-change={e => {
-                this.start = e.detail.value;
-                this.popup.start = e.detail.value;
-                this.rangeChangeHandler();
-              }}
-              onT-open-popup={() => {
-                this.isOpen = true;
-                this.popup.scrollToStart();
-              }}
-              onT-close-popup={() => {
-                this.isOpen = false;
-              }}
-            />
-            <div class="delimiter-wrapper">
-              <div part="delimiter" class="delimiter">
-                &mdash;
-              </div>
-            </div>
-            <temporal-input
-              disabled={this.disabled}
-              readonly={this.readonly}
-              exportparts="input: end-input"
-              class="end-input"
-              plain={this.plain}
-              min={this.start}
-              max={this.max}
-              value={this.end}
-              native={this.native}
-              onT-value-change={e => {
-                this.end = e.detail.value;
-                this.popup.end = e.detail.value;
-                this.rangeChangeHandler();
-              }}
-              onT-open-popup={() => {
-                this.isOpen = true;
-                this.popup.scrollToEnd();
-              }}
-              onT-close-popup={() => {
-                this.isOpen = false;
-              }}
-            />
-          </div>
-        ) : (
-          <temporal-input
-            disabled={this.disabled}
-            readonly={this.readonly}
-            class="input"
-            exportparts="input"
-            plain={this.plain}
-            min={this.min}
-            max={this.max}
-            value={this.value}
-            native={this.native}
-            onT-value-change={e => {
-              this.value = e.detail.value;
-              this.popup.value = e.detail.value;
-              this.valueChangeHandler();
-            }}
-            onT-open-popup={() => {
-              this.isOpen = true;
-              this.popup.scrollToValue();
-            }}
-            onT-close-popup={() => {
-              this.isOpen = false;
-            }}
-          />
-        )}
+      <Host aria-disabled={this.disabled} aria-readonly={this.readonly}>
+        {this.getPresentation()}
         <template>
           <temporal-popup
             id="temporal-popup"

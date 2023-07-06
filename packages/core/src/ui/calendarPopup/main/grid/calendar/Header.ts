@@ -103,7 +103,7 @@ export class Header extends Control<Props, PopupContext> {
 
       const { year } = DateTime.now();
       const yearMin = yearMinDate ? yearMinDate.year : minYear || year - 100;
-      const yearMax = yearMaxDate ? yearMaxDate.year : maxYear || year + 1;
+      const yearMax = yearMaxDate ? yearMaxDate.year : maxYear || year;
 
       if (date.year > yearMax) {
         const option = document.createElement("option");

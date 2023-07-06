@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { PickerType, PlainType } from "@temporal-picker/core";
+import { PickerType, PlainType, Presentation } from "@temporal-picker/core";
 import { TemporalInputValue } from "./components/temporal-input/temporal-input";
 import { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 import { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
-export { PickerType, PlainType } from "@temporal-picker/core";
+export { PickerType, PlainType, Presentation } from "@temporal-picker/core";
 export { TemporalInputValue } from "./components/temporal-input/temporal-input";
 export { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 export { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
@@ -61,7 +61,11 @@ export namespace Components {
           * The native value
          */
         "native": boolean;
-        "placement": 'bottom-start' | 'bottom-end';
+        /**
+          * The type of picker
+         */
+        "picker": Presentation;
+        "placement": 'bottom' | 'bottom-start' | 'bottom-end';
         /**
           * The type of picker
          */
@@ -259,7 +263,11 @@ declare namespace LocalJSX {
           * The value change event
          */
         "onT-value-change"?: (event: TemporalPickerCustomEvent<PlainInstant>) => void;
-        "placement"?: 'bottom-start' | 'bottom-end';
+        /**
+          * The type of picker
+         */
+        "picker"?: Presentation;
+        "placement"?: 'bottom' | 'bottom-start' | 'bottom-end';
         /**
           * The type of picker
          */

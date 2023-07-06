@@ -36,15 +36,12 @@ export abstract class CalendarPopup {
   public picked: string[];
 
   public plain: PlainType;
-  public container: HTMLElement;
   protected ui!: UI;
 
-  constructor(element: HTMLElement, protected options: Options) {
-    this.container = element;
-    this.container.style.position = "relative";
-    this.container.addEventListener("click", this.handleClick);
+  constructor(protected options: Options, public element: HTMLElement) {
+    this.element.style.position = "relative";
+    this.element.addEventListener("click", this.handleClick);
 
-    this.options = options;
     this.plain = options.plain;
 
     this.picked = options.values?.filter(Boolean).map(t(this.plain).instant) || [];
@@ -84,8 +81,8 @@ export abstract class CalendarPopup {
   }
 
   public destroy() {
-    this.container.removeEventListener("click", this.handleClick);
-    this.container.innerHTML = "";
+    this.element.removeEventListener("click", this.handleClick);
+    this.element.innerHTML = "";
   }
 
   /**
@@ -233,7 +230,7 @@ export abstract class CalendarPopup {
   }
 
   protected render() {
-    this.ui.render(this.container, {
+    this.ui.render(this.element, {
       entry: this.entry,
       picked: this.picked,
     });
@@ -248,7 +245,7 @@ export abstract class CalendarPopup {
   }
 
   protected dispatchSelect(values?: (string | undefined)[]) {
-    this.container.dispatchEvent(
+    this.element.dispatchEvent(
       new CustomEvent("t-select", {
         detail: {
           values: values || this.picked,
@@ -258,7 +255,7 @@ export abstract class CalendarPopup {
   }
 
   protected dispatchPreselect(values?: (string | undefined)[]) {
-    this.container.dispatchEvent(
+    this.element.dispatchEvent(
       new CustomEvent("t-pre-select", {
         detail: {
           values: values || this.picked,
@@ -268,10 +265,10 @@ export abstract class CalendarPopup {
   }
 
   protected dispatchClose() {
-    this.container.dispatchEvent(new CustomEvent("t-close"));
+    this.element.dispatchEvent(new CustomEvent("t-close"));
   }
 
   protected dispatchClear() {
-    this.container.dispatchEvent(new CustomEvent("t-reset"));
+    this.element.dispatchEvent(new CustomEvent("t-reset"));
   }
 }

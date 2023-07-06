@@ -29,8 +29,12 @@ export type RangePopupOptions = PopupOptions & {
 export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
 
-  constructor(element: HTMLElement, protected options: RangePopupOptions, private host = element) {
-    super(element, options);
+  constructor(
+    public options: RangePopupOptions,
+    public element: HTMLElement,
+    private host = element
+  ) {
+    super(options, element);
 
     if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
@@ -77,7 +81,7 @@ export class RangePopup extends CalendarPopup {
     });
 
     if (this.ui.context.strict || this.ui.context.autoApply) {
-      this.container.addEventListener("mouseenter", this.handleMouseenter, true);
+      this.element.addEventListener("mouseenter", this.handleMouseenter, true);
     }
 
     this.render();
@@ -121,7 +125,7 @@ export class RangePopup extends CalendarPopup {
 
   public destroy() {
     super.destroy();
-    this.container.removeEventListener("mouseenter", this.handleMouseenter, true);
+    this.element.removeEventListener("mouseenter", this.handleMouseenter, true);
   }
 
   handleMouseenter = (e: MouseEvent) => {
@@ -217,7 +221,7 @@ export class RangePopup extends CalendarPopup {
     this.tooltipElement.style.visibility = "visible";
     this.tooltipElement.innerHTML = text;
 
-    const container = this.container.getBoundingClientRect();
+    const container = this.element.getBoundingClientRect();
     const tooltip = this.tooltipElement.getBoundingClientRect();
     const unit = element.getBoundingClientRect();
     let top = unit.top;

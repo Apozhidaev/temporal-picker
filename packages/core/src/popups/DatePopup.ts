@@ -6,9 +6,12 @@ import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 export type DatePopupOptions = PopupOptions;
 
 export class DatePopup extends CalendarPopup {
-  constructor(element: HTMLElement, protected options: DatePopupOptions, private host = element) {
-    super(element, options);
-    this.options = options;
+  constructor(
+    public options: DatePopupOptions,
+    public element: HTMLElement,
+    private host = element
+  ) {
+    super(options, element);
     this.ui = new UI(host, {
       actions: this,
       plain: this.plain,

@@ -14,6 +14,14 @@
       :root {
         --t-input-color-fg-invalid: red;
       }
+      /* temporal-picker:focus {
+        box-shadow: rgb(255, 255, 255) 0 0 0 0 inset, #3b82f6 0 0 0 2px inset,
+          rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+      }
+      temporal-picker[disabled] {
+        background-color: #f5f5f5;
+        color: #57534e;
+      } */
     </style>
   </head>
 
@@ -23,8 +31,7 @@
       <temporal-picker
         id="range-picker"
         type="range"
-        plain="date"
-        extra-select="true"
+        plain="month"
         reset-button="true"
         native="false"
         tooltip="true"
@@ -32,10 +39,11 @@
         end="2023-02-15"
         custom-layout="true"
         strict="false"
-        auto-apply="false"
+        auto-apply="true"
+        picker="icon1"
       >
-        <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
-        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
+        <!-- <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset> -->
       </temporal-picker>
     </div>
 
@@ -47,9 +55,14 @@
       rangePicker.addEventListener('t-range-change', e => console.log(e));
 
       rangePicker.addEventListener('t-render', e => {
-        console.log(e);
+        // console.log(e);
         // e.preventDefault();
       });
+
+      setTimeout(() => {
+        picker.focus();
+        console.log('focus')
+      }, 3000);
     </script>
   </body>
 </html>

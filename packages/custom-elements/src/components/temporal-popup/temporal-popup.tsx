@@ -164,7 +164,6 @@ export class TemporalPopup {
           host.querySelectorAll<HTMLTemporalPresetElement>('temporal-preset'),
         );
         this.rangePopup = new RangePopup(
-          element,
           {
             plain: this.plain,
             autoApply: this.autoApply,
@@ -185,6 +184,7 @@ export class TemporalPopup {
             strict: this.strict,
             values: [this.start, this.end],
           },
+          element,
           host,
         );
         element.addEventListener('t-select', (e: CustomEvent) => {
@@ -207,7 +207,6 @@ export class TemporalPopup {
 
       default: {
         this.datePopup = new DatePopup(
-          element,
           {
             plain: this.plain,
             autoApply: this.autoApply,
@@ -220,6 +219,7 @@ export class TemporalPopup {
             firstDay: this.firstDay,
             values: [this.value],
           },
+          element,
           host,
         );
         element.addEventListener('t-select', (e: CustomEvent) => {

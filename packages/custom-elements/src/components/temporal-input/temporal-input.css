@@ -18,3 +18,8 @@ input {
 input:invalid {
   color: var(--invalid-color);
 }
+
+input:disabled {
+  background-color: transparent;
+  color: inherit;
+}

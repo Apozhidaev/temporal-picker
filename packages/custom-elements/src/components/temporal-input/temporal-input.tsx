@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { Component, Prop, h, Event, EventEmitter } from '@stencil/core';
+import { Component, Prop, h, Event, EventEmitter, Element } from '@stencil/core';
 import { PlainType } from '@temporal-picker/core';
 import { toInputType } from '../../utils';
 
@@ -11,6 +11,7 @@ export type TemporalInputValue = { value: string };
   shadow: true,
 })
 export class TemporalInput {
+  @Element() el: HTMLElement;
   /**
    * The plain of type
    */
@@ -42,17 +43,20 @@ export class TemporalInput {
   /**
    * The value change event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-value-change' }) valueChange: EventEmitter<TemporalInputValue>;
+  @Event({ bubbles: false, composed: false, eventName: 't-value-change' })
+  valueChange: EventEmitter<TemporalInputValue>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-open-popup' }) openPopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-open-popup' })
+  openPopup: EventEmitter<void>;
 
   /**
    * The close popup event
    */
-  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' }) closePopup: EventEmitter<void>;
+  @Event({ bubbles: false, composed: false, eventName: 't-close-popup' })
+  closePopup: EventEmitter<void>;
 
   changeHandler(event: TemporalInputValue) {
     if (this.min) {
@@ -80,9 +84,16 @@ export class TemporalInput {
     }
   }
 
+  componentDidLoad() {
+    this.el.focus = (...args: any[]) => {
+      this.el.shadowRoot.getElementById('input').focus(...args);
+    }
+  }
+
   render() {
     return (
       <input
+        id="input"
         part="input"
         disabled={this.disabled}
         readonly={this.readonly}
