@@ -1,5 +1,6 @@
 :host {
   --bg-color: var(--t-input-color-bg-default, #fff);
+  --color: var(--t-input-color-fg-default, #111827);
   --disabled-bg-color: var(--t-input-color-bg-disabled, #f5f5f5);
   --disabled-color: var(--t-input-color-fg-disabled, #57534e);
   --border-radius: var(--t-input-border-radius, 0.375rem);
@@ -24,6 +25,12 @@
   flex-direction: column;
 }
 
+.icon {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.icon-picker,
 .input::part(input),
 .range-inputs-wrapper {
   background-color: var(--bg-color);
@@ -34,12 +41,23 @@
   padding: var(--padding);
 }
 
+.icon-picker {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+  border-width: 0;
+  color: var(--color);
+}
+
+.icon-picker:focus,
 .input::part(input):focus,
 .range-inputs-wrapper:focus-within {
   outline: none;
   box-shadow: var(--focus-shadow);
 }
 
+.icon-picker:disabled,
 .range-inputs-wrapper[aria-disabled],
 temporal-input[disabled].input::part(input) {
   background-color: var(--disabled-bg-color);

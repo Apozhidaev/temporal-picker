@@ -26,7 +26,8 @@
   </head>
 
   <body>
-    <div id="container">
+    <div id="container" style="display: flex; gap: 2px; align-items: center;">
+      <temporal-picker id="picker" plain="date" auto-apply="false" picker="icon"></temporal-picker>
       <temporal-picker id="picker" plain="date" auto-apply="false"></temporal-picker>
       <temporal-picker
         id="range-picker"
@@ -40,10 +41,10 @@
         custom-layout="true"
         strict="false"
         auto-apply="true"
-        picker="icon1"
+        picker="icon"
       >
-        <!-- <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
-        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset> -->
+        <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
       </temporal-picker>
     </div>
 
@@ -58,11 +59,6 @@
         // console.log(e);
         // e.preventDefault();
       });
-
-      setTimeout(() => {
-        picker.focus();
-        console.log('focus')
-      }, 3000);
     </script>
   </body>
 </html>
