@@ -1,111 +1,141 @@
 import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
-type PlainUnits = {
-  plain?: PlainType;
-  same: DateTimeUnit;
-  diff: DateTimeUnit;
+type PlainMeta = {
+  unit: DateTimeUnit;
   entry: DateTimeUnit;
-  step: DurationLikeObject;
-  unit: DurationLikeObject;
-  duration: "months" | "days";
-  getStep: (n: number) => DurationLikeObject;
 };
 
-const plainUnits = {
+const plainMeta = {
   month: {
-    plain: "month",
-    same: "month",
-    diff: "month",
+    unit: "month",
     entry: "year",
-    step: { year: 1 },
-    unit: { month: 1 },
-    duration: "months",
-    getStep: (n = 1) => ({ year: n }),
-  } as PlainUnits,
+  } as PlainMeta,
   date: {
-    plain: "date",
-    same: "day",
-    diff: "day",
+    unit: "day",
     entry: "month",
-    step: { month: 1 },
-    unit: { day: 1 },
-    duration: "days",
-    getStep: (n = 1) => ({ month: n }),
-  } as PlainUnits,
+  } as PlainMeta,
 };
 
-export function t(plain: PlainType | undefined) {
-  const utils = plain === "month" ? plainUnits.month : plainUnits.date;
-  return {
-    toInstant: (date: DateTime) => {
-      switch (plain) {
-        case "month":
-          return date.toFormat("yyyy-LL");
+type ThisType = ReturnType<typeof t>;
 
-        default:
-          return date.toISODate()!;
-      }
-    },
-    entry: () => t(plain).toInstant(DateTime.now().startOf(utils.entry)),
-    instant: (instant: string) => t(plain).toInstant(DateTime.fromISO(instant)),
-    startOf: (instant: string, shift = 0) =>
-      t(plain).toInstant(
-        DateTime.fromISO(instant).startOf(utils.entry).minus(utils.getStep(shift))
-      ),
-    next: (entry: string) => t(plain).toInstant(DateTime.fromISO(entry).plus(utils.step)),
-    previous: (entry: string) => t(plain).toInstant(DateTime.fromISO(entry).minus(utils.step)),
-    nextUnit: (instant: string) => t(plain).toInstant(DateTime.fromISO(instant).plus(utils.unit)),
-    diff: (start: string, end: string, locale: string) =>
-      DateTime.fromISO(end)
-        .setLocale(locale)
-        .diff(DateTime.fromISO(start), utils.diff)
-        .plus(utils.unit)
-        .toHuman(),
-    toPicked: (values?: (string | undefined)[]): string[] => {
-      if (!values) {
-        return [];
-      }
-      const picked = (values.filter(Boolean) as string[]).map(t(plain).instant);
-      picked.sort();
-      return picked;
-    },
-    toPickedSlim: (values: (string | undefined)[]) => {
-      const picked = values.filter(Boolean) as string[];
-      picked.sort();
-      return picked;
-    },
-    sameRanges: (range1: (DateTime | undefined)[], range2: (DateTime | undefined)[]) => {
-      const r1 = range1.filter(Boolean).sort();
-      const r2 = range2.filter(Boolean).sort();
-      if (r1.length !== r2.length) {
-        return false;
-      }
-      for (let i = 0; i < r1.length; i++) {
-        const date1 = r1[i]!;
-        const date2 = r2[i]!;
-        if (!date1.hasSame(date2, utils.same)) {
-          return false;
-        }
-      }
-      return true;
-    },
-    datesIsNotAvailable: (
-      min: DateTime | undefined,
-      max: DateTime | undefined,
-      ...dates: (DateTime | undefined)[]
-    ): boolean => {
-      if (min) {
-        if (dates.filter(Boolean).some((date) => date! < min)) {
-          return true;
-        }
-      }
-      if (max) {
-        if (dates.filter(Boolean).some((date) => date! > max)) {
-          return true;
-        }
-      }
+function ink(this: ThisType, n = 1): DurationLikeObject {
+  return { [this.meta.unit]: n };
+}
+
+function page(this: ThisType, n = 1): DurationLikeObject {
+  return { [this.meta.entry]: n };
+}
+
+function toInstant(this: ThisType, dt: DateTime) {
+  switch (this.plain) {
+    case "month":
+      return dt.toFormat("yyyy-LL");
+
+    default:
+      return dt.toISODate()!;
+  }
+}
+
+function entry(this: ThisType) {
+  return this.toInstant(DateTime.now().startOf(this.meta.entry));
+}
+
+function instant(this: ThisType, instant: string) {
+  return this.toInstant(DateTime.fromISO(instant));
+}
+
+function startOf(this: ThisType, instant: string, shift = 0) {
+  return this.toInstant(DateTime.fromISO(instant).startOf(this.meta.entry).minus(this.page(shift)));
+}
+
+function next(this: ThisType, entry: string) {
+  return this.toInstant(DateTime.fromISO(entry).plus(this.page()));
+}
+
+function previous(this: ThisType, entry: string) {
+  return this.toInstant(DateTime.fromISO(entry).minus(this.page()));
+}
+
+function diff(this: ThisType, start: string, end: string, locale: string) {
+  return DateTime.fromISO(end)
+    .setLocale(locale)
+    .diff(DateTime.fromISO(start), this.meta.unit)
+    .plus(this.ink())
+    .toHuman();
+}
+
+function toPicked(this: ThisType, values?: (string | undefined)[]) {
+  if (!values) {
+    return [];
+  }
+  const picked = (values.filter(Boolean) as string[]).map(t(this.plain).instant);
+  picked.sort();
+  return picked;
+}
+
+function toPickedSlim(this: ThisType, values: (string | undefined)[]) {
+  const picked = values.filter(Boolean) as string[];
+  picked.sort();
+  return picked;
+}
+
+function sameRanges(
+  this: ThisType,
+  range1: (DateTime | undefined)[],
+  range2: (DateTime | undefined)[]
+) {
+  const r1 = range1.filter(Boolean).sort();
+  const r2 = range2.filter(Boolean).sort();
+  if (r1.length !== r2.length) {
+    return false;
+  }
+  for (let i = 0; i < r1.length; i++) {
+    const date1 = r1[i]!;
+    const date2 = r2[i]!;
+    if (!date1.hasSame(date2, this.meta.unit)) {
       return false;
-    },
+    }
+  }
+  return true;
+}
+
+function datesIsNotAvailable(
+  this: ThisType,
+  min: DateTime | undefined,
+  max: DateTime | undefined,
+  ...dates: (DateTime | undefined)[]
+) {
+  if (min) {
+    if (dates.filter(Boolean).some((date) => date! < min)) {
+      return true;
+    }
+  }
+  if (max) {
+    if (dates.filter(Boolean).some((date) => date! > max)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function t(plain?: PlainType) {
+  const meta = plain === "month" ? plainMeta.month : plainMeta.date;
+  return {
+    meta,
+    plain,
+    ink,
+    page,
+    toInstant,
+    entry,
+    instant,
+    startOf,
+    next,
+    previous,
+    diff,
+    toPicked,
+    toPickedSlim,
+    sameRanges,
+    datesIsNotAvailable,
   };
 }

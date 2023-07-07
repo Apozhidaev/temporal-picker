@@ -39,7 +39,7 @@ export class Presets extends Control<Props, PopupContext> {
       } else {
         item.classList.remove("selected");
       }
-      item.innerHTML = label;
+      item.innerText = label;
       if (start) {
         item.dataset.start = t(plain).instant(start);
       }
