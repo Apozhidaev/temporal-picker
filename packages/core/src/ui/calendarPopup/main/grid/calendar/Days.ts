@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { Day } from "./Day";
-import { dt } from "../../../../../utils";
+import { t } from "../../../../../utils";
 import { PopupContext } from "../../../types";
 
 function calcOffsetDays(date: DateTime, firstDay: number): number {
@@ -52,7 +52,7 @@ export class Days extends Control<Props, PopupContext> {
       this.day.render(
         el,
         {
-          day: dt(plain).toInstant(date),
+          day: t(plain).toInstant(date),
           picked,
           hover,
         },
@@ -75,7 +75,7 @@ export class Days extends Control<Props, PopupContext> {
       date = date.set({ day: idx });
       this.day.update(
         {
-          day: dt(plain).toInstant(date),
+          day: t(plain).toInstant(date),
           picked,
           hover,
         },

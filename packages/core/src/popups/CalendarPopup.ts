@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { t, toPickedSlim } from "../utils";
+import { t } from "../utils";
 
 export type Options = {
   plain: PlainType;
@@ -116,7 +116,7 @@ export abstract class CalendarPopup {
           this.picked = [];
         }
 
-        this.picked = toPickedSlim([...this.picked, instant]);
+        this.picked = t(this.plain).toPickedSlim([...this.picked, instant]);
 
         if (this.ui.context.autoApply && this.picked.length === this.ui.context.pickCount) {
           this.dispatchSelect();

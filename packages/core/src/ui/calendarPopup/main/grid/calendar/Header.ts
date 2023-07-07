@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { dt } from "../../../../../utils";
+import { t } from "../../../../../utils";
 
 type Props = {
   entry: string;
@@ -85,7 +85,7 @@ export class Header extends Control<Props, PopupContext> {
           const target = e.target as HTMLSelectElement;
 
           actions?.scrollTo(
-            dt(plain).toInstant(DateTime.fromISO(entry).set({ month: Number(target.value) })),
+            t(plain).toInstant(DateTime.fromISO(entry).set({ month: Number(target.value) })),
             index
           );
         });
@@ -137,7 +137,7 @@ export class Header extends Control<Props, PopupContext> {
         const target = e.target as HTMLSelectElement;
 
         actions?.scrollTo(
-          dt(plain).toInstant(DateTime.fromISO(entry).set({ year: Number(target.value) })),
+          t(plain).toInstant(DateTime.fromISO(entry).set({ year: Number(target.value) })),
           index
         );
       });

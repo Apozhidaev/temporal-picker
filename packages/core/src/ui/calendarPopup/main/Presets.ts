@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../base/Control";
 import { PopupContext } from "../types";
-import { datesIsNotAvailable, dt, t } from "../../../utils";
+import { t } from "../../../utils";
 
 type Props = {
   picked: string[];
@@ -33,7 +33,7 @@ export class Presets extends Control<Props, PopupContext> {
       item.className = "preset-button unit";
 
       if (
-        dt(plain).sameRanges([startPicked, endPicked], [startDate, endDate])
+        t(plain).sameRanges([startPicked, endPicked], [startDate, endDate])
       ) {
         item.classList.add("selected");
       } else {
@@ -47,7 +47,7 @@ export class Presets extends Control<Props, PopupContext> {
         item.dataset.end = t(plain).instant(end);
       }
 
-      if (datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
+      if (t(plain).datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
         item.disabled = true;
       }
 

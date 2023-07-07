@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { Month } from "./Month";
-import { dt } from "../../../../../utils";
+import { t } from "../../../../../utils";
 import { PopupContext } from "../../../types";
 
 type Props = {
@@ -37,7 +37,7 @@ export class Months extends Control<Props, PopupContext> {
       this.month.render(
         el,
         {
-          month: dt(plain).toInstant(date),
+          month: t(plain).toInstant(date),
           picked,
           hover,
         },
@@ -54,7 +54,7 @@ export class Months extends Control<Props, PopupContext> {
       date = date.set({ month: idx });
       this.month.update(
         {
-          month: dt(plain).toInstant(date),
+          month: t(plain).toInstant(date),
           picked,
           hover,
         },

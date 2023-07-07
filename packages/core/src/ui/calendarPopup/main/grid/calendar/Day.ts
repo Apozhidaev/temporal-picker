@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { datesIsNotAvailable, toPickedSlim } from "../../../../../utils";
+import { t } from "../../../../../utils";
 
 type Props = {
   day: string;
@@ -19,7 +19,7 @@ export class Day extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { min, max, locale } = this.context;
+    const { min, max, locale, plain } = this.context;
     el.className = "day unit";
 
     const today = DateTime.now();
@@ -29,7 +29,7 @@ export class Day extends Control<Props, PopupContext> {
     const instant = DateTime.fromISO(props.day);
     let picked = props.picked;
     if (props.hover) {
-      picked = toPickedSlim([...props.picked, props.hover]);
+      picked = t(plain).toPickedSlim([...props.picked, props.hover]);
     }
     const dayPicked = picked.map((x) => DateTime.fromISO(x));
 
@@ -90,7 +90,7 @@ export class Day extends Control<Props, PopupContext> {
         break;
     }
 
-    if (datesIsNotAvailable(minDate, maxDate, instant)) {
+    if (t(plain).datesIsNotAvailable(minDate, maxDate, instant)) {
       el.classList.add("not-available");
     }
   }

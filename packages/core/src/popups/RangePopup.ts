@@ -1,6 +1,6 @@
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
-import { t, toPickedSlim } from "../utils";
+import { t } from "../utils";
 import { Preset } from "../ui/calendarPopup/types";
 import defaults from "../defaults";
 
@@ -147,7 +147,7 @@ export class RangePopup extends CalendarPopup {
     if (this.isPresetButton(element)) {
       const { start, end } = element.dataset;
 
-      this.picked = toPickedSlim([start, end]);
+      this.picked = t(this.plain).toPickedSlim([start, end]);
 
       if (this.ui.context.autoApply) {
         this.dispatchSelect([start, end]);
