@@ -25,7 +25,7 @@ export type PopupContext = Context & {
   presets?: Preset[];
   presetPosition?: 'left' | 'right' | 'top' | 'bottom';
   strict?: boolean;
-  reselect?: boolean;
+  // reselect?: boolean;
   min?: string;
   max?: string;
   minYear?: number;

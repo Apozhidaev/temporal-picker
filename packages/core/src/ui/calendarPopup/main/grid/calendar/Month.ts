@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { datesIsNotAvailable } from "../../../../../utils";
+import { datesIsNotAvailable, toPickedSlim } from "../../../../../utils";
 
 type Props = {
   month: string;
@@ -29,8 +29,7 @@ export class Month extends Control<Props, PopupContext> {
     const instant = DateTime.fromISO(props.month);
     let picked = props.picked;
     if (props.hover) {
-      picked = [...props.picked, props.hover];
-      picked.sort();
+      picked = toPickedSlim([...props.picked, props.hover]);
     }
     const dayPicked = picked.map((x) => DateTime.fromISO(x));
 
@@ -42,6 +41,24 @@ export class Month extends Control<Props, PopupContext> {
     }
 
     switch (dayPicked.length) {
+      // case 3: {
+      //   const [start, mid, end] = dayPicked;
+      //   if (start.hasSame(instant, "month")) {
+      //     el.classList.add("start");
+      //   }
+
+      //   if (end.hasSame(instant, "month")) {
+      //     el.classList.add("end");
+      //   }
+
+      //   if (mid.hasSame(instant, "month")) {
+      //     el.classList.add("selected");
+      //   } else if (instant > start && instant < end) {
+      //     el.classList.add("in-range");
+      //   }
+      //   break;
+      // }
+
       case 2: {
         const [start, end] = dayPicked;
         if (start.hasSame(instant, "month")) {

@@ -54,6 +54,12 @@ export function datesIsNotAvailable(
   return false;
 }
 
+export function toPickedSlim(values: (string | undefined)[], strict = true) {
+  const picked = values.filter(Boolean) as string[]
+  picked.sort();
+  return picked;
+}
+
 export function dt(plain: PlainType = "date") {
   const utils = plain === "month" ? plainUnits.month : plainUnits.date;
   return {
@@ -102,5 +108,35 @@ export function t(plain: PlainType = "date") {
         .diff(DateTime.fromISO(start), utils.diff)
         .plus(utils.unit)
         .toHuman(),
+    toPicked: (values?: (string | undefined)[], strict = true): string[] => {
+      if (!values) {
+        return [];
+      }
+      if (strict) {
+        const picked = (values.filter(Boolean) as string[]).map(t(plain).instant);
+        picked.sort();
+        return picked;
+      }
+
+      const picked = values.map((x) => (x ? t(plain).instant(x) : undefined));
+      // remove last undefineds
+      while (picked.length > 0 && picked.at(-1) === undefined) {
+        picked.pop();
+      }
+      // sort with freeze undefined positions
+      for (let i = 0, l = picked.length - 1; i < l; i++) {
+        let min = picked[i];
+        if (min === undefined) continue;
+        for (let j = i + 1; j < picked.length; j++) {
+          const current = picked[j];
+          if (current === undefined) continue;
+          if (current < min) {
+            min = current;
+          }
+        }
+        picked[i] = min;
+      }
+      return picked as string[];
+    },
   };
 }

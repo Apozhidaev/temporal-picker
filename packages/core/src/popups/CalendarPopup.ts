@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
-import { t } from "../utils";
+import { t, toPickedSlim } from "../utils";
 
 export type Options = {
   plain: PlainType;
@@ -38,10 +38,9 @@ export abstract class CalendarPopup {
 
     this.plain = options.plain;
 
-    this.picked = options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+    this.picked = t(this.plain).toPicked(options.values);
 
     if (this.picked.length > 0) {
-      this.picked.sort();
       this.entry = t(this.plain).startOf(this.picked[0]);
     } else {
       this.entry = t(this.plain).entry();
@@ -53,10 +52,9 @@ export abstract class CalendarPopup {
     this.entry = t(this.plain).entry();
 
     if (options.values) {
-      this.picked = options.values?.filter(Boolean).map(t(this.plain).instant) || [];
+      this.picked = t(this.plain).toPicked(options.values);
 
       if (this.picked.length > 0) {
-        this.picked.sort();
         this.entry = t(this.plain).startOf(this.picked[0]);
       }
     }
@@ -68,8 +66,7 @@ export abstract class CalendarPopup {
   }
 
   public select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
-    this.picked = values.filter(Boolean).map(t(this.plain).instant);
-    this.picked.sort();
+    this.picked = t(this.plain).toPicked(values);
     const scrollToValue = this.picked[Math.min(scrollToIndex, this.picked.length - 1)];
     this.scrollTo(scrollToValue, shift);
   }
@@ -102,7 +99,7 @@ export abstract class CalendarPopup {
     if (this.isResetButton(element)) {
       this.picked = [];
       this.render();
-      this.dispatchClear();
+      this.dispatchReset();
     }
   }
 
@@ -119,8 +116,7 @@ export abstract class CalendarPopup {
           this.picked = [];
         }
 
-        this.picked = [...this.picked, instant];
-        this.picked.sort();
+        this.picked = toPickedSlim([...this.picked, instant]);
 
         if (this.ui.context.autoApply && this.picked.length === this.ui.context.pickCount) {
           this.dispatchSelect();
@@ -262,7 +258,7 @@ export abstract class CalendarPopup {
     this.element.dispatchEvent(new CustomEvent("t-close"));
   }
 
-  protected dispatchClear() {
+  protected dispatchReset() {
     this.element.dispatchEvent(new CustomEvent("t-reset"));
   }
 }

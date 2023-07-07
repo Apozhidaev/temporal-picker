@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { datesIsNotAvailable } from "../../../../../utils";
+import { datesIsNotAvailable, toPickedSlim } from "../../../../../utils";
 
 type Props = {
   day: string;
@@ -19,7 +19,7 @@ export class Day extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { min, max } = this.context;
+    const { min, max, locale } = this.context;
     el.className = "day unit";
 
     const today = DateTime.now();
@@ -29,12 +29,11 @@ export class Day extends Control<Props, PopupContext> {
     const instant = DateTime.fromISO(props.day);
     let picked = props.picked;
     if (props.hover) {
-      picked = [...props.picked, props.hover];
-      picked.sort();
+      picked = toPickedSlim([...props.picked, props.hover]);
     }
     const dayPicked = picked.map((x) => DateTime.fromISO(x));
 
-    el.innerText = instant.toFormat("d");
+    el.innerText = instant.setLocale(locale).toFormat("d");
     el.dataset.instant = props.day;
 
     if (instant.hasSame(today, "day")) {
@@ -46,6 +45,24 @@ export class Day extends Control<Props, PopupContext> {
     }
 
     switch (dayPicked.length) {
+      // case 3: {
+      //   const [start, mid, end] = dayPicked;
+      //   if (start.hasSame(instant, "day")) {
+      //     el.classList.add("start");
+      //   }
+
+      //   if (end.hasSame(instant, "day")) {
+      //     el.classList.add("end");
+      //   }
+
+      //   if (mid.hasSame(instant, "day")) {
+      //     el.classList.add("selected");
+      //   } else if (instant > start && instant < end) {
+      //     el.classList.add("in-range");
+      //   }
+      //   break;
+      // }
+
       case 2: {
         const [start, end] = dayPicked;
         if (start.hasSame(instant, "day")) {
