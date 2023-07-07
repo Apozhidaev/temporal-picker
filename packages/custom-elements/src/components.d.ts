@@ -49,6 +49,9 @@ export namespace Components {
         "extraSelect": boolean;
         "firstDay": number;
         "locale": string;
+        "localeApply": string;
+        "localeCancel": string;
+        "localeClear": string;
         /**
           * The max value
          */
@@ -98,6 +101,9 @@ export namespace Components {
         "extraSelect": boolean;
         "firstDay": number;
         "locale": string;
+        "localeApply": string;
+        "localeCancel": string;
+        "localeClear": string;
         /**
           * The max value
          */
@@ -243,6 +249,9 @@ declare namespace LocalJSX {
         "extraSelect"?: boolean;
         "firstDay"?: number;
         "locale"?: string;
+        "localeApply"?: string;
+        "localeCancel"?: string;
+        "localeClear"?: string;
         /**
           * The max value
          */
@@ -300,6 +309,9 @@ declare namespace LocalJSX {
         "extraSelect"?: boolean;
         "firstDay"?: number;
         "locale"?: string;
+        "localeApply"?: string;
+        "localeCancel"?: string;
+        "localeClear"?: string;
         /**
           * The max value
          */

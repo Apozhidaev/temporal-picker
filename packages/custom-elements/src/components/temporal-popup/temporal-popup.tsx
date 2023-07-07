@@ -62,9 +62,12 @@ export class TemporalPopup {
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
   @Prop() tooltip: boolean;
   @Prop() customLayout: boolean;
-  @Prop() locale: string;
   @Prop() firstDay: number;
   @Prop() strict: boolean;
+  @Prop() locale: string;
+  @Prop() localeCancel: string;
+  @Prop() localeApply: string;
+  @Prop() localeClear: string;
 
   @Watch('type')
   @Watch('plain')
@@ -76,9 +79,12 @@ export class TemporalPopup {
   @Watch('presetPosition')
   @Watch('tooltip')
   @Watch('customLayout')
-  @Watch('locale')
   @Watch('firstDay')
   @Watch('strict')
+  @Watch('locale')
+  @Watch('localeClear')
+  @Watch('localeApply')
+  @Watch('localeCancel')
   watchOptions(newValue: string, _: string, name: string) {
     if (this.type === 'range') {
       this.rangePopup?.setOptions({ [name]: newValue });
@@ -180,6 +186,9 @@ export class TemporalPopup {
             tooltip: this.tooltip,
             customLayout: this.customLayout,
             locale: this.locale,
+            localeApply: this.localeApply,
+            localeCancel: this.localeCancel,
+            localeClear: this.localeClear,
             firstDay: this.firstDay,
             strict: this.strict,
             values: [this.start, this.end],
@@ -216,6 +225,9 @@ export class TemporalPopup {
             max: this.max,
             customLayout: this.customLayout,
             locale: this.locale,
+            localeApply: this.localeApply,
+            localeCancel: this.localeCancel,
+            localeClear: this.localeClear,
             firstDay: this.firstDay,
             values: [this.value],
           },

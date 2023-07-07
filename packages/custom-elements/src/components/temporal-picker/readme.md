@@ -7,28 +7,32 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                   | Type                                                 | Default          |
-| ---------------- | ----------------- | ----------------------------- | ---------------------------------------------------- | ---------------- |
-| `autoApply`      | `auto-apply`      |                               | `boolean`                                            | `undefined`      |
-| `customLayout`   | `custom-layout`   |                               | `boolean`                                            | `undefined`      |
-| `disabled`       | `disabled`        |                               | `boolean`                                            | `undefined`      |
-| `end`            | `end`             | The end value of date range   | `string`                                             | `undefined`      |
-| `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined`      |
-| `firstDay`       | `first-day`       |                               | `number`                                             | `undefined`      |
-| `locale`         | `locale`          |                               | `string`                                             | `undefined`      |
-| `max`            | `max`             | The max value                 | `string`                                             | `undefined`      |
-| `min`            | `min`             | The min value                 | `string`                                             | `undefined`      |
-| `native`         | `native`          | The native value              | `boolean`                                            | `undefined`      |
-| `placement`      | `placement`       |                               | `"bottom-end" \| "bottom-start"`                     | `'bottom-start'` |
-| `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`         |
-| `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined`      |
-| `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined`      |
-| `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined`      |
-| `start`          | `start`           | The start value of date range | `string`                                             | `undefined`      |
-| `strict`         | `strict`          |                               | `boolean`                                            | `undefined`      |
-| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined`      |
-| `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`        |
-| `value`          | `value`           | The value of date             | `string`                                             | `undefined`      |
+| Property         | Attribute         | Description                   | Type                                                 | Default     |
+| ---------------- | ----------------- | ----------------------------- | ---------------------------------------------------- | ----------- |
+| `autoApply`      | `auto-apply`      |                               | `boolean`                                            | `undefined` |
+| `customLayout`   | `custom-layout`   |                               | `boolean`                                            | `undefined` |
+| `disabled`       | `disabled`        |                               | `boolean`                                            | `undefined` |
+| `end`            | `end`             | The end value of date range   | `string`                                             | `undefined` |
+| `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined` |
+| `firstDay`       | `first-day`       |                               | `number`                                             | `undefined` |
+| `locale`         | `locale`          |                               | `string`                                             | `undefined` |
+| `localeApply`    | `locale-apply`    |                               | `string`                                             | `undefined` |
+| `localeCancel`   | `locale-cancel`   |                               | `string`                                             | `undefined` |
+| `localeClear`    | `locale-clear`    |                               | `string`                                             | `undefined` |
+| `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
+| `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
+| `native`         | `native`          | The native value              | `boolean`                                            | `undefined` |
+| `picker`         | `picker`          | The type of picker            | `"icon" \| "input"`                                  | `'input'`   |
+| `placement`      | `placement`       |                               | `"bottom" \| "bottom-end" \| "bottom-start"`         | `'bottom'`  |
+| `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |
+| `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |
+| `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined` |
+| `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
+| `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
+| `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
+| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
+| `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`   |
+| `value`          | `value`           | The value of date             | `string`                                             | `undefined` |
 
 
 ## Events
@@ -44,6 +48,7 @@
 | Part                     | Description |
 | ------------------------ | ----------- |
 | `"delimiter"`            |             |
+| `"delimiter-wrapper"`    |             |
 | `"range-inputs-wrapper"` |             |
 
 

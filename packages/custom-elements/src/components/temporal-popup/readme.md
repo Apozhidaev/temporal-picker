@@ -15,6 +15,9 @@
 | `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined` |
 | `firstDay`       | `first-day`       |                               | `number`                                             | `undefined` |
 | `locale`         | `locale`          |                               | `string`                                             | `undefined` |
+| `localeApply`    | `locale-apply`    |                               | `string`                                             | `undefined` |
+| `localeCancel`   | `locale-cancel`   |                               | `string`                                             | `undefined` |
+| `localeClear`    | `locale-clear`    |                               | `string`                                             | `undefined` |
 | `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
 | `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
 | `picker`         | --                |                               | `HTMLElement`                                        | `undefined` |

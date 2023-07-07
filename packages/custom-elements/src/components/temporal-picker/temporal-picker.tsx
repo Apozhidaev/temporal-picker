@@ -75,9 +75,12 @@ export class TemporalPicker {
   @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
   @Prop() tooltip: boolean;
   @Prop() customLayout: boolean;
-  @Prop() locale: string;
   @Prop() firstDay: number;
   @Prop() strict: boolean;
+  @Prop() locale: string;
+  @Prop() localeCancel: string;
+  @Prop() localeApply: string;
+  @Prop() localeClear: string;
 
   /**
    * The value change event
@@ -300,6 +303,9 @@ export class TemporalPicker {
             tooltip={this.tooltip}
             customLayout={this.customLayout}
             locale={this.locale}
+            localeApply={this.localeApply}
+            localeCancel={this.localeCancel}
+            localeClear={this.localeClear}
             firstDay={this.firstDay}
             strict={this.strict}
             onT-value-change={(e: any) => {
