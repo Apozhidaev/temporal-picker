@@ -39,104 +39,106 @@ export namespace Components {
         "value": string;
     }
     interface TemporalPicker {
-        "autoApply": boolean;
-        "customLayout": boolean;
-        "disabled": boolean;
+        "autoApply"?: boolean;
+        "customLayout"?: boolean;
+        "disabled"?: boolean;
         /**
           * The end value of date range
          */
-        "end": string;
-        "extraSelect": boolean;
-        "firstDay": number;
-        "locale": string;
-        "localeApply": string;
-        "localeCancel": string;
-        "localeClear": string;
+        "end"?: string;
+        "extraSelect"?: boolean;
+        "firstDay"?: number;
+        "locale"?: string;
+        "localeApply"?: string;
+        "localeCancel"?: string;
+        "localeClear"?: string;
         /**
           * The max value
          */
-        "max": string;
+        "max"?: string;
         /**
           * The min value
          */
-        "min": string;
+        "min"?: string;
         /**
           * The native value
          */
-        "native": boolean;
+        "native"?: boolean;
         /**
           * The type of picker
          */
-        "picker": Presentation;
-        "placement": 'bottom' | 'bottom-start' | 'bottom-end';
+        "picker"?: Presentation;
+        "placement"?: 'bottom' | 'bottom-start' | 'bottom-end';
         /**
           * The type of picker
          */
-        "plain": PlainType;
-        "presetPosition": 'left' | 'right' | 'top' | 'bottom';
-        "readonly": boolean;
-        "resetButton": boolean;
+        "plain"?: PlainType;
+        "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
+        "readonly"?: boolean;
+        "reselect"?: boolean;
+        "resetButton"?: boolean;
         /**
           * The start value of date range
          */
-        "start": string;
-        "strict": boolean;
-        "tooltip": boolean;
+        "start"?: string;
+        "strict"?: boolean;
+        "tooltip"?: boolean;
         /**
           * The type of picker
          */
-        "type": PickerType;
+        "type"?: PickerType;
         /**
           * The value of date
          */
-        "value": string;
+        "value"?: string;
     }
     interface TemporalPopup {
-        "autoApply": boolean;
-        "customLayout": boolean;
+        "autoApply"?: boolean;
+        "customLayout"?: boolean;
         /**
           * The end value of date range
          */
-        "end": string;
-        "extraSelect": boolean;
-        "firstDay": number;
-        "locale": string;
-        "localeApply": string;
-        "localeCancel": string;
-        "localeClear": string;
+        "end"?: string;
+        "extraSelect"?: boolean;
+        "firstDay"?: number;
+        "locale"?: string;
+        "localeApply"?: string;
+        "localeCancel"?: string;
+        "localeClear"?: string;
         /**
           * The max value
          */
-        "max": string;
+        "max"?: string;
         /**
           * The min value
          */
-        "min": string;
+        "min"?: string;
         "picker": HTMLElement;
         /**
           * The type of picker
          */
-        "plain": PlainType;
-        "presetPosition": 'left' | 'right' | 'top' | 'bottom';
-        "resetButton": boolean;
+        "plain"?: PlainType;
+        "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
+        "reselect"?: boolean;
+        "resetButton"?: boolean;
         "scrollToEnd": () => Promise<void>;
         "scrollToStart": () => Promise<void>;
         "scrollToValue": () => Promise<void>;
-        "select": (values: string[], scrollToIndex?: number, shift?: number) => Promise<void>;
+        "select": (values: string[], scrollToIndex?: number) => Promise<void>;
         /**
           * The start value of date range
          */
-        "start": string;
-        "strict": boolean;
-        "tooltip": boolean;
+        "start"?: string;
+        "strict"?: boolean;
+        "tooltip"?: boolean;
         /**
           * The type of picker
          */
-        "type": PickerType;
+        "type"?: PickerType;
         /**
           * The start value of date range
          */
-        "value": string;
+        "value"?: string;
     }
     interface TemporalPreset {
         /**
@@ -283,6 +285,7 @@ declare namespace LocalJSX {
         "plain"?: PlainType;
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
         "readonly"?: boolean;
+        "reselect"?: boolean;
         "resetButton"?: boolean;
         /**
           * The start value of date range
@@ -338,6 +341,7 @@ declare namespace LocalJSX {
          */
         "plain"?: PlainType;
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
+        "reselect"?: boolean;
         "resetButton"?: boolean;
         /**
           * The start value of date range

@@ -10,8 +10,7 @@ function calcOffsetDays(date: DateTime, firstDay: number): number {
 
 type Props = {
   entry: string;
-  picked: string[];
-  hover?: string;
+  picked: (string | undefined)[];
 };
 
 export class Days extends Control<Props, PopupContext> {
@@ -26,7 +25,7 @@ export class Days extends Control<Props, PopupContext> {
     return "days-grid";
   }
 
-  protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
+  protected onRender(el: HTMLElement, { entry, picked }: Props) {
     const { firstDay, plain } = this.context;
 
     el.className = "days-grid";
@@ -54,14 +53,13 @@ export class Days extends Control<Props, PopupContext> {
         {
           day: t(plain).toInstant(date),
           picked,
-          hover,
         },
         `${idx}_${entry}`
       );
     }
   }
 
-  protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
+  protected onUpdate(el: HTMLElement, { entry, picked }: Props): void {
     const { plain } = this.context;
 
     let date = DateTime.fromISO(entry);
@@ -77,7 +75,6 @@ export class Days extends Control<Props, PopupContext> {
         {
           day: t(plain).toInstant(date),
           picked,
-          hover,
         },
         `${idx}_${entry}`
       );

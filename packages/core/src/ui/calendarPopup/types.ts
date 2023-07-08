@@ -9,7 +9,6 @@ export type Preset = {
 
 export type PopupContext = Context & {
   plain?: PlainType;
-  pickCount: number;
   grid: number;
   calendars: number;
   firstDay: number;
@@ -25,7 +24,6 @@ export type PopupContext = Context & {
   presets?: Preset[];
   presetPosition?: 'left' | 'right' | 'top' | 'bottom';
   strict?: boolean;
-  // reselect?: boolean;
   min?: string;
   max?: string;
   minYear?: number;

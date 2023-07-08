@@ -1,10 +1,10 @@
 import { DateTime } from "luxon";
 import { Control } from "../../base/Control";
 import { PopupContext } from "../types";
-import { t } from "../../../utils";
+import { datesIsNotAvailable, t } from "../../../utils";
 
 type Props = {
-  picked: string[];
+  picked: (string | undefined)[];
 };
 
 export class Presets extends Control<Props, PopupContext> {
@@ -17,9 +17,7 @@ export class Presets extends Control<Props, PopupContext> {
 
     el.className = "preset-plugin-container";
 
-    const [startPicked, endPicked] = props.picked.map((x) =>
-      DateTime.fromISO(x)
-    );
+    const [startPicked, endPicked] = props.picked.map((x) => (x ? DateTime.fromISO(x) : undefined));
     const minDate = min ? DateTime.fromISO(min) : undefined;
     const maxDate = max ? DateTime.fromISO(max) : undefined;
 
@@ -32,9 +30,7 @@ export class Presets extends Control<Props, PopupContext> {
       const item = document.createElement("button");
       item.className = "preset-button unit";
 
-      if (
-        t(plain).sameRanges([startPicked, endPicked], [startDate, endDate])
-      ) {
+      if (t(plain).sameRanges([startPicked, endPicked], [startDate, endDate])) {
         item.classList.add("selected");
       } else {
         item.classList.remove("selected");
@@ -47,7 +43,7 @@ export class Presets extends Control<Props, PopupContext> {
         item.dataset.end = t(plain).instant(end);
       }
 
-      if (t(plain).datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
+      if (datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
         item.disabled = true;
       }
 

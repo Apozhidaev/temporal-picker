@@ -1,6 +1,27 @@
 import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
+
+export function datesIsNotAvailable(
+  min: DateTime | undefined,
+  max: DateTime | undefined,
+  ...dates: (DateTime | undefined)[]
+) {
+  if (min) {
+    if (dates.filter(Boolean).some((date) => date! < min)) {
+      return true;
+    }
+  }
+  if (max) {
+    if (dates.filter(Boolean).some((date) => date! > max)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// ----------------------------------------
+
 type PlainMeta = {
   unit: DateTimeUnit;
   entry: DateTimeUnit;
@@ -37,10 +58,6 @@ function toInstant(this: ThisType, dt: DateTime) {
   }
 }
 
-function entry(this: ThisType) {
-  return this.toInstant(DateTime.now().startOf(this.meta.entry));
-}
-
 function instant(this: ThisType, instant: string) {
   return this.toInstant(DateTime.fromISO(instant));
 }
@@ -65,21 +82,6 @@ function diff(this: ThisType, start: string, end: string, locale: string) {
     .toHuman();
 }
 
-function toPicked(this: ThisType, values?: (string | undefined)[]) {
-  if (!values) {
-    return [];
-  }
-  const picked = (values.filter(Boolean) as string[]).map(t(this.plain).instant);
-  picked.sort();
-  return picked;
-}
-
-function toPickedSlim(this: ThisType, values: (string | undefined)[]) {
-  const picked = values.filter(Boolean) as string[];
-  picked.sort();
-  return picked;
-}
-
 function sameRanges(
   this: ThisType,
   range1: (DateTime | undefined)[],
@@ -100,25 +102,6 @@ function sameRanges(
   return true;
 }
 
-function datesIsNotAvailable(
-  this: ThisType,
-  min: DateTime | undefined,
-  max: DateTime | undefined,
-  ...dates: (DateTime | undefined)[]
-) {
-  if (min) {
-    if (dates.filter(Boolean).some((date) => date! < min)) {
-      return true;
-    }
-  }
-  if (max) {
-    if (dates.filter(Boolean).some((date) => date! > max)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export function t(plain?: PlainType) {
   const meta = plain === "month" ? plainMeta.month : plainMeta.date;
   return {
@@ -127,15 +110,11 @@ export function t(plain?: PlainType) {
     ink,
     page,
     toInstant,
-    entry,
     instant,
     startOf,
     next,
     previous,
     diff,
-    toPicked,
-    toPickedSlim,
     sameRanges,
-    datesIsNotAvailable,
   };
 }

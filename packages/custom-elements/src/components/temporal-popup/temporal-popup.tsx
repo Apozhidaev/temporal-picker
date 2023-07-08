@@ -24,50 +24,51 @@ export class TemporalPopup {
   /**
    * The type of picker
    */
-  @Prop() type: PickerType = 'plain';
+  @Prop() type?: PickerType = 'plain';
 
   /**
    * The type of picker
    */
-  @Prop() plain: PlainType = 'date';
+  @Prop() plain?: PlainType = 'date';
 
   /**
    * The start value of date range
    */
-  @Prop() value: string;
+  @Prop() value?: string;
 
   /**
    * The start value of date range
    */
-  @Prop() start: string;
+  @Prop() start?: string;
 
   /**
    * The end value of date range
    */
-  @Prop() end: string;
+  @Prop() end?: string;
 
   /**
    * The min value
    */
-  @Prop() min: string;
+  @Prop() min?: string;
 
   /**
    * The max value
    */
-  @Prop() max: string;
+  @Prop() max?: string;
 
-  @Prop() autoApply: boolean;
-  @Prop() resetButton: boolean;
-  @Prop() extraSelect: boolean;
-  @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
-  @Prop() tooltip: boolean;
-  @Prop() customLayout: boolean;
-  @Prop() firstDay: number;
-  @Prop() strict: boolean;
-  @Prop() locale: string;
-  @Prop() localeCancel: string;
-  @Prop() localeApply: string;
-  @Prop() localeClear: string;
+  @Prop() autoApply?: boolean;
+  @Prop() resetButton?: boolean;
+  @Prop() extraSelect?: boolean;
+  @Prop() presetPosition?: 'left' | 'right' | 'top' | 'bottom';
+  @Prop() tooltip?: boolean;
+  @Prop() customLayout?: boolean;
+  @Prop() firstDay?: number;
+  @Prop() strict?: boolean;
+  @Prop() reselect?: boolean;
+  @Prop() locale?: string;
+  @Prop() localeCancel?: string;
+  @Prop() localeApply?: string;
+  @Prop() localeClear?: string;
 
   @Watch('type')
   @Watch('plain')
@@ -81,6 +82,7 @@ export class TemporalPopup {
   @Watch('customLayout')
   @Watch('firstDay')
   @Watch('strict')
+  @Watch('reselect')
   @Watch('locale')
   @Watch('localeClear')
   @Watch('localeApply')
@@ -121,19 +123,17 @@ export class TemporalPopup {
 
   @Method()
   async scrollToStart() {
-    this.focusIndex = 0;
     this.rangePopup?.select([this.start, this.end]);
   }
 
   @Method()
   async scrollToEnd() {
-    this.focusIndex = 1;
     this.rangePopup?.select([this.start, this.end], 1);
   }
 
   @Method()
-  async select(values: string[], scrollToIndex = 0, shift = scrollToIndex) {
-    this.rangePopup?.select(values, scrollToIndex, shift);
+  async select(values: string[], scrollToIndex = 0) {
+    this.rangePopup?.select(values, scrollToIndex);
   }
 
   /**
@@ -156,7 +156,6 @@ export class TemporalPopup {
 
   private datePopup: DatePopup;
   private rangePopup: RangePopup;
-  private focusIndex = 0;
 
   componentDidLoad() {
     const element = this.el.shadowRoot.getElementById('container');
@@ -191,20 +190,14 @@ export class TemporalPopup {
             localeClear: this.localeClear,
             firstDay: this.firstDay,
             strict: this.strict,
+            reselect: this.reselect,
             values: [this.start, this.end],
           },
           element,
           host,
         );
         element.addEventListener('t-select', (e: CustomEvent) => {
-          if (e.detail.values.length < 2 && this.focusIndex === 1) {
-            this.rangeChange.emit({
-              start: undefined,
-              end: e.detail.values[0],
-            });
-          } else {
-            this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
-          }
+          this.rangeChange.emit({ start: e.detail.values[0], end: e.detail.values[1] });
           this.closePopup.emit();
         });
         element.addEventListener('t-reset', () => {

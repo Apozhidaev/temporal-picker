@@ -5,8 +5,7 @@ import { PopupContext } from "../../types";
 
 type Props = {
   entry: string;
-  picked: string[];
-  hover?: string;
+  picked: (string | undefined)[];
 };
 
 export class Grid extends Control<Props, PopupContext> {
@@ -36,7 +35,6 @@ export class Grid extends Control<Props, PopupContext> {
           index: i,
           entry: calendarEntry,
           picked: props.picked,
-          hover: props.hover,
         },
         calendarEntry
       );
@@ -54,7 +52,6 @@ export class Grid extends Control<Props, PopupContext> {
           index: i,
           entry: calendarEntry,
           picked: props.picked,
-          hover: props.hover,
         },
         calendarEntry
       );

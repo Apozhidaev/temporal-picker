@@ -3,12 +3,14 @@ import { CalendarPopup, PopupOptions } from "./CalendarPopup";
 import { t } from "../utils";
 import { Preset } from "../ui/calendarPopup/types";
 import defaults from "../defaults";
+import { Picker } from "./Picker";
 
 export type RangePopupOptions = PopupOptions & {
   tooltip?: boolean;
   strict?: boolean;
   presets?: Preset[];
   presetPosition?: "left" | "right" | "top" | "bottom";
+  reselect?: boolean;
 };
 
 export class RangePopup extends CalendarPopup {
@@ -19,7 +21,7 @@ export class RangePopup extends CalendarPopup {
     public element: HTMLElement,
     private host = element
   ) {
-    super(options, element);
+    super(element);
 
     if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
@@ -27,11 +29,10 @@ export class RangePopup extends CalendarPopup {
     }
     this.ui = new UI(host, {
       actions: this,
-      plain: this.plain,
       tooltipElement: this.tooltipElement,
-      pickCount: 2,
       grid: 2,
       calendars: 2,
+      plain: options.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
       locale: options.locale ?? defaults.locale,
       resetButton: options.resetButton ?? defaults.resetButton,
@@ -49,17 +50,21 @@ export class RangePopup extends CalendarPopup {
       localeApply: options.localeApply,
       localeCancel: options.localeCancel,
     });
+    this.picker = new Picker(
+      options.plain,
+      options.strict ?? defaults.strict,
+      options.reselect ?? defaults.reselect,
+      2,
+      options.values
+    );
 
-    if (this.ui.context.strict || this.ui.context.autoApply) {
-      this.element.addEventListener("mouseenter", this.handleMouseenter, true);
-    }
+    this.element.addEventListener("mouseenter", this.handleMouseenter, true);
+    this.element.addEventListener("mouseleave", this.handleMouseleave, true);
 
     this.render();
   }
 
   public setOptions(options: Partial<RangePopupOptions>): void {
-    super.setOptions(options);
-
     if (options.tooltip ?? this.options.tooltip) {
       this.tooltipElement = document.createElement("span");
       this.hideTooltip();
@@ -69,11 +74,10 @@ export class RangePopup extends CalendarPopup {
 
     this.ui = new UI(this.host, {
       actions: this,
-      plain: this.plain,
       tooltipElement: this.tooltipElement,
-      pickCount: 2,
       grid: 2,
       calendars: 2,
+      plain: options.plain ?? this.ui.context.plain,
       firstDay: options.firstDay ?? this.ui.context.firstDay,
       locale: options.locale ?? this.ui.context.locale,
       resetButton: options.resetButton ?? this.ui.context.resetButton,
@@ -92,41 +96,64 @@ export class RangePopup extends CalendarPopup {
       localeCancel: options.localeCancel ?? this.ui.context.localeCancel,
     });
 
+    this.picker = new Picker(
+      options.plain ?? this.picker.plain,
+      options.strict ?? this.picker.strict,
+      options.reselect ?? this.picker.reselect,
+      2,
+      options.values,
+      this.picker.index
+    );
+    
     this.render();
   }
 
   public destroy() {
     super.destroy();
     this.element.removeEventListener("mouseenter", this.handleMouseenter, true);
+    this.element.removeEventListener("mouseenter", this.handleMouseleave, true);
   }
 
-  handleMouseenter = (e: MouseEvent) => {
+  private handleMouseenter = (e: MouseEvent) => {
     const target = e.target;
 
     if (target instanceof HTMLElement) {
+      if (target.classList.contains("header")) {
+        this.hideTooltip();
+        this.update();
+      }
+
       const element = target.closest(".unit");
 
       if (!(element instanceof HTMLElement)) return;
 
       if (this.isCalendarUnit(element)) {
-        if (this.picked.length !== 1) return;
         const instant = element.dataset.instant;
 
         if (instant) {
+          const diff = this.picker.getHoverDiff(instant, this.ui.context.locale);
+          if (!diff) {
+            // this.hideTooltip();
+            return;
+          }
+
           this.update(instant);
 
           if (this.tooltipElement) {
-            const values = [this.picked[0], instant];
-            values.sort();
-            const [start, end] = values;
-            const diff = t(this.plain).diff(start, end, this.ui.context.locale);
-            if (diff) {
-              this.showTooltip(element, diff);
-            } else {
-              this.hideTooltip();
-            }
+            this.showTooltip(element, diff);
           }
         }
+      }
+    }
+  };
+
+  private handleMouseleave = (e: MouseEvent) => {
+    const target = e.target;
+
+    if (target instanceof HTMLElement) {
+      if (target.classList.contains("calendars")) {
+        this.hideTooltip();
+        this.update();
       }
     }
   };
@@ -147,19 +174,15 @@ export class RangePopup extends CalendarPopup {
     if (this.isPresetButton(element)) {
       const { start, end } = element.dataset;
 
-      this.picked = t(this.plain).toPickedSlim([start, end]);
+      this.picker.setValues([start, end]);
 
       if (this.ui.context.autoApply) {
-        this.dispatchSelect([start, end]);
+        this.dispatchSelect();
       } else {
-        this.dispatchPreselect([start, end]);
+        this.dispatchPreselect();
       }
 
-      if (this.picked.length > 0) {
-        this.scrollTo(this.picked[0]);
-      } else {
-        this.update();
-      }
+      this.render();
     }
   }
 

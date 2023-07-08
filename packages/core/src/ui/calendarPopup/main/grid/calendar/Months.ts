@@ -6,8 +6,7 @@ import { PopupContext } from "../../../types";
 
 type Props = {
   entry: string;
-  picked: string[];
-  hover?: string;
+  picked: (string | undefined)[];
 };
 
 export class Months extends Control<Props, PopupContext> {
@@ -22,7 +21,7 @@ export class Months extends Control<Props, PopupContext> {
     return "months-grid";
   }
 
-  protected onRender(el: HTMLElement, { entry, picked, hover }: Props) {
+  protected onRender(el: HTMLElement, { entry, picked }: Props) {
     const { plain } = this.context;
 
     el.className = "days-grid";
@@ -39,14 +38,13 @@ export class Months extends Control<Props, PopupContext> {
         {
           month: t(plain).toInstant(date),
           picked,
-          hover,
         },
         `${idx}_${entry}`
       );
     }
   }
 
-  protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
+  protected onUpdate(el: HTMLElement, { entry, picked }: Props): void {
     const { plain } = this.context;
 
     let date = DateTime.fromISO(entry);
@@ -56,7 +54,6 @@ export class Months extends Control<Props, PopupContext> {
         {
           month: t(plain).toInstant(date),
           picked,
-          hover,
         },
         `${idx}_${entry}`
       );

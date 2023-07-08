@@ -2,7 +2,7 @@ import { Control } from "../base/Control";
 import { PopupContext } from "./types";
 
 type Props = {
-  picked: string[];
+  isValid: boolean;
 };
 
 export class Footer extends Control<Props, PopupContext> {
@@ -14,8 +14,8 @@ export class Footer extends Control<Props, PopupContext> {
     return "calendar-popup-footer";
   }
 
-  protected onRender(el: HTMLElement, { picked }: Props) {
-    const { localeCancel, localeApply, pickCount, strict } = this.context;
+  protected onRender(el: HTMLElement, { isValid }: Props) {
+    const { localeCancel, localeApply } = this.context;
     const buttons = document.createElement("div");
     buttons.className = "footer-buttons";
 
@@ -27,7 +27,7 @@ export class Footer extends Control<Props, PopupContext> {
     const applyButton = document.createElement("button");
     applyButton.className = "apply-button unit";
     applyButton.innerText = localeApply || "Apply";
-    applyButton.disabled = (!!strict && picked.length !== pickCount) || picked.length === 0;
+    applyButton.disabled = !isValid;
     buttons.appendChild(applyButton);
 
     el.appendChild(buttons);

@@ -5,4 +5,5 @@ export default {
   resetButton: true,
   tooltip: true,
   strict: true,
+  reselect: false,
 };

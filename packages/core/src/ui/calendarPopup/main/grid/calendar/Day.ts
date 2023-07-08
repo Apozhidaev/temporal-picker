@@ -1,12 +1,11 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { t } from "../../../../../utils";
+import { datesIsNotAvailable } from "../../../../../utils";
 
 type Props = {
   day: string;
-  picked: string[];
-  hover?: string;
+  picked: (string | undefined)[];
 };
 
 export class Day extends Control<Props, PopupContext> {
@@ -19,7 +18,7 @@ export class Day extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, props: Props) {
-    const { min, max, locale, plain } = this.context;
+    const { min, max, locale, strict } = this.context;
     el.className = "day unit";
 
     const today = DateTime.now();
@@ -27,11 +26,7 @@ export class Day extends Control<Props, PopupContext> {
     const maxDate = max ? DateTime.fromISO(max) : undefined;
 
     const instant = DateTime.fromISO(props.day);
-    let picked = props.picked;
-    if (props.hover) {
-      picked = t(plain).toPickedSlim([...props.picked, props.hover]);
-    }
-    const dayPicked = picked.map((x) => DateTime.fromISO(x));
+    const picked = props.picked.map((x) => (x ? DateTime.fromISO(x) : undefined));
 
     el.innerText = instant.setLocale(locale).toFormat("d");
     el.dataset.instant = props.day;
@@ -44,43 +39,61 @@ export class Day extends Control<Props, PopupContext> {
       el.classList.add("weekend");
     }
 
-    switch (dayPicked.length) {
-      // case 3: {
-      //   const [start, mid, end] = dayPicked;
-      //   if (start.hasSame(instant, "day")) {
-      //     el.classList.add("start");
-      //   }
-
-      //   if (end.hasSame(instant, "day")) {
-      //     el.classList.add("end");
-      //   }
-
-      //   if (mid.hasSame(instant, "day")) {
-      //     el.classList.add("selected");
-      //   } else if (instant > start && instant < end) {
-      //     el.classList.add("in-range");
-      //   }
-      //   break;
-      // }
-
-      case 2: {
-        const [start, end] = dayPicked;
-        if (start.hasSame(instant, "day")) {
+    switch (picked.length) {
+      case 3: {
+        const [start, mid, end] = picked;
+        if (start?.hasSame(instant, "day")) {
           el.classList.add("start");
         }
 
-        if (end.hasSame(instant, "day")) {
+        if (end?.hasSame(instant, "day")) {
           el.classList.add("end");
         }
 
-        if (instant > start && instant < end) {
-          el.classList.add("in-range");
+        if (mid?.hasSame(instant, "day")) {
+          el.classList.add("selected");
+        } else {
+          if (start && end) {
+            if (instant > start && instant < end) {
+              el.classList.add("in-range");
+            }
+          }
+        }
+
+        break;
+      }
+
+      case 2: {
+        const [start, end] = picked;
+        if (start?.hasSame(instant, "day")) {
+          el.classList.add("start");
+        }
+
+        if (end?.hasSame(instant, "day")) {
+          el.classList.add("end");
+        }
+
+        if (start && end) {
+          if (instant > start && instant < end) {
+            el.classList.add("in-range");
+          }
+        } else if (!strict) {
+          if (start) {
+            if (instant > start) {
+              el.classList.add("in-range");
+            }
+          } else if (end) {
+            if (instant < end) {
+              el.classList.add("in-range");
+            }
+          }
         }
         break;
       }
 
       case 1: {
-        if (dayPicked[0].hasSame(instant, "day")) {
+        const [date] = picked;
+        if (date?.hasSame(instant, "day")) {
           el.classList.add("selected");
         }
         break;
@@ -90,7 +103,7 @@ export class Day extends Control<Props, PopupContext> {
         break;
     }
 
-    if (t(plain).datesIsNotAvailable(minDate, maxDate, instant)) {
+    if (datesIsNotAvailable(minDate, maxDate, instant)) {
       el.classList.add("not-available");
     }
   }

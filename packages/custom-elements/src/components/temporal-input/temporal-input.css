@@ -1,7 +1,7 @@
 :host {
-  --color: var(--t-input-color-fg-default, #111827);
+  /* --color: var(--t-input-color-fg-default, #111827); */
   --invalid-color: var(--t-input-color-fg-invalid, #e11d48);
-  --font-size: var(--t-input-font-size, 1rem);
+  /* --font-size: var(--t-input-font-size, 1rem); */
 
   display: flex;
   align-items: stretch;
@@ -11,12 +11,16 @@
 
 input {
   border-width: 0;
-  color: var(--color);
-  font-size: var(--font-size);
+  /* color: var(--color); */
+  /* font-size: var(--font-size); */
+  background-color: transparent;
+  /* color: inherit;
+  font-size: inherit; */
 }
 
 input:invalid {
   color: var(--invalid-color);
+  background-color: transparent;
 }
 
 input:disabled {

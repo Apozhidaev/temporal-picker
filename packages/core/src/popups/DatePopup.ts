@@ -1,6 +1,7 @@
 import defaults from "../defaults";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
+import { Picker } from "./Picker";
 
 export type DatePopupOptions = PopupOptions;
 
@@ -10,15 +11,14 @@ export class DatePopup extends CalendarPopup {
     public element: HTMLElement,
     private host = element
   ) {
-    super(options, element);
+    super(element);
     this.ui = new UI(host, {
       actions: this,
-      plain: this.plain,
-      firstDay: options.firstDay ?? defaults.firstDay,
-      locale: options.locale ?? defaults.locale,
-      pickCount: 1,
       grid: 1,
       calendars: 1,
+      plain: options.plain,
+      firstDay: options.firstDay ?? defaults.firstDay,
+      locale: options.locale ?? defaults.locale,
       resetButton: options.resetButton ?? defaults.resetButton,
       extraSelect: options.extraSelect,
       autoApply: options.autoApply ?? defaults.autoApply,
@@ -31,17 +31,16 @@ export class DatePopup extends CalendarPopup {
       localeApply: options.localeApply,
       localeCancel: options.localeCancel,
     });
+    this.picker = new Picker(options.plain, true, false, 1, options.values);
     this.render();
   }
 
   public setOptions(options: Partial<PopupOptions>): void {
-    super.setOptions(options);
     this.ui = new UI(this.host, {
       actions: this,
-      plain: this.plain,
+      plain: options.plain ?? this.ui.context.plain,
       firstDay: options.firstDay ?? this.ui.context.firstDay,
       locale: options.locale ?? this.ui.context.locale,
-      pickCount: 1,
       grid: 1,
       calendars: 1,
       resetButton: options.resetButton ?? this.ui.context.resetButton,
@@ -56,6 +55,7 @@ export class DatePopup extends CalendarPopup {
       localeApply: options.localeApply ?? this.ui.context.localeApply,
       localeCancel: options.localeCancel ?? this.ui.context.localeCancel,
     });
+    this.picker = new Picker(options.plain ?? this.picker.plain, true, false, 1, options.values);
     this.render();
   }
 }

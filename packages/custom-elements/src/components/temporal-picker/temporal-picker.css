@@ -3,19 +3,12 @@
   --color: var(--t-input-color-fg-default, #111827);
   --disabled-bg-color: var(--t-input-color-bg-disabled, #f5f5f5);
   --disabled-color: var(--t-input-color-fg-disabled, #57534e);
-  --border-radius: var(--t-input-border-radius, 0.375rem);
-  --height: var(--t-input-height, 2.25rem);
   --padding: var(--t-input-padding, 0.375rem 0.75rem);
+
   --focus-shadow: var(
     --t-input-focus-shadow,
     rgb(255, 255, 255) 0 0 0 0 inset,
     #3b82f6 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0
-  );
-  --border-shadow: var(
-    --t-input-border-shadow,
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #d1d5db 0 0 0 1px inset,
     rgba(0, 0, 0, 0.05) 0 1px 2px 0
   );
 
@@ -23,21 +16,23 @@
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
+
+  border-color: #e5e7eb;
+  border-width: 1px;
+  border-style: solid;
+
+  overflow: hidden;
 }
 
 .icon {
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1rem;
+  width: 1rem;
 }
 
 .icon-picker,
 .input::part(input),
 .range-inputs-wrapper {
-  background-color: var(--bg-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--border-shadow);
   box-sizing: border-box;
-  height: var(--height);
   padding: var(--padding);
 }
 
@@ -47,13 +42,18 @@
   justify-content: center;
   flex-direction: column;
   border-width: 0;
-  color: var(--color);
+  /* color: var(--color); */
 }
 
 .icon-picker:focus,
 .input::part(input):focus,
 .range-inputs-wrapper:focus-within {
   outline: none;
+  /* box-shadow: rgb(255, 255, 255) 0 0 0 0 inset, #3b82f6 0 0 0 2px inset,
+    rgba(0, 0, 0, 0.05) 0 1px 2px 0; */
+}
+
+:host-context(temporal-picker:focus) {
   box-shadow: var(--focus-shadow);
 }
 

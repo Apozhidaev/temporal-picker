@@ -9,8 +9,7 @@ import { PopupContext } from "../../../types";
 type Props = {
   index: number;
   entry: string;
-  picked: string[];
-  hover?: string;
+  picked: (string | undefined)[];
 };
 
 export class Calendar extends Control<Props, PopupContext> {
@@ -33,27 +32,27 @@ export class Calendar extends Control<Props, PopupContext> {
     return "calendar";
   }
 
-  protected onRender(el: HTMLElement, { index, entry, picked, hover }: Props) {
+  protected onRender(el: HTMLElement, { index, entry, picked }: Props) {
     const { plain } = this.context;
 
     el.className = "calendar";
 
     this.header.render(el, { index, entry }, entry);
     if (plain === "month") {
-      this.months.render(el, { entry, picked, hover }, entry);
+      this.months.render(el, { entry, picked }, entry);
     } else {
       this.dayNames.render(el, {}, entry);
-      this.days.render(el, { entry, picked, hover }, entry);
+      this.days.render(el, { entry, picked }, entry);
     }
     this.footer.render(el, {}, entry);
   }
 
-  protected onUpdate(el: HTMLElement, { entry, picked, hover }: Props): void {
+  protected onUpdate(el: HTMLElement, { entry, picked }: Props): void {
     const { plain } = this.context;
     if (plain === "month") {
-      this.months.update({ entry, picked, hover }, entry);
+      this.months.update({ entry, picked }, entry);
     } else {
-      this.days.update({ entry, picked, hover }, entry);
+      this.days.update({ entry, picked }, entry);
     }
   }
 }

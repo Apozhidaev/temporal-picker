@@ -25,62 +25,63 @@ export class TemporalPicker {
   /**
    * The type of picker
    */
-  @Prop() picker: Presentation = 'input';
+  @Prop() picker?: Presentation = 'input';
   /**
    * The type of picker
    */
-  @Prop() type: PickerType = 'plain';
+  @Prop() type?: PickerType = 'plain';
 
   /**
    * The type of picker
    */
-  @Prop() plain: PlainType = 'date';
+  @Prop() plain?: PlainType = 'date';
 
   /**
    * The min value
    */
-  @Prop() min: string;
+  @Prop() min?: string;
 
   /**
    * The max value
    */
-  @Prop() max: string;
+  @Prop() max?: string;
 
   /**
    * The value of date
    */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value?: string;
 
   /**
    * The start value of date range
    */
-  @Prop({ mutable: true }) start: string;
+  @Prop({ mutable: true }) start?: string;
 
   /**
    * The end value of date range
    */
-  @Prop({ mutable: true }) end: string;
+  @Prop({ mutable: true }) end?: string;
 
   /**
    * The native value
    */
-  @Prop() native: boolean;
+  @Prop() native?: boolean;
 
-  @Prop() placement: 'bottom' | 'bottom-start' | 'bottom-end' = 'bottom';
-  @Prop() autoApply: boolean;
-  @Prop() resetButton: boolean;
-  @Prop() readonly: boolean;
-  @Prop() disabled: boolean;
-  @Prop() extraSelect: boolean;
-  @Prop() presetPosition: 'left' | 'right' | 'top' | 'bottom';
-  @Prop() tooltip: boolean;
-  @Prop() customLayout: boolean;
-  @Prop() firstDay: number;
-  @Prop() strict: boolean;
-  @Prop() locale: string;
-  @Prop() localeCancel: string;
-  @Prop() localeApply: string;
-  @Prop() localeClear: string;
+  @Prop() placement?: 'bottom' | 'bottom-start' | 'bottom-end' = 'bottom';
+  @Prop() autoApply?: boolean;
+  @Prop() resetButton?: boolean;
+  @Prop() readonly?: boolean;
+  @Prop() disabled?: boolean;
+  @Prop() extraSelect?: boolean;
+  @Prop() presetPosition?: 'left' | 'right' | 'top' | 'bottom';
+  @Prop() tooltip?: boolean;
+  @Prop() customLayout?: boolean;
+  @Prop() firstDay?: number;
+  @Prop() strict?: boolean;
+  @Prop() reselect?: boolean;
+  @Prop() locale?: string;
+  @Prop() localeCancel?: string;
+  @Prop() localeApply?: string;
+  @Prop() localeClear?: string;
 
   /**
    * The value change event
@@ -148,10 +149,14 @@ export class TemporalPicker {
     document.body.removeChild(this.popup);
 
     this.el.focus = (...args: any[]) => {
-      if (this.type === 'range') {
-        this.el.shadowRoot.getElementById('start-input').focus(...args);
+      if (this.picker === 'icon') {
+        this.el.shadowRoot.getElementById('icon-picker').focus(...args);
       } else {
-        this.el.shadowRoot.getElementById('input').focus(...args);
+        if (this.type === 'range') {
+          this.el.shadowRoot.getElementById('start-input').focus(...args);
+        } else {
+          this.el.shadowRoot.getElementById('input').focus(...args);
+        }
       }
     };
   }
@@ -159,39 +164,43 @@ export class TemporalPicker {
   private getPresentation() {
     if (this.picker === 'icon') {
       return (
-        <button
-          class="icon-picker"
-          disabled={this.disabled}
-          onClick={() => {
-            this.isOpen = !this.isOpen;
-            if (this.isOpen) {
-              if (this.type === 'range') {
-                if (!this.start && this.end) {
-                  this.popup.scrollToEnd();
+        <div>
+          <button
+            id="icon-picker"
+            class="icon-picker"
+            part="icon-picker"
+            disabled={this.disabled}
+            onClick={() => {
+              this.isOpen = !this.isOpen;
+              if (this.isOpen) {
+                if (this.type === 'range') {
+                  if (!this.start && this.end) {
+                    this.popup.scrollToEnd();
+                  } else {
+                    this.popup.scrollToStart();
+                  }
                 } else {
-                  this.popup.scrollToStart();
+                  this.popup.scrollToValue();
                 }
-              } else {
-                this.popup.scrollToValue();
               }
-            }
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="icon"
+            }}
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="icon"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+          </button>
+        </div>
       );
     }
     return this.type === 'range' ? (
@@ -308,6 +317,7 @@ export class TemporalPicker {
             localeClear={this.localeClear}
             firstDay={this.firstDay}
             strict={this.strict}
+            reselect={this.reselect}
             onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();
