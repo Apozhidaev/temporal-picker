@@ -1,7 +1,6 @@
 import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
-
 export function datesIsNotAvailable(
   min: DateTime | undefined,
   max: DateTime | undefined,
@@ -58,8 +57,12 @@ function toInstant(this: ThisType, dt: DateTime) {
   }
 }
 
-function instant(this: ThisType, instant: string) {
-  return this.toInstant(DateTime.fromISO(instant));
+function instant(this: ThisType, value: string) {
+  return this.toInstant(DateTime.fromISO(value));
+}
+
+function normalize(this: ThisType, value: string | undefined) {
+  return value ? this.instant(value) : undefined;
 }
 
 function startOf(this: ThisType, instant: string, shift = 0) {
@@ -102,6 +105,14 @@ function sameRanges(
   return true;
 }
 
+function display(this: ThisType, value: string, locale: string) {
+  const dt = DateTime.fromISO(value).setLocale(locale);
+  if (this.plain === "month") {
+    return dt.toFormat("LLLL yyyy");
+  }
+  return dt.toLocaleString();
+}
+
 export function t(plain?: PlainType) {
   const meta = plain === "month" ? plainMeta.month : plainMeta.date;
   return {
@@ -111,10 +122,12 @@ export function t(plain?: PlainType) {
     page,
     toInstant,
     instant,
+    normalize,
     startOf,
     next,
     previous,
     diff,
     sameRanges,
+    display,
   };
 }

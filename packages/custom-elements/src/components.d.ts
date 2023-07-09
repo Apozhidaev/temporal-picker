@@ -5,38 +5,56 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { PickerType, PlainType, Presentation } from "@temporal-picker/core";
-import { TemporalInputValue } from "./components/temporal-input/temporal-input";
+import { InputPresentation, PickerType, PlainType } from "@temporal-picker/core";
+import { TemporalInputIndex, TemporalInputValue } from "./components/temporal-input/temporal-input";
 import { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 import { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
-export { PickerType, PlainType, Presentation } from "@temporal-picker/core";
-export { TemporalInputValue } from "./components/temporal-input/temporal-input";
+export { InputPresentation, PickerType, PlainType } from "@temporal-picker/core";
+export { TemporalInputIndex, TemporalInputValue } from "./components/temporal-input/temporal-input";
 export { PlainInstant, RangeInstant } from "./components/temporal-picker/temporal-picker";
 export { PlainInstant as PlainInstant1, RangeInstant as RangeInstant1 } from "./components/temporal-picker/temporal-picker";
 export namespace Components {
     interface TemporalInput {
         "disabled": boolean;
         /**
+          * The end value of date range
+         */
+        "end"?: string;
+        "locale"?: string;
+        /**
           * The max value
          */
-        "max": string;
+        "max"?: string;
         /**
           * The min value
          */
-        "min": string;
+        "min"?: string;
         /**
           * The native value
          */
-        "native": boolean;
+        "native"?: boolean;
+        "open"?: boolean;
         /**
           * The plain of type
          */
-        "plain": PlainType;
+        "plain"?: PlainType;
+        /**
+          * The type of picker
+         */
+        "presentation"?: InputPresentation;
         "readonly": boolean;
+        /**
+          * The start value of date range
+         */
+        "start"?: string;
+        /**
+          * The type of picker
+         */
+        "type"?: PickerType;
         /**
           * The value of date
          */
-        "value": string;
+        "value"?: string;
     }
     interface TemporalPicker {
         "autoApply"?: boolean;
@@ -67,7 +85,7 @@ export namespace Components {
         /**
           * The type of picker
          */
-        "picker"?: Presentation;
+        "picker"?: InputPresentation;
         "placement"?: 'bottom' | 'bottom-start' | 'bottom-end';
         /**
           * The type of picker
@@ -121,9 +139,7 @@ export namespace Components {
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
         "reselect"?: boolean;
         "resetButton"?: boolean;
-        "scrollToEnd": () => Promise<void>;
-        "scrollToStart": () => Promise<void>;
-        "scrollToValue": () => Promise<void>;
+        "scrollToIndex": (index: number) => Promise<void>;
         "select": (values: string[], scrollToIndex?: number) => Promise<void>;
         /**
           * The start value of date range
@@ -207,6 +223,11 @@ declare namespace LocalJSX {
     interface TemporalInput {
         "disabled"?: boolean;
         /**
+          * The end value of date range
+         */
+        "end"?: string;
+        "locale"?: string;
+        /**
           * The max value
          */
         "max"?: string;
@@ -223,18 +244,39 @@ declare namespace LocalJSX {
          */
         "onT-close-popup"?: (event: TemporalInputCustomEvent<void>) => void;
         /**
+          * The end value change event (range type)
+         */
+        "onT-end-change"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
+        /**
           * The close popup event
          */
-        "onT-open-popup"?: (event: TemporalInputCustomEvent<void>) => void;
+        "onT-open-popup"?: (event: TemporalInputCustomEvent<TemporalInputIndex>) => void;
+        /**
+          * The start value change event (range type)
+         */
+        "onT-start-change"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
         /**
           * The value change event
          */
         "onT-value-change"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
+        "open"?: boolean;
         /**
           * The plain of type
          */
         "plain"?: PlainType;
+        /**
+          * The type of picker
+         */
+        "presentation"?: InputPresentation;
         "readonly"?: boolean;
+        /**
+          * The start value of date range
+         */
+        "start"?: string;
+        /**
+          * The type of picker
+         */
+        "type"?: PickerType;
         /**
           * The value of date
          */
@@ -277,7 +319,7 @@ declare namespace LocalJSX {
         /**
           * The type of picker
          */
-        "picker"?: Presentation;
+        "picker"?: InputPresentation;
         "placement"?: 'bottom' | 'bottom-start' | 'bottom-end';
         /**
           * The type of picker

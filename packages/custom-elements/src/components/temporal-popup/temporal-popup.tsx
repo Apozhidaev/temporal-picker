@@ -117,22 +117,14 @@ export class TemporalPopup {
   }
 
   @Method()
-  async scrollToValue() {
+  async scrollToIndex(index: number) {
     this.datePopup?.select([this.value]);
-  }
-
-  @Method()
-  async scrollToStart() {
-    this.rangePopup?.select([this.start, this.end]);
-  }
-
-  @Method()
-  async scrollToEnd() {
-    this.rangePopup?.select([this.start, this.end], 1);
+    this.rangePopup?.select([this.start, this.end], index);
   }
 
   @Method()
   async select(values: string[], scrollToIndex = 0) {
+    this.datePopup?.select(values);
     this.rangePopup?.select(values, scrollToIndex);
   }
 

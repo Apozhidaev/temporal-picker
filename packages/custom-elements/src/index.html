@@ -15,12 +15,12 @@
         /* --t-input-color-fg-invalid: red; */
       }
       html {
-        
+        /* font-size: 30px; */
       }
-      temporal-picker:focus {
+      /* temporal-picker:focus {
         box-shadow: rgb(255, 255, 255) 0 0 0 0 inset, #3b82f6 0 0 0 2px inset,
           rgba(0, 0, 0, 0.05) 0 1px 2px 0;
-      }
+      } */
       temporal-picker[disabled] {
         background-color: #f5f5f5;
         color: #57534e;
@@ -28,21 +28,35 @@
       temporal-picker {
         /* border-radius: 10px; */
       }
-      #container {
+      #container2 {
         /* color: red;
         font-size: 30px; */
+      }
+      temporal-picker:focus {
+        outline: 2px solid violet;
+      }
+      temporal-input:focus {
+        outline: 2px solid violet;
+      }
+      temporal-picker::part(separator) {
+        color: red;
       }
     </style>
   </head>
 
   <body>
-    <div id="container" style="display: flex; gap: 2px; align-items: center;">
-      <temporal-picker id="icon-picker" plain="date" auto-apply="false" picker="icon"></temporal-picker>
+    <div id="container" style="display: flex; gap: 4px; align-items: center">
+      <temporal-picker
+        id="icon-picker"
+        plain="date"
+        auto-apply="false"
+        picker="button"
+      ></temporal-picker>
       <temporal-picker id="picker" plain="date" auto-apply="false"></temporal-picker>
       <temporal-picker
         id="range-picker"
         type="range"
-        plain="date"
+        plain="month"
         reset-button="true"
         native="false"
         tooltip="true"
@@ -51,13 +65,25 @@
         custom-layout="true"
         strict="true"
         auto-apply="true"
-        picker="icon1"
       >
-        <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+        <temporal-preset label="Preset 1" start="2023-01-01"></temporal-preset>
         <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
       </temporal-picker>
+    </div>
+    <div id="container2" style="display: flex; gap: 4px; align-items: center; margin-top: 30px;">
+      <temporal-input id="icon-input" plain="date" presentation="button"></temporal-input>
+      <temporal-input id="input" plain="date"></temporal-input>
+      <temporal-input
+        id="range-input"
+        type="range"
+        plain="date"
+        native="false"
+        start="2023-01-01"
+        end="2023-02-15"
+      >
+      </temporal-input>
       <input type="date" />
-      <input />
+      <input value="123" />
     </div>
 
     <script>
