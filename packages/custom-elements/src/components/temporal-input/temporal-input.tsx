@@ -54,7 +54,9 @@ export class TemporalInput {
   /**
    * The native value
    */
-  @Prop() native: boolean;
+  @Prop() native?: boolean;
+  @Prop() locale?: string;
+  @Prop() open?: boolean;
 
   @Prop({ reflect: true }) readonly: boolean;
   @Prop({ reflect: true }) disabled: boolean;
@@ -144,6 +146,27 @@ export class TemporalInput {
     }
   }
 
+  private getTitle() {
+    if (this.type === 'range') {
+      if (this.start && this.end) {
+        return `${t(this.plain).display(this.start, this.locale)} — ${t(this.plain).display(
+          this.end,
+          this.locale,
+        )}`;
+      }
+      if (this.start) {
+        return `${t(this.plain).display(this.start, this.locale)} ≥`;
+      }
+      if (this.end) {
+        return `≤ ${t(this.plain).display(this.end, this.locale)}`;
+      }
+    }
+    if (this.value) {
+      return t(this.plain).display(this.value, this.locale);
+    }
+    return undefined;
+  }
+
   private handleKeyDown(e: KeyboardEvent, index: number) {
     if (e.code === 'Space') {
       if (!this.native) {
@@ -190,9 +213,14 @@ export class TemporalInput {
           class="button"
           part="button"
           type="button"
+          title={this.getTitle()}
           disabled={this.disabled}
           onClick={() => {
-            this.openPopupHandler({ index: 0 });
+            if (this.open) {
+              this.closePopupHandler();
+            } else {
+              this.openPopupHandler({ index: 0 });
+            }
           }}
           onKeyDown={e => {
             this.handleKeyDown(e, 0);

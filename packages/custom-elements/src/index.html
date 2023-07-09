@@ -38,6 +38,9 @@
       temporal-input:focus {
         outline: 2px solid violet;
       }
+      temporal-picker::part(separator) {
+        color: red;
+      }
     </style>
   </head>
 
@@ -62,9 +65,8 @@
         custom-layout="true"
         strict="true"
         auto-apply="true"
-        min="2023-02-05"
       >
-        <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
+        <temporal-preset label="Preset 1" start="2023-01-01"></temporal-preset>
         <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
       </temporal-picker>
     </div>

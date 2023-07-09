@@ -23,6 +23,7 @@
 | `picker`         | --                |                               | `HTMLElement`                                        | `undefined` |
 | `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |
 | `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |
+| `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
@@ -42,7 +43,7 @@
 
 ## Methods
 
-### `scrollToEnd() => Promise<void>`
+### `scrollToIndex(index: number) => Promise<void>`
 
 
 
@@ -52,27 +53,7 @@ Type: `Promise<void>`
 
 
 
-### `scrollToStart() => Promise<void>`
-
-
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
-### `scrollToValue() => Promise<void>`
-
-
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
-### `select(values: string[], scrollToIndex?: number, shift?: number) => Promise<void>`
+### `select(values: string[], scrollToIndex?: number) => Promise<void>`
 
 
 

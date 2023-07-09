@@ -22,11 +22,12 @@
 | `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
 | `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
 | `native`         | `native`          | The native value              | `boolean`                                            | `undefined` |
-| `picker`         | `picker`          | The type of picker            | `"icon" \| "input"`                                  | `'input'`   |
+| `picker`         | `picker`          | The type of picker            | `"button" \| "input"`                                | `'input'`   |
 | `placement`      | `placement`       |                               | `"bottom" \| "bottom-end" \| "bottom-start"`         | `'bottom'`  |
 | `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |
 | `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |
 | `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined` |
+| `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
@@ -41,15 +42,6 @@
 | ---------------- | ---------------------- | ---------------------------------------------- |
 | `t-range-change` | The range change event | `CustomEvent<{ start: string; end: string; }>` |
 | `t-value-change` | The value change event | `CustomEvent<{ value: string; }>`              |
-
-
-## Shadow Parts
-
-| Part                     | Description |
-| ------------------------ | ----------- |
-| `"delimiter"`            |             |
-| `"delimiter-wrapper"`    |             |
-| `"range-inputs-wrapper"` |             |
 
 
 ## Dependencies

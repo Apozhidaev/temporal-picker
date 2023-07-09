@@ -20,6 +20,7 @@ export namespace Components {
           * The end value of date range
          */
         "end"?: string;
+        "locale"?: string;
         /**
           * The max value
          */
@@ -31,7 +32,8 @@ export namespace Components {
         /**
           * The native value
          */
-        "native": boolean;
+        "native"?: boolean;
+        "open"?: boolean;
         /**
           * The plain of type
          */
@@ -224,6 +226,7 @@ declare namespace LocalJSX {
           * The end value of date range
          */
         "end"?: string;
+        "locale"?: string;
         /**
           * The max value
          */
@@ -256,6 +259,7 @@ declare namespace LocalJSX {
           * The value change event
          */
         "onT-value-change"?: (event: TemporalInputCustomEvent<TemporalInputValue>) => void;
+        "open"?: boolean;
         /**
           * The plain of type
          */

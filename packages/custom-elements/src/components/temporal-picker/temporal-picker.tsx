@@ -171,6 +171,8 @@ export class TemporalPicker {
           start={this.start}
           end={this.end}
           native={this.native}
+          locale={this.locale}
+          open={this.isOpen}
           onT-value-change={e => {
             this.value = e.detail.value;
             this.popup.value = e.detail.value;
