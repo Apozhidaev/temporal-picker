@@ -1,8 +1,3 @@
-:host {
-  --color-fg-locked: var(--t-popup-color-fg-locked, #9e9e9e);
-  --color-bg-locked: var(--t-popup-color-bg-locked, #ffab91);
-  --color-bg-unavailable: var(--t-popup-color-bg-unavailable, #f9f9f9);
-}
 .container.lock-plugin
   .calendars
   .calendar:first-child
