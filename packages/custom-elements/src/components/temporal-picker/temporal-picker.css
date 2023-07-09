@@ -17,4 +17,5 @@
 
 .temporal-input {
   border: none;
+  display: flex;
 }
