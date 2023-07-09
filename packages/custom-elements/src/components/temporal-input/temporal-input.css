@@ -6,8 +6,8 @@
   --separator-icon-size: var(--t-input-separator-icon-size, 1em);
   --button-icon-size: var(--t-input-button-icon-size, 1.25em);
   --range-items-gap: var(--t-input-range-items-gap, 0.5em);
-  --padding-x: var(--t-input-padding-x, 0.375em);
-  --padding-y: var(--t-input-padding-y, 0.25em);
+  --padding-x: var(--t-input-px, 0.375em);
+  --padding-y: var(--t-input-py, 0.25em);
 
   --focus-outline: var(--t-input-focus-outline, 2px solid #3b82f6);
 

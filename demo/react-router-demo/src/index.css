@@ -1,7 +1,4 @@
 :root temporal-picker[aria-selected="true"] {
-  --t-input-focus-shadow: rgb(255, 255, 255) 0 0 0 0 inset, orange 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
-
-  --t-input-border-shadow: rgb(255, 255, 255) 0 0 0 0 inset,
-  orange 0 0 0 1px inset, rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --t-input-border: 1px solid orange;
+  --t-input-focus-outline: 1px solid orange;
 }

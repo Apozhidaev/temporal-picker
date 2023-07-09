@@ -134,24 +134,19 @@ export type RangePickerProps = PickerProps & {
   --t-popup-focus-color: #94a3b8;
   --t-popup-select-outline-color: #e5e7eb;
 
-  --t-input-color-bg-default: #ffffff;
-  --t-input-color-fg-default: #111827;
-  --t-input-color-bg-disabled: #f5f5f5;
-  --t-input-color-fg-disabled: #57534e;
-  --t-input-color-fg-invalid: #e11d48;
-  --t-input-border-radius: 0.375rem;
-  --t-input-font-size: 1rem;
-  --t-input-height: 2.25rem;
-  --t-input-padding: 0.375rem 0.75rem;
+  --t-input-invalid-color: #be123c;
+  --t-input-border: 1px solid #e5e7eb;
+  --t-input-color: inherit;
+  --t-input-font: inherit;
+  --t-input-separator-icon-size: 1em;
+  --t-input-button-icon-size: 1.25em;
+  --t-input-range-items-gap: 0.5em;
+  --t-input-px: 0.375em;
+  --t-input-py: 0.25em;
 
-  --t-input-focus-shadow:
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #3b82f6 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --t-input-focus-outline: 2px solid #3b82f6;
 
-  --t-input-border-shadow:
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #d1d5db 0 0 0 1px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --t-input-disabled-bg-color: #f5f5f5;
+  --t-input-disabled-color: #44403c;
 }
 ```
