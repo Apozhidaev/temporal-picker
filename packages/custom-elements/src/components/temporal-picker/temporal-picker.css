@@ -1,105 +1,20 @@
 :host {
-  --bg-color: var(--t-input-color-bg-default, #fff);
-  --color: var(--t-input-color-fg-default, #111827);
-  --disabled-bg-color: var(--t-input-color-bg-disabled, #f5f5f5);
-  --disabled-color: var(--t-input-color-fg-disabled, #57534e);
-  --padding: var(--t-input-padding, 0.375rem 0.75rem);
-
-  --focus-shadow: var(
-    --t-input-focus-shadow,
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #3b82f6 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0
-  );
+  --border: var(--t-input-border, 1px solid #e5e7eb);
+  --focus-outline: var(--t-input-focus-outline, 2px solid #3b82f6);
 
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
 
-  border-color: #e5e7eb;
-  border-width: 1px;
-  border-style: solid;
-
+  border: var(--border);
   overflow: hidden;
 }
 
-.icon {
-  height: 1rem;
-  width: 1rem;
+:host-context(:focus) {
+  outline: var(--focus-outline);
 }
 
-.icon-picker,
-.input::part(input),
-.range-inputs-wrapper {
-  box-sizing: border-box;
-  padding: var(--padding);
-}
-
-.icon-picker {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  flex-direction: column;
-  border-width: 0;
-  /* color: var(--color); */
-}
-
-.icon-picker:focus,
-.input::part(input):focus,
-.range-inputs-wrapper:focus-within {
-  outline: none;
-  /* box-shadow: rgb(255, 255, 255) 0 0 0 0 inset, #3b82f6 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0; */
-}
-
-:host-context(temporal-picker:focus) {
-  box-shadow: var(--focus-shadow);
-}
-
-.icon-picker:disabled,
-.range-inputs-wrapper[aria-disabled],
-temporal-input[disabled].input::part(input) {
-  background-color: var(--disabled-bg-color);
-  color: var(--disabled-color);
-}
-
-.range-inputs-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-}
-
-.start-input,
-.end-input {
-  flex: auto;
-}
-
-.delimiter-wrapper {
-  position: relative;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delimiter {
-  position: absolute;
-  user-select: none;
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-.start-input::part(input),
-.end-input::part(input) {
-  outline: none;
-  padding: 0;
-}
-
-.start-input::part(input) {
-  padding-right: 2.5rem;
-}
-
-.end-input::part(input) {
-  padding-left: 1.5rem;
+.temporal-input {
+  border: none;
 }

@@ -58,8 +58,12 @@ function toInstant(this: ThisType, dt: DateTime) {
   }
 }
 
-function instant(this: ThisType, instant: string) {
-  return this.toInstant(DateTime.fromISO(instant));
+function instant(this: ThisType, value: string) {
+  return this.toInstant(DateTime.fromISO(value));
+}
+
+function normalize(this: ThisType, value: string | undefined) {
+  return value ? this.instant(value) : undefined;
 }
 
 function startOf(this: ThisType, instant: string, shift = 0) {
@@ -111,6 +115,7 @@ export function t(plain?: PlainType) {
     page,
     toInstant,
     instant,
+    normalize,
     startOf,
     next,
     previous,
