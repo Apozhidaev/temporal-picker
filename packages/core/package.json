@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build:ts": "tsc",
-    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:luxon --external:lodash*",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:luxon",
     "build": "yarn run build:esm && yarn run build:ts",
     "dev": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --watch"
   },

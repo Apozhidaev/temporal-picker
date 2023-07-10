@@ -906,15 +906,39 @@
   resolved "https://registry.yarnpkg.com/@stencil/core/-/core-3.4.1.tgz#b4a3d7579fa1ebb312aaed4c3d8f4bd6dece13f1"
   integrity sha512-7rjOmM0W9K5op2gtOQRLERGH1155rv2fm6ppxOzYqqG8ISct4m9skp5XgUBYPu+GSPsJFdRuCIQs0IuVsG/7+g==
 
-"@temporal-picker/custom-elements@^0.0.1":
+"@temporal-picker/core@^0.0.1":
   version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@temporal-picker/custom-elements/-/custom-elements-0.0.1.tgz#900531d545c9daf6279392205d0b77f9a0d6a656"
-  integrity sha512-72tVSddkynZAozMhEn2m8AFyhUKdNhTkix3uywTnVWZ8BrVNlOYKcuvpLat7eHHgQRWEhIvL03GS6ov56E+KIA==
+  resolved "https://registry.yarnpkg.com/@temporal-picker/core/-/core-0.0.1.tgz#570f8fbf9b2699db87fce47a558e681064577e38"
+  integrity sha512-czmlVhPaKiceuazzXYgH9wnamn586HpLaRocU7nbKDCaG4Ti1C1vKBYKfZAXlgSHVjDjU9A3ZmU4TupLnoLS/w==
+  dependencies:
+    luxon "^3.3.0"
+
+"@temporal-picker/custom-elements@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/custom-elements/-/custom-elements-0.0.3.tgz#b4ea2e3d50fc799c9020fd5bb389ba3c8205b578"
+  integrity sha512-sITcQu6J2P5st2zljZD/XQUQiQECw/Znsx3gDSmObv3BcpM6Oaxmx8JoM7qDNKuDIk4kmb+na8+lNd28LVZR5A==
   dependencies:
     "@popperjs/core" "^2.11.8"
     "@stencil/core" "^3.0.0"
+    "@temporal-picker/core" "^0.0.1"
     lodash.merge "^4.6.2"
     luxon "^3.3.0"
+
+"@temporal-picker/react-router@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/react-router/-/react-router-0.0.3.tgz#b19a3401adfc1e07f0eaef3ba523495af4cbf1c6"
+  integrity sha512-CVCW3kM8pi46ARdeAerCBxDmhXHDc1q9ny6nSG3SqsYllQqayZZCBCk/dT3sXi2rLoGEVFXjv8Y5yhOUqARZ/Q==
+  dependencies:
+    "@temporal-picker/react" "^0.0.5"
+    react-use-event-hook "^0.9.3"
+
+"@temporal-picker/react@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/react/-/react-0.0.5.tgz#8e68ae3f31f60f7088d4567c43ed87c993d68ad2"
+  integrity sha512-4LQ7kvg1yeUWaINEkf9D8eXZew5XoA0IUwczi7iwEJqRskRLwrGlb2zIbNEzGqsPt8d5TwurSglziuS3t5L3uA==
+  dependencies:
+    "@temporal-picker/custom-elements" "^0.0.3"
+    react-use-event-hook "^0.9.3"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -987,18 +1011,6 @@
   dependencies:
     jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
-
-"@types/lodash.merge@^4.6.7":
-  version "4.6.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.merge/-/lodash.merge-4.6.7.tgz#0af6555dd8bc6568ef73e5e0d820a027362946b1"
-  integrity sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash@*":
-  version "4.14.195"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
-  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
 "@types/luxon@^3.3.0":
   version "3.3.0"
