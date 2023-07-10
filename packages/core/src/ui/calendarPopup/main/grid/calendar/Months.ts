@@ -22,17 +22,31 @@ export class Months extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, { entry, picked }: Props) {
-    const { plain } = this.context;
+    const { plain, rowHeader } = this.context;
 
     el.className = "days-grid";
     el.style.display = "grid";
-    el.style.gridTemplateColumns = `repeat(${6}, 1fr)`;
-    el.style.marginTop = "8px";
+
+    const columns = 3;
+
+    if (rowHeader) {
+      el.style.gridTemplateColumns = `30px repeat(${columns}, 1fr)`;
+    } else {
+      el.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    }
 
     let date = DateTime.fromISO(entry);
 
     for (let idx = 1; idx <= 12; idx++) {
       date = date.set({ month: idx });
+
+      if (rowHeader && (idx - 1) % columns === 0) {
+        const q = document.createElement("div");
+        q.className = "wnum-item";
+        q.innerText = date.toFormat("q");
+        el.append(q);
+      }
+
       this.month.render(
         el,
         {

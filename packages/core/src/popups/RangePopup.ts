@@ -32,7 +32,7 @@ export class RangePopup extends CalendarPopup {
       tooltipElement: this.tooltipElement,
       grid: 2,
       calendars: 2,
-      rowHeader: options.rowHeader,
+      rowHeader: options.rowHeader ?? options.plain === 'month',
       plain: options.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
       locale: options.locale ?? defaults.locale,

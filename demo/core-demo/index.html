@@ -26,8 +26,10 @@
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
       new DatePopup(
         {
-          plain: "date",
-          extraSelect: true,
+          plain: "month",
+          // extraSelect: true,
+          // rowHeader: true,
+          resetButton: false,
         },
         document.getElementById("date")
       );
@@ -41,6 +43,7 @@
           // reselect: true,
           // strict: false,
           autoApply: false,
+          // rowHeader: true,
         },
         document.getElementById("range")
       );

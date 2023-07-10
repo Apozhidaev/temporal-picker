@@ -209,10 +209,15 @@
   background-color: var(--color-fg-primary);
   color: var(--color-fg-selected);
 }
+.calendar > .days-grid > .day.month {
+  max-width: var(--month-width);
+  min-width: var(--month-width);
+  width: var(--month-width);
+  max-height: var(--month-height);
+  min-height: var(--month-height);
+  height: var(--month-height);
+}
 @media (max-width: 480px) {
-  .calendars .calendar {
-    width: 100%;
-  }
   .calendars .calendar > .days-grid > .day {
     height: auto;
     max-height: unset;

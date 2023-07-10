@@ -41,6 +41,8 @@
   --color-border-locked: var(--t-popup-color-border-locked, #f9f9f9);
   --day-width: var(--t-popup-day-width, 43px);
   --day-height: var(--t-popup-day-height, 37px);
+  --month-width: var(--t-popup-month-width, 75px);
+  --month-height: var(--t-popup-month-height, 35px);
   --border-radius: var(--t-popup-border-radius, 2px);
   --primary-color: var(--t-popup-primary-color, #2e6fda);
   --secondary-color: var(--t-popup-secondary-color, #64748b);

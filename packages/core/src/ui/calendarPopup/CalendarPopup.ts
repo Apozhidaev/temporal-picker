@@ -28,10 +28,10 @@ export class CalendarPopup extends Container<Props, PopupContext> {
 
   protected onRender(el: HTMLElement, props: Props) {
     el.className = "container preset-plugin lock-plugin keyboard-plugin range";
-    if (this.context.extraSelect || this.context.resetButton) {
+    if (this.context.extraSelect || this.context.resetButton || this.context.rowHeader) {
       el.classList.add("extra-options-plugin");
     }
-    if(this.context.rowHeader) {
+    if (this.context.rowHeader) {
       el.classList.add("week-numbers");
     }
     if (this.context.header) {

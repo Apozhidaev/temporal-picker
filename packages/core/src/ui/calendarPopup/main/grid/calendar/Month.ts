@@ -19,7 +19,7 @@ export class Month extends Control<Props, PopupContext> {
 
   protected onRender(el: HTMLElement, props: Props) {
     const { min, max, locale, strict } = this.context;
-    el.className = "day unit";
+    el.className = "day unit month";
 
     const today = DateTime.now();
     const minDate = min ? DateTime.fromISO(min) : undefined;
