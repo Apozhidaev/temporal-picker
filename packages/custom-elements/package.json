@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/custom-elements",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "temporal picker custom-elements",
   "main": "dist/components/index.js",
   "types": "dist/components/index.d.ts",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@stencil/core": "^3.0.0",
-    "@temporal-picker/core": "^0.0.5",
+    "@temporal-picker/core": "^0.0.6",
     "luxon": "^3.3.0"
   },
   "devDependencies": {

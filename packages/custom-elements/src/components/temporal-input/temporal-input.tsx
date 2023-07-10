@@ -203,6 +203,19 @@ export class TemporalInput {
           break;
       }
     };
+    this.el.blur = () => {
+      if (this.presentation === 'button') {
+        this.el.shadowRoot.getElementById('button').blur();
+      }
+      switch (this.type) {
+        case 'range':
+          this.el.shadowRoot.getElementById('start-input').blur();
+          break;
+        default:
+          this.el.shadowRoot.getElementById('input').blur();
+          break;
+      }
+    };
   }
 
   private getPresentation() {

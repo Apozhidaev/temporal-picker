@@ -72,6 +72,7 @@ Step 3.
 | `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined` |
 | `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
+| `rowHeader`      | `row-header`      |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
 | `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
@@ -139,6 +140,8 @@ Step 3.
   --t-popup-color-border-locked: #f9f9f9;
   --t-popup-day-width: 43px;
   --t-popup-day-height: 37px;
+  --t-popup-month-width: 75px;
+  --t-popup-month-height: 37px;
   --t-popup-z-index: 40;
   --t-popup-border-radius: 2px;
   --t-popup-primary-color: #2e6fda;

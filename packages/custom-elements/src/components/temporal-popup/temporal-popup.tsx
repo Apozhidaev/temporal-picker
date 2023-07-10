@@ -69,6 +69,7 @@ export class TemporalPopup {
   @Prop() localeCancel?: string;
   @Prop() localeApply?: string;
   @Prop() localeClear?: string;
+  @Prop() rowHeader?: boolean;
 
   @Watch('type')
   @Watch('plain')
@@ -87,6 +88,7 @@ export class TemporalPopup {
   @Watch('localeClear')
   @Watch('localeApply')
   @Watch('localeCancel')
+  @Watch('rowHeader')
   watchOptions(newValue: string, _: string, name: string) {
     if (this.type === 'range') {
       this.rangePopup?.setOptions({ [name]: newValue });
@@ -183,6 +185,7 @@ export class TemporalPopup {
             firstDay: this.firstDay,
             strict: this.strict,
             reselect: this.reselect,
+            rowHeader: this.rowHeader,
             values: [this.start, this.end],
           },
           element,
@@ -214,6 +217,7 @@ export class TemporalPopup {
             localeCancel: this.localeCancel,
             localeClear: this.localeClear,
             firstDay: this.firstDay,
+            rowHeader: this.rowHeader,
             values: [this.value],
           },
           element,

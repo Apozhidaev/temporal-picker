@@ -82,6 +82,7 @@ export class TemporalPicker {
   @Prop() localeCancel?: string;
   @Prop() localeApply?: string;
   @Prop() localeClear?: string;
+  @Prop() rowHeader?: boolean;
 
   /**
    * The value change event
@@ -151,6 +152,9 @@ export class TemporalPicker {
     this.el.focus = (...args: any[]) => {
       this.el.shadowRoot.getElementById('temporal-input').focus(...args);
     };
+    this.el.blur = () => {
+      this.el.shadowRoot.getElementById('temporal-input').blur();
+    };
   }
 
   render() {
@@ -219,6 +223,7 @@ export class TemporalPicker {
             firstDay={this.firstDay}
             strict={this.strict}
             reselect={this.reselect}
+            rowHeader={this.rowHeader}
             onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();

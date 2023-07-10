@@ -60,6 +60,10 @@ export type PickerProps = {
   customLayout?: boolean;
   firstDay?: number;
   locale?: string;
+  localeApply?: string;
+  localeCancel?: string;
+  localeClear?: string;
+  rowHeader?: boolean;
   testId?: string;
   onViewChange?: (event: CustomEvent<ViewDetail>) => void;
 };
@@ -82,6 +86,7 @@ export type RangePickerProps = PickerProps & {
   presetPosition?: "bottom" | "left" | "right" | "top";
   tooltip?: boolean;
   strict?: boolean;
+  reselect?: boolean;
 };
 ```
 
@@ -124,6 +129,8 @@ export type RangePickerProps = PickerProps & {
   --t-popup-color-border-locked: #f9f9f9;
   --t-popup-day-width: 43px;
   --t-popup-day-height: 37px;
+  --t-popup-month-width: 75px;
+  --t-popup-month-height: 37px;
   --t-popup-z-index: 40;
   --t-popup-border-radius: 2px;
   --t-popup-primary-color: #2e6fda;

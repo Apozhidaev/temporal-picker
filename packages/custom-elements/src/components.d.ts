@@ -95,6 +95,7 @@ export namespace Components {
         "readonly"?: boolean;
         "reselect"?: boolean;
         "resetButton"?: boolean;
+        "rowHeader"?: boolean;
         /**
           * The start value of date range
          */
@@ -139,6 +140,7 @@ export namespace Components {
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
         "reselect"?: boolean;
         "resetButton"?: boolean;
+        "rowHeader"?: boolean;
         "scrollToIndex": (index: number) => Promise<void>;
         "select": (values: string[], scrollToIndex?: number) => Promise<void>;
         /**
@@ -329,6 +331,7 @@ declare namespace LocalJSX {
         "readonly"?: boolean;
         "reselect"?: boolean;
         "resetButton"?: boolean;
+        "rowHeader"?: boolean;
         /**
           * The start value of date range
          */
@@ -385,6 +388,7 @@ declare namespace LocalJSX {
         "presetPosition"?: 'left' | 'right' | 'top' | 'bottom';
         "reselect"?: boolean;
         "resetButton"?: boolean;
+        "rowHeader"?: boolean;
         /**
           * The start value of date range
          */

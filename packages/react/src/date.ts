@@ -26,6 +26,7 @@ export const DatePicker = memo(
       localeApply,
       localeCancel,
       localeClear,
+      rowHeader,
       testId,
       className,
       onValueChange,
@@ -84,6 +85,7 @@ export const DatePicker = memo(
       "locale-apply": localeApply,
       "locale-cancel": localeCancel,
       "locale-clear": localeClear,
+      "row-header": rowHeader,
       "data-testid": testId,
       ref: pickerRef,
     });
