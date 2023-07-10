@@ -1,6 +1,6 @@
 {
   "name": "temporal-picker",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Temporal Picker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "build": "yarn run build:esm && yarn run build:ts"
   },
   "dependencies": {
-    "@temporal-picker/custom-elements": "^0.0.3"
+    "@temporal-picker/custom-elements": "^0.0.9"
   },
   "devDependencies": {
     "esbuild": "^0.16.9",

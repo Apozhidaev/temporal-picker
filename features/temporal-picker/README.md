@@ -45,30 +45,37 @@ Step 3.
 ```
 
 
+
 ## Properties
 
-| Property         | Attribute         | Description                   | Type                                                 | Default          |
-| ---------------- | ----------------- | ----------------------------- | ---------------------------------------------------- | ---------------- |
-| `autoApply`      | `auto-apply`      |                               | `boolean`                                            | `undefined`      |
-| `customLayout`   | `custom-layout`   |                               | `boolean`                                            | `undefined`      |
-| `disabled`       | `disabled`        |                               | `boolean`                                            | `undefined`      |
-| `end`            | `end`             | The end value of date range   | `string`                                             | `undefined`      |
-| `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined`      |
-| `firstDay`       | `first-day`       |                               | `number`                                             | `undefined`      |
-| `locale`         | `locale`          |                               | `string`                                             | `undefined`      |
-| `max`            | `max`             | The max value                 | `string`                                             | `undefined`      |
-| `min`            | `min`             | The min value                 | `string`                                             | `undefined`      |
-| `native`         | `native`          | The native value              | `boolean`                                            | `undefined`      |
-| `placement`      | `placement`       |                               | `"bottom-end" \| "bottom-start"`                     | `'bottom-start'` |
-| `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`         |
-| `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined`      |
-| `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined`      |
-| `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined`      |
-| `start`          | `start`           | The start value of date range | `string`                                             | `undefined`      |
-| `strict`         | `strict`          |                               | `boolean`                                            | `undefined`      |
-| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined`      |
-| `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`        |
-| `value`          | `value`           | The value of date             | `string`                                             | `undefined`      |
+| Property         | Attribute         | Description                   | Type                                                 | Default     |
+| ---------------- | ----------------- | ----------------------------- | ---------------------------------------------------- | ----------- |
+| `autoApply`      | `auto-apply`      |                               | `boolean`                                            | `undefined` |
+| `customLayout`   | `custom-layout`   |                               | `boolean`                                            | `undefined` |
+| `disabled`       | `disabled`        |                               | `boolean`                                            | `undefined` |
+| `end`            | `end`             | The end value of date range   | `string`                                             | `undefined` |
+| `extraSelect`    | `extra-select`    |                               | `boolean`                                            | `undefined` |
+| `firstDay`       | `first-day`       |                               | `number`                                             | `undefined` |
+| `locale`         | `locale`          |                               | `string`                                             | `undefined` |
+| `localeApply`    | `locale-apply`    |                               | `string`                                             | `undefined` |
+| `localeCancel`   | `locale-cancel`   |                               | `string`                                             | `undefined` |
+| `localeClear`    | `locale-clear`    |                               | `string`                                             | `undefined` |
+| `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
+| `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
+| `native`         | `native`          | The native value              | `boolean`                                            | `undefined` |
+| `picker`         | `picker`          | The type of picker            | `"button" \| "input"`                                | `'input'`   |
+| `placement`      | `placement`       |                               | `"bottom" \| "bottom-end" \| "bottom-start"`         | `'bottom'`  |
+| `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |
+| `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |
+| `readonly`       | `readonly`        |                               | `boolean`                                            | `undefined` |
+| `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
+| `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
+| `rowHeader`      | `row-header`      |                               | `boolean`                                            | `undefined` |
+| `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
+| `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
+| `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
+| `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`   |
+| `value`          | `value`           | The value of date             | `string`                                             | `undefined` |
 
 
 ## Events
@@ -79,15 +86,17 @@ Step 3.
 | `t-value-change` | The value change event | `CustomEvent<{ value: string; }>`              |
 
 
+
 ## Shadow Parts
 
 | Part                     | Description |
 | ------------------------ | ----------- |
+| `"button"`               |             |
 | `"input"`                |             |
 | `"start-input"`          |             |
 | `"end-input"`            |             |
-| `"delimiter"`            |             |
-| `"range-inputs-wrapper"` |             |
+| `"separator"`            |             |
+| `"range-items"`          |             |
 
 
 ## Customize
@@ -129,6 +138,8 @@ Step 3.
   --t-popup-color-border-locked: #f9f9f9;
   --t-popup-day-width: 43px;
   --t-popup-day-height: 37px;
+  --t-popup-month-width: 75px;
+  --t-popup-month-height: 37px;
   --t-popup-z-index: 40;
   --t-popup-border-radius: 2px;
   --t-popup-primary-color: #2e6fda;
@@ -139,24 +150,19 @@ Step 3.
   --t-popup-focus-color: #94a3b8;
   --t-popup-select-outline-color: #e5e7eb;
 
-  --t-input-color-bg-default: #ffffff;
-  --t-input-color-fg-default: #111827;
-  --t-input-color-bg-disabled: #f5f5f5;
-  --t-input-color-fg-disabled: #57534e;
-  --t-input-color-fg-invalid: #e11d48;
-  --t-input-border-radius: 0.375rem;
-  --t-input-font-size: 1rem;
-  --t-input-height: 2.25rem;
-  --t-input-padding: 0.375rem 0.75rem;
+  --t-input-invalid-color: #be123c;
+  --t-input-border: 1px solid #e5e7eb;
+  --t-input-color: inherit;
+  --t-input-font: inherit;
+  --t-input-separator-icon-size: 1em;
+  --t-input-button-icon-size: 1.25em;
+  --t-input-range-items-gap: 0.5em;
+  --t-input-px: 0.375em;
+  --t-input-py: 0.25em;
 
-  --t-input-focus-shadow:
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #3b82f6 0 0 0 2px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --t-input-focus-outline: 2px solid #3b82f6;
 
-  --t-input-border-shadow:
-    rgb(255, 255, 255) 0 0 0 0 inset,
-    #d1d5db 0 0 0 1px inset,
-    rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+  --t-input-disabled-bg-color: #f5f5f5;
+  --t-input-disabled-color: #44403c;
 }
 ```
