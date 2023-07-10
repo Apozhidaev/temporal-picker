@@ -1,4 +1,4 @@
-import { DateTime, Duration } from "luxon";
+import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { Day } from "./Day";
 import { t } from "../../../../../utils";

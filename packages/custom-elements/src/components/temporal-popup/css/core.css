@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 .container {
   border-radius: 4px;
@@ -103,6 +104,10 @@
 }
 .calendars {
   display: grid;
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow: hidden;
+  column-gap: 20px;
 }
 .calendars:not(.grid-1) .calendar > .header .month-name {
   order: 2;
@@ -121,7 +126,7 @@
   visibility: visible;
 }
 .calendar {
-  padding: 10px;
+  padding: 10px 0;
 }
 .calendar > .header {
   align-items: center;
@@ -225,5 +230,32 @@
     min-height: unset;
     min-width: unset;
     width: auto;
+  }
+}
+
+.slide-right,
+.slide-left {
+  width: 100%;
+}
+.slide-right {
+  animation: 100ms slide-right;
+}
+@keyframes slide-right {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+.slide-left {
+  animation: 100ms slide-left;
+}
+@keyframes slide-left {
+  from {
+    margin-left: 100%;
+  }
+  to {
+    margin-left: 0%;
   }
 }

@@ -20,12 +20,22 @@ export class Grid extends Control<Props, PopupContext> {
     return "calendar-popup-grid";
   }
 
-  protected onRender(el: HTMLElement, props: Props) {
+  protected onRender(el: HTMLElement, props: Props, prevProps?: Props) {
     const { grid, calendars, plain } = this.context;
 
     el.className = `calendars grid-${grid}`;
     el.style.display = "grid";
     el.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
+
+    let action: string | undefined;
+    if (prevProps?.entry) {
+      if (prevProps.entry > props.entry) {
+        action = "slide-right";
+      }
+      if (prevProps.entry < props.entry) {
+        action = "slide-left";
+      }
+    }
 
     let calendarEntry = props.entry;
     for (let i = 0; i < calendars; i++) {
@@ -35,6 +45,7 @@ export class Grid extends Control<Props, PopupContext> {
           index: i,
           entry: calendarEntry,
           picked: props.picked,
+          action,
         },
         calendarEntry
       );

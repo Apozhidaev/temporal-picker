@@ -7,6 +7,7 @@ import { PopupContext } from "../../../types";
 type Props = {
   entry: string;
   picked: (string | undefined)[];
+  action?: string;
 };
 
 export class Months extends Control<Props, PopupContext> {
@@ -21,7 +22,7 @@ export class Months extends Control<Props, PopupContext> {
     return "months-grid";
   }
 
-  protected onRender(el: HTMLElement, { entry, picked }: Props) {
+  protected onRender(el: HTMLElement, { entry, picked, action }: Props) {
     const { plain, rowHeader } = this.context;
 
     el.className = "days-grid";
@@ -33,6 +34,10 @@ export class Months extends Control<Props, PopupContext> {
       el.style.gridTemplateColumns = `30px repeat(${columns}, 1fr)`;
     } else {
       el.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    }
+
+    if(action){
+      el.classList.add(action);
     }
 
     let date = DateTime.fromISO(entry);

@@ -10,6 +10,7 @@ type Props = {
   index: number;
   entry: string;
   picked: (string | undefined)[];
+  action?: string;
 };
 
 export class Calendar extends Control<Props, PopupContext> {
@@ -32,14 +33,14 @@ export class Calendar extends Control<Props, PopupContext> {
     return "calendar";
   }
 
-  protected onRender(el: HTMLElement, { index, entry, picked }: Props) {
+  protected onRender(el: HTMLElement, { index, entry, picked, action }: Props) {
     const { plain } = this.context;
 
     el.className = "calendar";
 
     this.header.render(el, { index, entry }, entry);
     if (plain === "month") {
-      this.months.render(el, { entry, picked }, entry);
+      this.months.render(el, { entry, picked, action }, entry);
     } else {
       this.dayNames.render(el, {}, entry);
       this.days.render(el, { entry, picked }, entry);
