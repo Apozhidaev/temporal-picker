@@ -17,11 +17,21 @@ export class DayNames extends Control<Props, PopupContext> {
   }
 
   protected onRender(el: HTMLElement, {}: Props) {
-    const { firstDay } = this.context;
+    const { firstDay, rowHeader } = this.context;
 
     el.className = "daynames-row";
     el.style.display = "grid";
-    el.style.gridTemplateColumns = "repeat(7, 1fr)";
+    if (rowHeader) {
+      el.style.gridTemplateColumns = "30px repeat(7, 1fr)";
+
+      const w = document.createElement("div");
+      w.className = "wnum-header";
+      w.innerText = "";
+      el.append(w);
+
+    } else {
+      el.style.gridTemplateColumns = "repeat(7, 1fr)";
+    }
 
     for (let i = 0; i < 7; i++) {
       this.dayName.render(el, { weekday: i + firstDay }, String(i));

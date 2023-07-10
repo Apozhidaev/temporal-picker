@@ -1,4 +1,4 @@
-import { DateTime, DateTimeUnit, DurationLikeObject } from "luxon";
+import { DateTime, DateTimeUnit, Duration, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
 export function datesIsNotAvailable(
@@ -85,6 +85,10 @@ function diff(this: ThisType, start: string, end: string, locale: string) {
     .toHuman();
 }
 
+function weekTitle(this: ThisType, locale: string) {
+  return Duration.fromObject({ week: 1 }, { locale }).toHuman().replace("1", "").trim();
+}
+
 function sameRanges(
   this: ThisType,
   range1: (DateTime | undefined)[],
@@ -129,5 +133,6 @@ export function t(plain?: PlainType) {
     diff,
     sameRanges,
     display,
+    weekTitle,
   };
 }

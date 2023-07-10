@@ -31,6 +31,9 @@ export class CalendarPopup extends Container<Props, PopupContext> {
     if (this.context.extraSelect || this.context.resetButton) {
       el.classList.add("extra-options-plugin");
     }
+    if(this.context.rowHeader) {
+      el.classList.add("week-numbers");
+    }
     if (this.context.header) {
       this.header.render(el, {});
     }

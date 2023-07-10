@@ -20,6 +20,7 @@ export type PopupOptions = {
   maxYear?: number;
   firstDay?: number;
   customLayout?: boolean;
+  rowHeader?: boolean;
 };
 
 export abstract class CalendarPopup {

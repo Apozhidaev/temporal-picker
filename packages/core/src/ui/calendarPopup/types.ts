@@ -28,6 +28,7 @@ export type PopupContext = Context & {
   max?: string;
   minYear?: number;
   maxYear?: number;
+  rowHeader?: boolean;
   actions?: {
     scrollTo: (value: string, shift?: number) => void;
   };
