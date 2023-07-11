@@ -6,6 +6,8 @@ import { toInputType } from '../../utils';
 export type TemporalInputValue = { value: string };
 export type TemporalInputIndex = { index: number };
 
+const maxYear = 9000;
+
 @Component({
   tag: 'temporal-input',
   styleUrl: 'temporal-input.css',
@@ -90,45 +92,68 @@ export class TemporalInput {
   closePopup: EventEmitter<void>;
 
   private valueChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value).toMillis();
-    if (this.min) {
-      if (value < DateTime.fromISO(this.min).toMillis()) {
-        event.value = undefined;
-      }
-    }
-    if (this.max) {
-      if (value > DateTime.fromISO(this.max).toMillis()) {
-        event.value = undefined;
-      }
+    const value = DateTime.fromISO(event.value);
+    if (!value.isValid) {
+      return;
     }
     this.valueChange.emit(event);
   }
 
   private startChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value).toMillis();
-    if (this.min) {
-      if (value < DateTime.fromISO(this.min).toMillis()) {
-        event.value = undefined;
-      }
+    const value = DateTime.fromISO(event.value);
+    if (!value.isValid) {
+      return;
     }
-    if (this.end || this.max) {
-      if (value > DateTime.fromISO(this.end || this.max).toMillis()) {
-        event.value = undefined;
+    const end = DateTime.fromISO(this.end);
+    if (end.isValid) {
+      if (value > end) {
+        this.endChange.emit({ value: undefined });
+        return;
       }
     }
     this.startChange.emit(event);
   }
 
-  private endChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value).toMillis();
-    if (this.start || this.min) {
-      if (value < DateTime.fromISO(this.start || this.min).toMillis()) {
-        event.value = undefined;
-      }
+  private blurHandler(
+    id: string,
+    valueChange: EventEmitter<TemporalInputValue>,
+    maxValue = maxYear,
+  ) {
+    const inputValue = (this.el.shadowRoot.getElementById(id) as HTMLInputElement).value;
+    const date = new Date(inputValue);
+    if (date.getFullYear() > maxValue) {
+      date.setFullYear(maxValue);
+      valueChange.emit({ value: t(this.plain).toInstant(DateTime.fromJSDate(date)) });
+      return;
     }
-    if (this.max) {
-      if (value > DateTime.fromISO(this.max).toMillis()) {
-        event.value = undefined;
+    const value = DateTime.fromISO(inputValue);
+    if (!value.isValid) {
+      if (inputValue) {
+        valueChange.emit({ value: undefined });
+      }
+      return;
+    }
+    // const min = DateTime.fromISO(this.min);
+    // if (min.isValid && value < min) {
+    //   valueChange.emit({ value: t(this.plain).toInstant(min) });
+    //   return;
+    // }
+    // const max = DateTime.fromISO(this.max);
+    // if (max.isValid && value > max) {
+    //   valueChange.emit({ value: t(this.plain).toInstant(max) });
+    // }
+  }
+
+  private endChangeHandler(event: TemporalInputValue) {
+    const value = DateTime.fromISO(event.value);
+    if (!value.isValid) {
+      return;
+    }
+    const start = DateTime.fromISO(this.start);
+    if (start.isValid) {
+      if (value < start) {
+        this.startChange.emit({ value: undefined });
+        return;
       }
     }
     this.endChange.emit(event);
@@ -290,6 +315,7 @@ export class TemporalInput {
               onKeyDown={e => {
                 this.handleKeyDown(e, 0);
               }}
+              onBlur={() => this.blurHandler('start-input', this.startChange, maxYear - 1)}
             />
             <div part="separator" class="separator">
               <svg
@@ -321,6 +347,7 @@ export class TemporalInput {
               onKeyDown={e => {
                 this.handleKeyDown(e, 1);
               }}
+              onBlur={() => this.blurHandler('end-input', this.endChange)}
             />
           </div>
         );
@@ -347,6 +374,7 @@ export class TemporalInput {
             onKeyDown={e => {
               this.handleKeyDown(e, 0);
             }}
+            onBlur={() => this.blurHandler('input', this.valueChange)}
           />
         );
     }
