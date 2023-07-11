@@ -51,9 +51,13 @@ function toInstant(this: ThisType, dt: DateTime) {
   switch (this.plain) {
     case "month":
       return dt.toFormat("yyyy-LL");
+    case "datetime":
+      return dt.toFormat(`yyyy-LL-dd'T'HH:mm`);
+    case "time":
+      return dt.toFormat("HH:mm");
 
     default:
-      return dt.toISODate()!;
+      return dt.toFormat("yyyy-LL-dd");
   }
 }
 

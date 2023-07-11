@@ -1,21 +1,16 @@
 :host {
   --border: var(--t-input-border, 1px solid #e5e7eb);
-  --focus-outline: var(--t-input-focus-outline, 2px solid #3b82f6);
 
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
 
-  border: var(--border);
   overflow: hidden;
-}
-
-:host-context(:focus) {
-  outline: var(--focus-outline);
+  border: var(--border);
 }
 
 .temporal-input {
-  border: none;
   display: flex;
+  border: none;
 }

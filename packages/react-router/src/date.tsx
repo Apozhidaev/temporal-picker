@@ -1,6 +1,7 @@
 import { memo, useRef, forwardRef, useImperativeHandle } from "react";
 import useEvent from "react-use-event-hook";
 import { useSearchParams } from "react-router-dom";
+import { t } from "@temporal-picker/core";
 import {
   DatePicker as Picker,
   DatePickerProps as PickerProps,
@@ -23,12 +24,13 @@ export const DatePicker = memo(
     const [searchParams, setSearchParams] = useSearchParams();
     const { param, defaultValue, ...pickerProps } = props;
 
-    const paramValue = searchParams.has(param) ? searchParams.get(param) : defaultValue;
+    const defaultPlainValue = t(props.plain).normalize(defaultValue);
+    const paramValue = searchParams.has(param) ? searchParams.get(param) : defaultPlainValue;
 
     const handleValueChange = useEvent((value) => {
       searchParams.delete(param);
 
-      if (!sameValues(value, defaultValue)) {
+      if (!sameValues(value, defaultPlainValue)) {
         searchParams.set(param, value || "");
       }
 

@@ -93,12 +93,12 @@ export class TemporalInput {
     const value = DateTime.fromISO(event.value).toMillis();
     if (this.min) {
       if (value < DateTime.fromISO(this.min).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     if (this.max) {
       if (value > DateTime.fromISO(this.max).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     this.valueChange.emit(event);
@@ -108,12 +108,12 @@ export class TemporalInput {
     const value = DateTime.fromISO(event.value).toMillis();
     if (this.min) {
       if (value < DateTime.fromISO(this.min).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     if (this.end || this.max) {
       if (value > DateTime.fromISO(this.end || this.max).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     this.startChange.emit(event);
@@ -123,12 +123,12 @@ export class TemporalInput {
     const value = DateTime.fromISO(event.value).toMillis();
     if (this.start || this.min) {
       if (value < DateTime.fromISO(this.start || this.min).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     if (this.max) {
       if (value > DateTime.fromISO(this.max).toMillis()) {
-        return;
+        event.value = undefined;
       }
     }
     this.endChange.emit(event);
@@ -260,8 +260,8 @@ export class TemporalInput {
       case 'range':
         return (
           <div
-            part="range-items"
-            class="range-items"
+            part="range-wrapper"
+            class="range-wrapper"
             aria-disabled={this.disabled}
             aria-readonly={this.readonly}
             onMouseDown={(e: MouseEvent) => {
@@ -303,7 +303,7 @@ export class TemporalInput {
             </div>
             <input
               id="end-input"
-              class="input"
+              class="input end-input"
               part="end-input"
               disabled={this.disabled}
               readonly={this.readonly}

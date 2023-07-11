@@ -98,7 +98,7 @@ Step 3.
 | `"start-input"`          |             |
 | `"end-input"`            |             |
 | `"separator"`            |             |
-| `"range-items"`          |             |
+| `"range-wrapper"`        |             |
 
 
 ## Customize
@@ -152,19 +152,16 @@ Step 3.
   --t-popup-focus-color: #94a3b8;
   --t-popup-select-outline-color: #e5e7eb;
 
-  --t-input-invalid-color: #be123c;
   --t-input-border: 1px solid #e5e7eb;
   --t-input-color: inherit;
   --t-input-font: inherit;
-  --t-input-separator-icon-size: 1em;
-  --t-input-button-icon-size: 1.25em;
-  --t-input-range-items-gap: 0.5em;
   --t-input-px: 0.375em;
   --t-input-py: 0.25em;
+  --t-input-invalid-color: #be123c;
 
-  --t-input-focus-outline: 2px solid #3b82f6;
+  --t-input-button-icon-size: 1.25em;
 
-  --t-input-disabled-bg-color: #f5f5f5;
-  --t-input-disabled-color: #44403c;
+  --t-input-range-wrapper-gap: 1em;
+  --t-input-separator-icon-size: 1em;
 }
 ```

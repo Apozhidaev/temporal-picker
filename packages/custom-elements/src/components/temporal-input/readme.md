@@ -37,14 +37,14 @@
 
 ## Shadow Parts
 
-| Part            | Description |
-| --------------- | ----------- |
-| `"button"`      |             |
-| `"end-input"`   |             |
-| `"input"`       |             |
-| `"range-items"` |             |
-| `"separator"`   |             |
-| `"start-input"` |             |
+| Part              | Description |
+| ----------------- | ----------- |
+| `"button"`        |             |
+| `"end-input"`     |             |
+| `"input"`         |             |
+| `"range-wrapper"` |             |
+| `"separator"`     |             |
+| `"start-input"`   |             |
 
 
 ## Dependencies

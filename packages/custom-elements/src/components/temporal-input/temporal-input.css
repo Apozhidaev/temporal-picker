@@ -1,35 +1,23 @@
 :host {
-  --invalid-color: var(--t-input-invalid-color, #be123c);
   --border: var(--t-input-border, 1px solid #e5e7eb);
   --color: var(--t-input-color, inherit);
   --font: var(--t-input-font, inherit);
-  --separator-icon-size: var(--t-input-separator-icon-size, 1em);
-  --button-icon-size: var(--t-input-button-icon-size, 1.25em);
-  --range-items-gap: var(--t-input-range-items-gap, 0.5em);
   --padding-x: var(--t-input-px, 0.375em);
   --padding-y: var(--t-input-py, 0.25em);
+  --invalid-color: var(--t-input-invalid-color, #be123c);
 
-  --focus-outline: var(--t-input-focus-outline, 2px solid #3b82f6);
+  --button-icon-size: var(--t-input-button-icon-size, 1.25em);
 
-  --disabled-bg-color: var(--t-input-disabled-bg-color, #f5f5f5);
-  --disabled-color: var(--t-input-disabled-color, #44403c);
+  --range-wrapper-gap: var(--t-input-range-wrapper-gap, 1em);
+  --separator-icon-size: var(--t-input-separator-icon-size, 1em);
 
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
 
-  border: var(--border);
   overflow: hidden;
-}
-
-:host-context(:focus) {
-  outline: var(--focus-outline);
-}
-
-:host-context([disabled]:not([disabled="false"])) {
-  background-color: var(--disabled-bg-color);
-  color: var(--disabled-color);
+  border: var(--border);
 }
 
 .input,
@@ -40,6 +28,14 @@
   color: var(--color);
   font: var(--font);
   padding: var(--padding-y) var(--padding-x);
+}
+
+.start-input {
+  padding-right: 0;
+}
+
+.end-input {
+  padding-left: 0;
 }
 
 .button {
@@ -62,11 +58,11 @@
   outline: none;
 }
 
-.range-items {
+.range-wrapper {
   display: flex;
   align-items: center;
   justify-content: stretch;
-  gap: var(--range-items-gap);
+  gap: var(--range-wrapper-gap);
 }
 
 .separator {

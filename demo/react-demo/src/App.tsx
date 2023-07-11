@@ -1,5 +1,6 @@
 import { DatePicker, RangePicker } from "@temporal-picker/react";
 
+
 function App() {
   return (
     <table style={{ width: "100%" }}>
@@ -7,7 +8,8 @@ function App() {
         <tr>
           <td>
             <DatePicker
-              value="2022-01-01"
+              // value="2022-01-01"
+              plain="time"
               onValueChange={(date) => {
                 console.log(date);
               }}
@@ -15,9 +17,9 @@ function App() {
           </td>
           <td>
             <RangePicker
-              plain="month"
-              start="2022-01-01"
-              end="2022-08-01"
+              plain="time"
+              // start="2022-01-01"
+              // end="2022-08-01"
               onRangeChange={(start, end) => {
                 console.log(start, end);
               }}

@@ -167,14 +167,19 @@ export class TemporalPicker {
           disabled={this.disabled}
           readonly={this.readonly}
           class="temporal-input"
-          exportparts="button,range-items,start-input,separator,end-input,input"
+          exportparts="button,input,range-wrapper,start-input,separator,end-input"
           plain={this.plain}
           min={this.min}
           max={this.max}
           value={this.value}
           start={this.start}
           end={this.end}
-          native={this.native}
+          native={
+            this.native ||
+            this.plain === 'datetime' ||
+            this.plain === 'time' ||
+            this.plain === 'day'
+          }
           locale={this.locale}
           open={this.isOpen}
           onT-value-change={e => {
@@ -192,7 +197,7 @@ export class TemporalPicker {
             this.popup.end = e.detail.value;
             this.rangeChangeHandler();
           }}
-          onT-open-popup={(e) => {
+          onT-open-popup={e => {
             this.isOpen = true;
             this.popup.scrollToIndex(e.detail.index);
           }}
