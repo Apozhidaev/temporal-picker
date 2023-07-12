@@ -22,6 +22,7 @@
 | `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
 | `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
 | `native`         | `native`          | The native value              | `boolean`                                            | `undefined` |
+| `pickHover`      | `pick-hover`      |                               | `boolean`                                            | `undefined` |
 | `picker`         | `picker`          | The type of picker            | `"button" \| "input"`                                | `'input'`   |
 | `placement`      | `placement`       |                               | `"bottom" \| "bottom-end" \| "bottom-start"`         | `'bottom'`  |
 | `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |

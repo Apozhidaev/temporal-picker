@@ -82,6 +82,7 @@ export namespace Components {
           * The native value
          */
         "native"?: boolean;
+        "pickHover"?: boolean;
         /**
           * The type of picker
          */
@@ -132,6 +133,7 @@ export namespace Components {
           * The min value
          */
         "min"?: string;
+        "pickHover"?: boolean;
         "picker": HTMLElement;
         /**
           * The type of picker
@@ -318,6 +320,7 @@ declare namespace LocalJSX {
           * The value change event
          */
         "onT-value-change"?: (event: TemporalPickerCustomEvent<PlainInstant>) => void;
+        "pickHover"?: boolean;
         /**
           * The type of picker
          */
@@ -380,6 +383,7 @@ declare namespace LocalJSX {
           * The value change event
          */
         "onT-value-change"?: (event: TemporalPopupCustomEvent<PlainInstant1>) => void;
+        "pickHover"?: boolean;
         "picker"?: HTMLElement;
         /**
           * The type of picker

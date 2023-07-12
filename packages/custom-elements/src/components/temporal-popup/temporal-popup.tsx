@@ -70,6 +70,7 @@ export class TemporalPopup {
   @Prop() localeApply?: string;
   @Prop() localeClear?: string;
   @Prop() rowHeader?: boolean;
+  @Prop() pickHover?: boolean;
 
   @Watch('type')
   @Watch('plain')
@@ -89,6 +90,7 @@ export class TemporalPopup {
   @Watch('localeApply')
   @Watch('localeCancel')
   @Watch('rowHeader')
+  @Watch('pickHover')
   watchOptions(newValue: string, _: string, name: string) {
     if (this.type === 'range') {
       this.rangePopup?.setOptions({ [name]: newValue });
@@ -186,6 +188,7 @@ export class TemporalPopup {
             strict: this.strict,
             reselect: this.reselect,
             rowHeader: this.rowHeader,
+            pickHover: this.pickHover,
             values: [this.start, this.end],
           },
           element,

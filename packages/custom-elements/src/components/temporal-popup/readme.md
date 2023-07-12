@@ -20,6 +20,7 @@
 | `localeClear`    | `locale-clear`    |                               | `string`                                             | `undefined` |
 | `max`            | `max`             | The max value                 | `string`                                             | `undefined` |
 | `min`            | `min`             | The min value                 | `string`                                             | `undefined` |
+| `pickHover`      | `pick-hover`      |                               | `boolean`                                            | `undefined` |
 | `picker`         | --                |                               | `HTMLElement`                                        | `undefined` |
 | `plain`          | `plain`           | The type of picker            | `"date" \| "datetime" \| "day" \| "month" \| "time"` | `'date'`    |
 | `presetPosition` | `preset-position` |                               | `"bottom" \| "left" \| "right" \| "top"`             | `undefined` |

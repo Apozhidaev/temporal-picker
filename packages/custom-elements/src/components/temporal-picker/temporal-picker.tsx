@@ -83,6 +83,7 @@ export class TemporalPicker {
   @Prop() localeApply?: string;
   @Prop() localeClear?: string;
   @Prop() rowHeader?: boolean;
+  @Prop() pickHover?: boolean;
 
   /**
    * The value change event
@@ -229,6 +230,8 @@ export class TemporalPicker {
             strict={this.strict}
             reselect={this.reselect}
             rowHeader={this.rowHeader}
+            pickHover={this.pickHover}
+            presetPosition={this.presetPosition}
             onT-value-change={(e: any) => {
               this.value = e.detail.value;
               this.valueChangeHandler();

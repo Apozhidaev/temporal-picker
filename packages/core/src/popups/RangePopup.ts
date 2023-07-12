@@ -11,10 +11,12 @@ export type RangePopupOptions = PopupOptions & {
   presets?: Preset[];
   presetPosition?: "left" | "right" | "top" | "bottom";
   reselect?: boolean;
+  pickHover?: boolean;
 };
 
 export class RangePopup extends CalendarPopup {
   public tooltipElement?: HTMLElement;
+  public pickHover?: boolean;
 
   constructor(
     public options: RangePopupOptions,
@@ -22,6 +24,8 @@ export class RangePopup extends CalendarPopup {
     private host = element
   ) {
     super(element);
+
+    this.pickHover = options.pickHover ?? defaults.pickHover;
 
     if (options.tooltip ?? defaults.tooltip) {
       this.tooltipElement = document.createElement("span");
@@ -32,7 +36,7 @@ export class RangePopup extends CalendarPopup {
       tooltipElement: this.tooltipElement,
       grid: 2,
       calendars: 2,
-      rowHeader: options.rowHeader ?? options.plain === 'month',
+      rowHeader: options.rowHeader ?? options.plain === "month",
       plain: options.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
       locale: options.locale ?? defaults.locale,
@@ -66,6 +70,8 @@ export class RangePopup extends CalendarPopup {
   }
 
   public setOptions(options: Partial<RangePopupOptions>): void {
+    this.pickHover = options.pickHover ?? this.pickHover;
+
     if (options.tooltip ?? this.options.tooltip) {
       this.tooltipElement = document.createElement("span");
       this.hideTooltip();
@@ -106,7 +112,7 @@ export class RangePopup extends CalendarPopup {
       options.values,
       this.picker.index
     );
-    
+
     this.render();
   }
 
@@ -117,6 +123,8 @@ export class RangePopup extends CalendarPopup {
   }
 
   private handleMouseenter = (e: MouseEvent) => {
+    if (!this.pickHover) return;
+
     const target = e.target;
 
     if (target instanceof HTMLElement) {
@@ -150,6 +158,8 @@ export class RangePopup extends CalendarPopup {
   };
 
   private handleMouseleave = (e: MouseEvent) => {
+    if (!this.pickHover) return;
+    
     const target = e.target;
 
     if (target instanceof HTMLElement) {

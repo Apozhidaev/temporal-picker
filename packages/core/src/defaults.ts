@@ -6,4 +6,5 @@ export default {
   tooltip: true,
   strict: true,
   reselect: false,
+  pickHover: true,
 };
