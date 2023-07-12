@@ -93,20 +93,32 @@ function weekTitle(this: ThisType, locale: string) {
   return Duration.fromObject({ week: 1 }, { locale }).toHuman().replace("1", "").trim();
 }
 
+function sameDates(
+  this: ThisType,
+  date1: DateTime | undefined,
+  date2: DateTime | undefined
+) {
+  if(!date1 && !date2){
+    return true;
+  }
+  if(!date1 || !date2){
+    return false;
+  }
+  return date1.hasSame(date2, this.meta.unit);
+}
+
 function sameRanges(
   this: ThisType,
   range1: (DateTime | undefined)[],
   range2: (DateTime | undefined)[]
 ) {
-  const r1 = range1.filter(Boolean).sort();
-  const r2 = range2.filter(Boolean).sort();
-  if (r1.length !== r2.length) {
+  if (range1.length !== range2.length) {
     return false;
   }
-  for (let i = 0; i < r1.length; i++) {
-    const date1 = r1[i]!;
-    const date2 = r2[i]!;
-    if (!date1.hasSame(date2, this.meta.unit)) {
+  for (let i = 0; i < range1.length; i++) {
+    const date1 = range1[i];
+    const date2 = range2[i];
+    if (!this.sameDates(date1, date2)) {
       return false;
     }
   }
@@ -135,6 +147,7 @@ export function t(plain?: PlainType) {
     next,
     previous,
     diff,
+    sameDates,
     sameRanges,
     display,
     weekTitle,

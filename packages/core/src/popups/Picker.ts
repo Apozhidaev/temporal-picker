@@ -46,18 +46,18 @@ export class Picker {
     this.entry = t(this.plain).startOf(value, shift);
   }
 
-  public select(...values: (string | undefined)[]) {
-    values.forEach((instant) => {
-      const index = this.index;
-      if (this.picked.length > 1) {
-        this.index = this.nextIndex();
-        if (this.isFilled() && !this.reselect) {
-          this.picked.fill(undefined);
-        }
+  public select(instant: string, initialIndex = 0) {
+    if (this.picked.length > 1) {
+      if (this.isFilled() && !this.reselect) {
+        this.picked.fill(undefined);
       }
-      this.picked[index] = instant;
-    });
+      if (this.isEmpty()) {
+        this.index = initialIndex;
+      }
+    }
+    this.picked[this.index] = instant;
     this.sort();
+    this.index = this.nextIndex();
   }
 
   public setValues(values: (string | undefined)[], index = this.index) {
@@ -108,6 +108,10 @@ export class Picker {
 
   private isFilled() {
     return this.picked.every(Boolean);
+  }
+
+  private isEmpty() {
+    return !this.picked.some(Boolean);
   }
 
   private nextIndex() {

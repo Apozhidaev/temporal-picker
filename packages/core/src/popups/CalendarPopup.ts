@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { Picker } from "./Picker";
+import { getCalendarIndex } from "../ui/calendarPopup/main/grid/calendar/Calendar";
 
 export type PopupOptions = {
   plain: PlainType;
@@ -83,7 +84,8 @@ export abstract class CalendarPopup {
       const instant = element.dataset.instant;
 
       if (instant) {
-        this.picker.select(instant);
+        const index = getCalendarIndex(element);
+        this.picker.select(instant, index);
 
         if (this.ui.context.autoApply && this.picker.isValid()) {
           this.dispatchSelect();

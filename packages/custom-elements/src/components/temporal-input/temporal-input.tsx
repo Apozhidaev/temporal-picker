@@ -180,7 +180,7 @@ export class TemporalInput {
         )}`;
       }
       if (this.start) {
-        return `${t(this.plain).display(this.start, this.locale)} ≥`;
+        return `≥ ${t(this.plain).display(this.start, this.locale)}`;
       }
       if (this.end) {
         return `≤ ${t(this.plain).display(this.end, this.locale)}`;

@@ -13,6 +13,16 @@ type Props = {
   action?: string;
 };
 
+export function getCalendarIndex(el: HTMLElement) {
+  if (el.classList.contains("calendar")) {
+    return Number(el.dataset.index);
+  }
+  if (el.parentElement) {
+    return getCalendarIndex(el.parentElement);
+  }
+  return 0;
+}
+
 export class Calendar extends Control<Props, PopupContext> {
   private header;
   private dayNames;
@@ -37,6 +47,7 @@ export class Calendar extends Control<Props, PopupContext> {
     const { plain } = this.context;
 
     el.className = "calendar";
+    el.dataset.index = String(index);
 
     this.header.render(el, { index, entry }, entry);
     if (plain === "month") {
