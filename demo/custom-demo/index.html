@@ -8,12 +8,30 @@
     />
     <title>Temporal Picker</title>
     <link href="./root.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/core.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/extra-options.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/keyboard.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/lock.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/range.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/preset.css" rel="stylesheet" />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/core.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/extra-options.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/keyboard.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/lock.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/range.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom-elements/src/components/temporal-popup/css/preset.css"
+      rel="stylesheet"
+    />
     <style>
       :root {
         /* --t-input-color-fg-invalid: red; */
@@ -50,16 +68,18 @@
 
   <body>
     <div style="display: flex; gap: 24px; align-items: flex-start">
+      
       <temporal-input presentation="button"></temporal-input>
       <temporal-input></temporal-input>
       <temporal-input type="range"></temporal-input>
     </div>
-    <div style="display: flex; gap: 24px; align-items: flex-start; margin-top: 30px;">
+    <div style="display: flex; gap: 24px; align-items: flex-start; margin-top: 30px">
       <temporal-popup></temporal-popup>
       <temporal-popup type="range"></temporal-popup>
     </div>
-    <div style="display: flex; gap: 24px; align-items: flex-start; margin-top: 30px;">
-      <temporal-picker picker="button"></temporal-picker>
+    <div style="display: flex; gap: 24px; align-items: flex-start; margin-top: 30px">
+      <label for="bb">label</label>
+      <temporal-picker id="bb" picker="button"></temporal-picker>
       <temporal-picker></temporal-picker>
       <temporal-picker type="range" locale="ru-RU"></temporal-picker>
     </div>

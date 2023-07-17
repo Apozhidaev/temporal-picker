@@ -6,22 +6,10 @@ import { styles } from "./styles";
 import { PlainInstant, RangeInstant } from "../../types";
 
 export class TemporalPicker extends PickerElement {
-  private input!: TemporalInput;
-  private popup!: TemporalPopup;
-  private popper!: Instance;
-  private _open: boolean = false;
-
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open", delegatesFocus: true });
-
-    const style = document.createElement("style");
-    style.textContent = styles;
-    shadow.appendChild(style);
-  }
-
+  static formAssociated = true;
   static get observedAttributes() {
     return [
+      "name",
       "picker",
       "type",
       "plain",
@@ -51,6 +39,29 @@ export class TemporalPicker extends PickerElement {
     ];
   }
 
+  private input!: TemporalInput;
+  private popup!: TemporalPopup;
+  private popper!: Instance;
+  private _open: boolean = false;
+  private _internals: ElementInternals;
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+    const shadow = this.attachShadow({ mode: "open", delegatesFocus: true });
+
+    const style = document.createElement("style");
+    style.textContent = styles;
+    shadow.appendChild(style);
+  }
+
+  get form() {
+    return this._internals.form;
+  }
+  get name() {
+    return this.getAttribute("name");
+  }
+
   get open() {
     return this._open;
   }
@@ -77,7 +88,10 @@ export class TemporalPicker extends PickerElement {
 
   private documentClickHandler = (e: any) => {
     if (!this.contains(e.target) && !this.popup?.contains(e.target)) {
-      this.closePopupHandler();
+      const labels = Array.from(this._internals.labels);
+      if (!labels.some((label) => label.contains(e.target))) {
+        this.closePopupHandler();
+      }
     }
   };
 
@@ -210,9 +224,6 @@ export class TemporalPicker extends PickerElement {
         this.input[name] = this[name];
         this.popup[name] = this[name];
         break;
-      case "value":
-      case "start":
-      case "end":
       case "min":
       case "max":
       case "locale":
@@ -246,6 +257,25 @@ export class TemporalPicker extends PickerElement {
       case "presetPosition":
         this.popup[name] = this[name];
         break;
+      case "value":
+        this.input[name] = this[name];
+        this.popup[name] = this[name];
+        this._internals.setFormValue(this.value ? this.value : null);
+      case "start":
+      case "end": {
+        this.input[name] = this[name];
+        this.popup[name] = this[name];
+        if (this.start || this.end) {
+          const n = this.name;
+          const entries = new FormData();
+          entries.append(n + "-start", this.start);
+          entries.append(n + "-end", this.end);
+          this._internals.setFormValue(entries);
+        } else {
+          this._internals.setFormValue(null);
+        }
+        break;
+      }
 
       default:
         break;

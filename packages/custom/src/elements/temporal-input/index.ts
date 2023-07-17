@@ -47,21 +47,6 @@ export type TemporalInputIndex = { index: number };
 const maxYear = 9000;
 
 export class TemporalInput extends InputElement {
-  private focusElement?: HTMLElement;
-  private button!: HTMLButtonElement;
-  private input!: HTMLInputElement;
-  private startInput!: HTMLInputElement;
-  private endInput!: HTMLInputElement;
-
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open", delegatesFocus: true });
-
-    const style = document.createElement("style");
-    style.textContent = styles;
-    shadow.appendChild(style);
-  }
-  
   static get observedAttributes() {
     return [
       "presentation",
@@ -78,6 +63,21 @@ export class TemporalInput extends InputElement {
       "disabled",
       "readonly",
     ];
+  }
+
+  private focusElement?: HTMLElement;
+  private button!: HTMLButtonElement;
+  private input!: HTMLInputElement;
+  private startInput!: HTMLInputElement;
+  private endInput!: HTMLInputElement;
+
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: "open", delegatesFocus: true });
+
+    const style = document.createElement("style");
+    style.textContent = styles;
+    shadow.appendChild(style);
   }
 
   private valueChangeHandler(event: TemporalInputValue) {
