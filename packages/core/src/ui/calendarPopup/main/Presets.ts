@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../base/Control";
 import { PopupContext } from "../types";
-import { datesIsNotAvailable, t } from "../../../utils";
+import { t } from "../../../utils";
 
 type Props = {
   picked: (string | undefined)[];
@@ -43,7 +43,7 @@ export class Presets extends Control<Props, PopupContext> {
         item.dataset.end = t(plain).instant(end);
       }
 
-      if (datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
+      if (t.datesIsNotAvailable(minDate, maxDate, startDate, endDate)) {
         item.disabled = true;
       }
 

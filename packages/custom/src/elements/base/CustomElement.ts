@@ -5,7 +5,7 @@ export class CustomElement extends HTMLElement {
     super();
   }
 
-  getBooleanAttribute(qualifiedName: string): boolean | null {
+  protected getBooleanAttribute(qualifiedName: string): boolean | null {
     if (this.hasAttribute(qualifiedName)) {
       const attr = this.getAttribute(qualifiedName);
       return !attr || String(attr) !== "false";
@@ -13,23 +13,23 @@ export class CustomElement extends HTMLElement {
     return null;
   }
 
-  getNumberAttribute(qualifiedName: string): number | null {
+  protected getNumberAttribute(qualifiedName: string): number | null {
     if (this.hasAttribute(qualifiedName)) {
       return Number(this.getAttribute(qualifiedName));
     }
     return null;
   }
 
-  getStringValue(attributeName: string, defaultValue: string = ""): string {
+  protected getStringValue(attributeName: string, defaultValue: string = ""): string {
     return this.getAttribute(attributeName) || defaultValue;
   }
 
-  getBooleanValue(attributeName: string, defaultValue: boolean = false): boolean {
+  protected getBooleanValue(attributeName: string, defaultValue: boolean = false): boolean {
     return this.getBooleanAttribute(attributeName) || defaultValue;
   }
 
   // --- Component Lifecycle Methods ---
-  connectedCallback() {
+  protected connectedCallback() {
     // console.log("Custom square element added to page.")
 
     if (!this._loaded) {
@@ -38,15 +38,15 @@ export class CustomElement extends HTMLElement {
     }
   }
 
-  disconnectedCallback() {
+  protected disconnectedCallback() {
     // console.log("Custom square element removed from page.");
   }
 
-  adoptedCallback() {
+  protected adoptedCallback() {
     // console.log("Custom square element moved to new page.");
   }
 
-  attributeChangedCallback(name?: string, oldValue?: string, newValue?: string) {
+  protected attributeChangedCallback(name?: string, oldValue?: string, newValue?: string) {
     // console.log("Custom square element attributes changed.");
 
     if (this._loaded) {
@@ -54,7 +54,7 @@ export class CustomElement extends HTMLElement {
     }
   }
 
-  componentDidLoad() {}
+  protected componentDidLoad() {}
 
-  componentDidUpdate(name?: string, oldValue?: string, newValue?: string) {}
+  protected componentDidUpdate(name?: string, oldValue?: string, newValue?: string) {}
 }

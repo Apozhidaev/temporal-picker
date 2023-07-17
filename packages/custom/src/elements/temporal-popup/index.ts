@@ -5,22 +5,7 @@ import { styles } from "./styles";
 import { PlainInstant, RangeInstant } from "../../types";
 
 export class TemporalPopup extends PopupElement {
-  private container: HTMLElement;
-  private datePopup?: DatePopup;
-  private rangePopup?: RangePopup;
-
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open" });
-
-    const style = document.createElement("style");
-    style.textContent = styles;
-    shadow.appendChild(style);
-
-    this.container = document.createElement("div");
-    shadow.appendChild(this.container);
-  }
-
+  static elementName = "temporal-popup";
   static get observedAttributes() {
     return [
       "type",
@@ -48,6 +33,22 @@ export class TemporalPopup extends PopupElement {
     ];
   }
 
+  private container: HTMLElement;
+  private datePopup?: DatePopup;
+  private rangePopup?: RangePopup;
+
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: "open" });
+
+    const style = document.createElement("style");
+    style.textContent = styles;
+    shadow.appendChild(style);
+
+    this.container = document.createElement("div");
+    shadow.appendChild(this.container);
+  }
+
   async scrollToIndex(index: number) {
     this.datePopup?.select([this.value]);
     this.rangePopup?.select([this.start, this.end], index);
@@ -58,7 +59,7 @@ export class TemporalPopup extends PopupElement {
     this.rangePopup?.select(values, scrollToIndex);
   }
 
-  componentDidLoad() {
+  protected componentDidLoad() {
     const host = this;
     const container = this.container;
     container.addEventListener("t-close", () => {
@@ -151,7 +152,7 @@ export class TemporalPopup extends PopupElement {
     }
   }
 
-  componentDidUpdate(name: string) {
+  protected componentDidUpdate(name: string) {
     switch (name) {
       case "plain":
       case "min":
@@ -179,15 +180,32 @@ export class TemporalPopup extends PopupElement {
         break;
 
       case "value":
-        this.datePopup?.select([this.value]);
+        if (this.datePopup) {
+          const [value] = this.datePopup.getValues();
+          if (this.value !== value) {
+            this.datePopup.select([this.value]);
+          }
+        }
         break;
 
       case "start":
-        this.rangePopup?.select([this.start, this.end]);
+        if (this.rangePopup) {
+          const [start] = this.rangePopup.getValues();
+          if (this.start !== start) {
+            this.rangePopup.select([this.start, this.end]);
+          }
+        }
+
         break;
 
       case "end":
-        this.rangePopup?.select([this.start, this.end], 1);
+        if (this.rangePopup) {
+          const [, end] = this.rangePopup.getValues();
+          if (this.end !== end) {
+            this.rangePopup.select([this.start, this.end], 1);
+          }
+        }
+
         break;
 
       default:

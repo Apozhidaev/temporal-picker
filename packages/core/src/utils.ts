@@ -1,26 +1,6 @@
 import { DateTime, DateTimeUnit, Duration, DurationLikeObject } from "luxon";
 import { PlainType } from "./types";
 
-export function datesIsNotAvailable(
-  min: DateTime | undefined,
-  max: DateTime | undefined,
-  ...dates: (DateTime | undefined)[]
-) {
-  if (min) {
-    if (dates.filter(Boolean).some((date) => date! < min)) {
-      return true;
-    }
-  }
-  if (max) {
-    if (dates.filter(Boolean).some((date) => date! > max)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-// ----------------------------------------
-
 type PlainMeta = {
   unit: DateTimeUnit;
   entry: DateTimeUnit;
@@ -61,6 +41,10 @@ function toInstant(this: ThisType, dt: DateTime) {
   }
 }
 
+function fromJSDate(this: ThisType, date: Date) {
+  return this.toInstant(DateTime.fromJSDate(date));
+}
+
 function instant(this: ThisType, value: string) {
   return this.toInstant(DateTime.fromISO(value));
 }
@@ -93,15 +77,11 @@ function weekTitle(this: ThisType, locale: string) {
   return Duration.fromObject({ week: 1 }, { locale }).toHuman().replace("1", "").trim();
 }
 
-function sameDates(
-  this: ThisType,
-  date1: DateTime | undefined,
-  date2: DateTime | undefined
-) {
-  if(!date1 && !date2){
+function sameDates(this: ThisType, date1: DateTime | undefined, date2: DateTime | undefined) {
+  if (!date1 && !date2) {
     return true;
   }
-  if(!date1 || !date2){
+  if (!date1 || !date2) {
     return false;
   }
   return date1.hasSame(date2, this.meta.unit);
@@ -141,6 +121,7 @@ export function t(plain?: PlainType) {
     ink,
     page,
     toInstant,
+    fromJSDate,
     instant,
     normalize,
     startOf,
@@ -153,3 +134,23 @@ export function t(plain?: PlainType) {
     weekTitle,
   };
 }
+
+t.valid = (value: string) => DateTime.fromISO(value).isValid;
+t.invalid = (value: string) => !t.valid(value);
+t.datesIsNotAvailable = (
+  min: DateTime | undefined,
+  max: DateTime | undefined,
+  ...dates: (DateTime | undefined)[]
+) => {
+  if (min) {
+    if (dates.filter(Boolean).some((date) => date! < min)) {
+      return true;
+    }
+  }
+  if (max) {
+    if (dates.filter(Boolean).some((date) => date! > max)) {
+      return true;
+    }
+  }
+  return false;
+};

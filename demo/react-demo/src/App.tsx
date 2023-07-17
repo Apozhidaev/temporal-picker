@@ -9,7 +9,7 @@ function App() {
           <td>
             <DatePicker
               // value="2022-01-01"
-              plain="time"
+              plain="month"
               onValueChange={(date) => {
                 console.log(date);
               }}
@@ -17,7 +17,7 @@ function App() {
           </td>
           <td>
             <RangePicker
-              plain="time"
+              plain="month"
               // start="2022-01-01"
               // end="2022-08-01"
               onRangeChange={(start, end) => {

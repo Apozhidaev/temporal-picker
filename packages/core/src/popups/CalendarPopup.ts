@@ -43,6 +43,10 @@ export abstract class CalendarPopup {
     this.render();
   }
 
+  public getValues() {
+    return this.picker.getValues();
+  }
+
   public destroy() {
     this.element.removeEventListener("click", this.handleClick);
     this.element.innerHTML = "";

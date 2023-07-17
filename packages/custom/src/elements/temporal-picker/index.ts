@@ -6,6 +6,7 @@ import { styles } from "./styles";
 import { PlainInstant, RangeInstant } from "../../types";
 
 export class TemporalPicker extends PickerElement {
+  static elementName = "temporal-picker";
   static formAssociated = true;
   static get observedAttributes() {
     return [
@@ -103,7 +104,7 @@ export class TemporalPicker extends PickerElement {
     this.dispatchRangeChange({ start: this.start, end: this.end });
   }
 
-  componentDidLoad() {
+  protected componentDidLoad() {
     this.input = this.getInput();
     this.popup = this.getPopup();
 
@@ -146,6 +147,8 @@ export class TemporalPicker extends PickerElement {
     input.disabled = this.disabled;
     input.readonly = this.readonly;
     input.locale = this.locale;
+    input.native =
+      this.native || this.plain === "datetime" || this.plain === "time" || this.plain === "day";
 
     input.addEventListener("t-value-change", (e: any) => {
       this.value = e.detail.value;
@@ -215,14 +218,16 @@ export class TemporalPicker extends PickerElement {
     return popup;
   }
 
-  componentDidUpdate(name: string) {
+  protected componentDidUpdate(name: string) {
     switch (name) {
       case "picker":
-        this.input.presentation = this[name];
+        this.input.presentation = this.picker;
         break;
       case "plain":
-        this.input[name] = this[name];
-        this.popup[name] = this[name];
+        this.input.plain = this.plain;
+        this.popup.plain = this.plain;
+        this.input.native =
+          this.native || this.plain === "datetime" || this.plain === "time" || this.plain === "day";
         break;
       case "min":
       case "max":
@@ -232,8 +237,11 @@ export class TemporalPicker extends PickerElement {
         break;
       case "disabled":
       case "readonly":
-      case "native":
         this.input[name] = this[name];
+        break;
+      case "native":
+        this.input.native =
+          this.native || this.plain === "datetime" || this.plain === "time" || this.plain === "day";
         break;
       case "autoApply":
       case "resetButton":

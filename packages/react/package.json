@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "react-use-event-hook": "^0.9.3",
-    "@temporal-picker/custom-elements": "^0.0.12"
+    "@temporal-picker/custom": "^0.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

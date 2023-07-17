@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Control } from "../../../../base/Control";
 import { PopupContext } from "../../../types";
-import { datesIsNotAvailable } from "../../../../../utils";
+import { t } from "../../../../../utils";
 
 type Props = {
   month: string;
@@ -99,7 +99,7 @@ export class Month extends Control<Props, PopupContext> {
         break;
     }
 
-    if (datesIsNotAvailable(minDate, maxDate, instant)) {
+    if (t.datesIsNotAvailable(minDate, maxDate, instant)) {
       el.classList.add("not-available");
     }
   }

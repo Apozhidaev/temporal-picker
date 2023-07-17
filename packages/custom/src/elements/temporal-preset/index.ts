@@ -1,12 +1,13 @@
 import { CustomElement } from "../base/CustomElement";
 
 export class TemporalPreset extends CustomElement {
-  constructor() {
-    super();
-  }
-
+  static elementName = "temporal-preset";
   static get observedAttributes() {
     return ["type", "label", "start", "end", "value"];
+  }
+
+  constructor() {
+    super();
   }
 
   get type() {

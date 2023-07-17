@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build:ts": "tsc",
-    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:luxon --external:@temporal-picker/*",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:@temporal-picker/* --external:@popperjs/*",
     "build:css": "node scripts/build-css.js",
     "build": "yarn run build:css && yarn run build:esm && yarn run build:ts",
     "dev": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --watch"
@@ -34,7 +34,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@temporal-picker/core": "^0.0.9",
-    "luxon": "^3.3.0"
+    "@temporal-picker/core": "^0.0.9"
   }
 }

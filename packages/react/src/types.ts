@@ -1,4 +1,4 @@
-import { Components } from "@temporal-picker/custom-elements/dist/types";
+import { TemporalPicker } from "@temporal-picker/custom";
 import { HTMLAttributes } from "react";
 
 type ViewDetail = {
@@ -8,7 +8,7 @@ type ViewDetail = {
   el: HTMLElement;
 };
 
-export type TemporalPickerElement = Partial<Components.TemporalPicker>;
+export type TemporalPickerElement = Partial<TemporalPicker>;
 export type HTMLTemporalPickerElement = TemporalPickerElement & HTMLElement;
 
 export type TemporalPickerProps = TemporalPickerElement &

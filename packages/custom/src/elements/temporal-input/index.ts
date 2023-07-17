@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import { PlainType, t } from "@temporal-picker/core";
 import { InputElement } from "../base/InputElement";
 import { styles } from "./styles";
@@ -47,6 +46,7 @@ export type TemporalInputIndex = { index: number };
 const maxYear = 9000;
 
 export class TemporalInput extends InputElement {
+  static elementName = "temporal-input";
   static get observedAttributes() {
     return [
       "presentation",
@@ -81,21 +81,18 @@ export class TemporalInput extends InputElement {
   }
 
   private valueChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value);
-    if (!value.isValid) {
+    if (t.invalid(event.value)) {
       return;
     }
     this.dispatchChange("t-value-change", event);
   }
 
   private startChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value);
-    if (!value.isValid) {
+    if (t.invalid(event.value)) {
       return;
     }
-    const end = DateTime.fromISO(this.end);
-    if (end.isValid) {
-      if (value > end) {
+    if (t.valid(this.end)) {
+      if (event.value > this.end) {
         this.dispatchChange("t-end-change", { value: "" });
         return;
       }
@@ -108,35 +105,23 @@ export class TemporalInput extends InputElement {
     const date = new Date(inputValue);
     if (date.getFullYear() > maxValue) {
       date.setFullYear(maxValue);
-      this.dispatchChange(type, { value: t(this.plain).toInstant(DateTime.fromJSDate(date)) });
+      this.dispatchChange(type, { value: t(this.plain).fromJSDate(date) });
       return;
     }
-    const value = DateTime.fromISO(inputValue);
-    if (!value.isValid) {
+    if (t.invalid(inputValue)) {
       if (inputValue) {
         this.dispatchChange(type, { value: "" });
       }
       return;
     }
-    // const min = DateTime.fromISO(this.min);
-    // if (min.isValid && value < min) {
-    //   valueChange.emit({ value: t(this.plain).toInstant(min) });
-    //   return;
-    // }
-    // const max = DateTime.fromISO(this.max);
-    // if (max.isValid && value > max) {
-    //   valueChange.emit({ value: t(this.plain).toInstant(max) });
-    // }
   }
 
   private endChangeHandler(event: TemporalInputValue) {
-    const value = DateTime.fromISO(event.value);
-    if (!value.isValid) {
+    if (t.invalid(event.value)) {
       return;
     }
-    const start = DateTime.fromISO(this.start);
-    if (start.isValid) {
-      if (value < start) {
+    if (t.valid(this.start)) {
+      if (event.value < this.start) {
         this.dispatchChange("t-start-change", { value: "" });
         return;
       }
@@ -199,7 +184,7 @@ export class TemporalInput extends InputElement {
     this.openPopupHandler({ index });
   }
 
-  componentDidLoad() {
+  protected componentDidLoad() {
     this.focus = (...args: any[]) => {
       this.focusElement?.focus(...args);
     };
@@ -210,7 +195,7 @@ export class TemporalInput extends InputElement {
     this.shadowRoot?.append(this.getPresentation());
   }
 
-  componentDidUpdate(name: string) {
+  protected componentDidUpdate(name: string) {
     if (this.presentation === "button") {
       this.updateButton(name);
     } else if (this.type === "range") {

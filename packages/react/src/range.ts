@@ -10,7 +10,7 @@ export type RangePreset = {
 
 export type RangePickerProps = Omit<TemporalPickerProps, "type" | "value"> & {
   presets?: RangePreset[];
-  onRangeChange?: (start?: string, end?: string) => void;
+  onRangeChange?: (start: string, end: string) => void;
 };
 
 export const RangePicker = memo(

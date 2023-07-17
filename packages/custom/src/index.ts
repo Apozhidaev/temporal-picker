@@ -3,21 +3,14 @@ import { TemporalPopup } from "./elements/temporal-popup";
 import { TemporalInput } from "./elements/temporal-input";
 import { TemporalPicker } from "./elements/temporal-picker";
 
-const defineCustomElements = (options?: ElementDefinitionOptions | undefined) => {
+const defineCustomElements = (opts?: ElementDefinitionOptions | undefined) => {
   if (typeof customElements !== "undefined") {
-    if (!customElements.get("temporal-preset")) {
-      customElements.define("temporal-preset", TemporalPreset, options);
-    }
-    if (!customElements.get("temporal-popup")) {
-      customElements.define("temporal-popup", TemporalPopup, options);
-    }
-    if (!customElements.get("temporal-input")) {
-      customElements.define("temporal-input", TemporalInput, options);
-    }
-    if (!customElements.get("temporal-picker")) {
-      customElements.define("temporal-picker", TemporalPicker, options);
-    }
+    [TemporalPreset, TemporalInput, TemporalPopup, TemporalPicker].forEach((cmp) => {
+      if (!customElements.get(cmp.elementName)) {
+        customElements.define(cmp.elementName, cmp, opts);
+      }
+    });
   }
 };
 
-export { defineCustomElements };
+export { defineCustomElements, TemporalPreset, TemporalInput, TemporalPopup, TemporalPicker };

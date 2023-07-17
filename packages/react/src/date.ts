@@ -6,7 +6,7 @@ export type DatePickerProps = Omit<
   TemporalPickerProps,
   "type" | "start" | "end" | "presetPosition" | "strict"
 > & {
-  onValueChange?: (value?: string) => void;
+  onValueChange?: (value: string) => void;
 };
 
 export const DatePicker = memo(
