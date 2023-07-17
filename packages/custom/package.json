@@ -1,0 +1,40 @@
+{
+  "name": "@temporal-picker/custom",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:Apozhidaev/temporal-picker.git",
+  "author": "alexanderpo <alexander.pozhidaev@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "temporal",
+    "picker",
+    "datepicker",
+    "rangepicker",
+    "date",
+    "daterange",
+    "range",
+    "react"
+  ],
+  "scripts": {
+    "build:ts": "tsc",
+    "build:esm": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --external:luxon --external:@temporal-picker/*",
+    "build:css": "node scripts/build-css.js",
+    "build": "yarn run build:css && yarn run build:esm && yarn run build:ts",
+    "dev": "esbuild src/index.ts --format=esm --bundle --outfile=dist/index.js --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.10",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@temporal-picker/core": "^0.0.9",
+    "luxon": "^3.3.0"
+  }
+}

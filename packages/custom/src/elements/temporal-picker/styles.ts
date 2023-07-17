@@ -1,0 +1,1 @@
+export const styles = `:host{--border: var(--t-input-border, 1px solid #e5e7eb);display:inline-flex;align-items:stretch;justify-content:center;flex-direction:column;overflow:hidden;border:var(--border)}.temporal-input{display:flex;border:none}`;

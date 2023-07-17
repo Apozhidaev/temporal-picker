@@ -7,21 +7,21 @@ import { getCalendarIndex } from "../ui/calendarPopup/main/grid/calendar/Calenda
 export type PopupOptions = {
   plain: PlainType;
   values?: string[];
-  locale?: string;
-  localeCancel?: string;
-  localeApply?: string;
-  localeClear?: string;
-  header?: HTMLElement | string | boolean;
-  autoApply?: boolean;
-  resetButton?: boolean;
-  extraSelect?: boolean;
-  min?: string;
-  max?: string;
-  minYear?: number;
-  maxYear?: number;
-  firstDay?: number;
-  customLayout?: boolean;
-  rowHeader?: boolean;
+  locale?: string | null;
+  localeCancel?: string | null;
+  localeApply?: string | null;
+  localeClear?: string | null;
+  header?: HTMLElement | string | boolean | null;
+  autoApply?: boolean | null;
+  resetButton?: boolean | null;
+  extraSelect?: boolean | null;
+  min?: string | null;
+  max?: string | null;
+  minYear?: number | null;
+  maxYear?: number | null;
+  firstDay?: number | null;
+  customLayout?: boolean | null;
+  rowHeader?: boolean | null;
 };
 
 export abstract class CalendarPopup {

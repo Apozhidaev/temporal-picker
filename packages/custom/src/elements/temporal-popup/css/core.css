@@ -1,0 +1,261 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+.container {
+  border-radius: 4px;
+  color: var(--color-fg-default);
+  cursor: default;
+  font-family: var(--font-family);
+  font-size: 0.8em;
+  overflow: hidden;
+  pointer-events: all;
+  box-shadow: var(--box-shadow);
+  display: block;
+}
+.container > main {
+  background-color: var(--color-bg-default);
+}
+.container > footer,
+.container > header {
+  background-color: var(--color-bg-secondary);
+  padding: 10px;
+}
+.container > footer .footer-buttons {
+  -moz-column-gap: 5px;
+  column-gap: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.container > footer .footer-buttons > button {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  padding: 6px 12px;
+}
+.container > footer .footer-buttons > button.apply-button {
+  background-color: var(--color-btn-primary-bg);
+  border-color: var(--color-btn-primary-border);
+  color: var(--color-btn-primary-fg);
+}
+.container > footer .footer-buttons > button.apply-button:hover {
+  background-color: var(--color-btn-primary-hover-bg);
+  border-color: var(--color-btn-primary-hover-border);
+  color: var(--color-btn-primary-hover-fg);
+}
+.container > footer .footer-buttons > button.apply-button:disabled {
+  background-color: var(--color-btn-primary-disabled-bg);
+  border-color: var(--color-btn-primary-disabled-border);
+  color: var(--color-btn-primary-disabled-fg);
+  cursor: default;
+}
+.container > footer .footer-buttons > button.cancel-button {
+  background-color: var(--color-btn-secondary-bg);
+  border-color: var(--color-btn-secondary-border);
+  color: var(--color-btn-secondary-fg);
+}
+.container > footer .footer-buttons > button.cancel-button:hover {
+  background-color: var(--color-btn-secondary-hover-bg);
+  border-color: var(--color-btn-secondary-hover-border);
+  color: var(--color-btn-secondary-hover-fg);
+}
+.container > footer .footer-buttons > button.cancel-button:disabled {
+  background-color: var(--color-btn-secondary-disabled-bg);
+  border-color: var(--color-btn-secondary-disabled-border);
+  color: var(--color-btn-secondary-disabled-fg);
+  cursor: default;
+}
+.grid-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+.grid-7 {
+  grid-template-columns: repeat(7, 1fr);
+}
+.grid-8 {
+  grid-template-columns: repeat(8, 1fr);
+}
+.grid-9 {
+  grid-template-columns: repeat(9, 1fr);
+}
+.grid-10 {
+  grid-template-columns: repeat(10, 1fr);
+}
+.grid-11 {
+  grid-template-columns: repeat(11, 1fr);
+}
+.grid-12 {
+  grid-template-columns: repeat(12, 1fr);
+}
+.calendars {
+  display: grid;
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow: hidden;
+  column-gap: 20px;
+}
+.calendars:not(.grid-1) .calendar > .header .month-name {
+  order: 2;
+  text-align: center;
+}
+.calendars:not(.grid-1) .calendar > .header .previous-button {
+  order: 1;
+  visibility: hidden;
+}
+.calendars:not(.grid-1) .calendar > .header .next-button {
+  order: 3;
+  visibility: hidden;
+}
+.calendars:not(.grid-1) .calendar:first-child > .header .previous-button,
+.calendars:not(.grid-1) .calendar:last-child > .header .next-button {
+  visibility: visible;
+}
+.calendar {
+  padding: 10px 0;
+}
+.calendar > .header {
+  align-items: center;
+  -moz-column-gap: 5px;
+  column-gap: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.calendar > .header .month-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+.calendar > .header .month-name > span {
+  font-weight: 700;
+}
+.calendar > .header button {
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--color-btn-secondary-fg);
+  fill: var(--color-btn-secondary-fg);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 4px 7px;
+}
+.calendar > .header button:hover {
+  background-color: var(--color-bg-secondary);
+}
+.calendar > .header button:hover > img,
+.calendar > .header button:hover > svg {
+  color: var(--color-fg-primary);
+}
+.calendar > .header button > img,
+.calendar > .header button > svg {
+  color: var(--color-btn-secondary-fg);
+  pointer-events: none;
+  transform: scale(0.7);
+}
+.calendar > .daynames-row,
+.calendar > .days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
+.calendar > .daynames-row > .day,
+.calendar > .daynames-row > .dayname,
+.calendar > .days-grid > .day,
+.calendar > .days-grid > .dayname {
+  align-items: center;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  justify-content: center;
+}
+.calendar > .daynames-row > .dayname {
+  color: var(--color-fg-muted);
+  font-size: 12px;
+  padding: 5px 0;
+}
+.calendar > .days-grid > .day {
+  background-color: var(--color-btn-secondary-bg);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  height: var(--day-height);
+  max-height: var(--day-height);
+  max-width: var(--day-width);
+  min-height: var(--day-height);
+  min-width: var(--day-width);
+  padding: 10px 0;
+  width: var(--day-width);
+}
+.calendar > .days-grid > .day:hover {
+  border: 1px solid var(--color-fg-primary);
+  color: var(--color-fg-primary);
+}
+.calendar > .days-grid > .day.today {
+  color: var(--color-fg-accent);
+}
+.calendar > .days-grid > .day.selected {
+  background-color: var(--color-fg-primary);
+  color: var(--color-fg-selected);
+}
+.calendar > .days-grid > .day.month {
+  max-width: var(--month-width);
+  min-width: var(--month-width);
+  width: var(--month-width);
+  max-height: var(--month-height);
+  min-height: var(--month-height);
+  height: var(--month-height);
+}
+@media (max-width: 480px) {
+  .calendars .calendar > .days-grid > .day {
+    height: auto;
+    max-height: unset;
+    max-width: unset;
+    min-height: unset;
+    min-width: unset;
+    width: auto;
+  }
+}
+
+.slide-right,
+.slide-left {
+  width: 100%;
+}
+.slide-right {
+  animation: 100ms slide-right;
+}
+@keyframes slide-right {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+.slide-left {
+  animation: 100ms slide-left;
+}
+@keyframes slide-left {
+  from {
+    margin-left: 100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}

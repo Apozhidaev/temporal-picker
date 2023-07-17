@@ -1,0 +1,103 @@
+:host {
+  --border: var(--t-input-border, 1px solid #e5e7eb);
+  --color: var(--t-input-color, inherit);
+  --font: var(--t-input-font, inherit);
+  --padding-x: var(--t-input-px, 0.375em);
+  --padding-y: var(--t-input-py, 0.25em);
+  --invalid-color: var(--t-input-invalid-color, #be123c);
+
+  --button-icon-size: var(--t-input-button-icon-size, 1.25em);
+
+  --range-wrapper-gap: var(--t-input-range-wrapper-gap, 1em);
+  --separator-icon-size: var(--t-input-separator-icon-size, 1em);
+
+  display: inline-flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+
+  overflow: hidden;
+  border: var(--border);
+}
+
+.input,
+.button {
+  flex: auto;
+  background-color: transparent;
+  border-width: 0;
+  color: var(--color);
+  font: var(--font);
+  padding: var(--padding-y) var(--padding-x);
+}
+
+.start-input {
+  padding-right: 0;
+}
+
+.end-input {
+  padding-left: 0;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.input:invalid {
+  color: var(--invalid-color);
+}
+
+.input:disabled,
+.button:disabled {
+  background-color: transparent;
+}
+
+.input:focus,
+.button:focus {
+  outline: none;
+}
+
+.range-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  gap: var(--range-wrapper-gap);
+}
+
+.separator {
+  user-select: none;
+  pointer-events: none;
+  line-height: 0;
+  text-align: center;
+}
+
+.separator-icon {
+  height: var(--separator-icon-size);
+  width: var(--separator-icon-size);
+}
+
+.button-icon {
+  height: var(--button-icon-size);
+  width: var(--button-icon-size);
+  flex: none;
+}
+
+@supports (-moz-appearance: none) {
+  /* firefox  */
+
+  .input {
+    padding: calc(var(--padding-y) + 1px) var(--padding-x);
+  }
+}
+
+@supports (-webkit-font-smoothing: antialiased) {
+  /* chrome */
+
+  .input:disabled::-webkit-calendar-picker-indicator,
+  .input:read-only::-webkit-calendar-picker-indicator,
+  .start-input:not(.native)::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}

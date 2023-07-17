@@ -1,17 +1,16 @@
 import { CalendarPopup as UI } from "../ui/calendarPopup/CalendarPopup";
 import { CalendarPopup, PopupOptions } from "./CalendarPopup";
-import { t } from "../utils";
 import { Preset } from "../ui/calendarPopup/types";
 import defaults from "../defaults";
 import { Picker } from "./Picker";
 
 export type RangePopupOptions = PopupOptions & {
-  tooltip?: boolean;
-  strict?: boolean;
+  tooltip?: boolean | null;
+  strict?: boolean | null;
   presets?: Preset[];
-  presetPosition?: "left" | "right" | "top" | "bottom";
-  reselect?: boolean;
-  pickHover?: boolean;
+  presetPosition?: "left" | "right" | "top" | "bottom" | null;
+  reselect?: boolean | null;
+  pickHover?: boolean | null;
 };
 
 export class RangePopup extends CalendarPopup {

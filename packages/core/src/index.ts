@@ -1,4 +1,4 @@
-export type { PlainType, PickerType, InputPresentation } from "./types";
+export type { PlainType, PickerType, InputPresentation, PresetPosition } from "./types";
 export { t } from "./utils";
 
 export { DatePopup, DatePopupOptions } from "./popups/DatePopup";

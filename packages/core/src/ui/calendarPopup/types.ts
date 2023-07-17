@@ -3,8 +3,8 @@ import { Context } from "../base/Component";
 
 export type Preset = {
   label: string;
-  start?: string;
-  end?: string;
+  start?: string | null;
+  end?: string | null;
 };
 
 export type PopupContext = Context & {
@@ -13,22 +13,22 @@ export type PopupContext = Context & {
   calendars: number;
   firstDay: number;
   locale: string;
-  localeCancel?: string;
-  localeApply?: string;
-  localeClear?: string;
-  header?: HTMLElement | string | boolean;
-  autoApply?: boolean;
+  localeCancel?: string | null;
+  localeApply?: string | null;
+  localeClear?: string | null;
+  header?: HTMLElement | string | boolean | null;
+  autoApply?: boolean | null;
   tooltipElement?: HTMLElement;
-  resetButton?: boolean;
-  extraSelect?: boolean;
+  resetButton?: boolean | null;
+  extraSelect?: boolean | null;
   presets?: Preset[];
-  presetPosition?: 'left' | 'right' | 'top' | 'bottom';
-  strict?: boolean;
-  min?: string;
-  max?: string;
-  minYear?: number;
-  maxYear?: number;
-  rowHeader?: boolean;
+  presetPosition?: "left" | "right" | "top" | "bottom" | null;
+  strict?: boolean | null;
+  min?: string | null;
+  max?: string | null;
+  minYear?: number | null;
+  maxYear?: number | null;
+  rowHeader?: boolean | null;
   actions?: {
     scrollTo: (value: string, shift?: number) => void;
   };

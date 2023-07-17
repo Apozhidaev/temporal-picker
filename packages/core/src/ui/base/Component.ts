@@ -1,6 +1,6 @@
 import { shallowEqual } from "./utils";
 
-export type Context = { customLayout?: boolean };
+export type Context = { customLayout?: boolean | null };
 
 export abstract class Component<P, C extends Context = Context> {
   abstract get type(): string;
