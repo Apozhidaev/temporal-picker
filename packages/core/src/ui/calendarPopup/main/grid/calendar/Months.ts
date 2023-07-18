@@ -6,7 +6,7 @@ import { PopupContext } from "../../../types";
 
 type Props = {
   entry: string;
-  picked: (string | undefined)[];
+  picked: string[];
   action?: string;
 };
 

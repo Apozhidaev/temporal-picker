@@ -3,6 +3,7 @@ import { TemporalPreset } from "../temporal-preset";
 import { PopupElement } from "../base/PopupElement";
 import { styles } from "./styles";
 import { PlainInstant, RangeInstant } from "../../types";
+import { camelCase } from "../../utils";
 
 export class TemporalPopup extends PopupElement {
   static elementName = "temporal-popup";
@@ -29,10 +30,12 @@ export class TemporalPopup extends PopupElement {
       "strict",
       "reselect",
       "row-header",
+      "pick-label",
       "pick-hover",
     ];
   }
 
+  public picker?: HTMLElement;
   private container: HTMLElement;
   private datePopup?: DatePopup;
   private rangePopup?: RangePopup;
@@ -60,7 +63,7 @@ export class TemporalPopup extends PopupElement {
   }
 
   protected componentDidLoad() {
-    const host = this;
+    const host = this.picker || this;
     const container = this.container;
     container.addEventListener("t-close", () => {
       this.dispatchClose();
@@ -92,6 +95,7 @@ export class TemporalPopup extends PopupElement {
             strict: this.strict,
             reselect: this.reselect,
             rowHeader: this.rowHeader,
+            pickLabel: this.pickLabel,
             pickHover: this.pickHover,
             values: [this.start, this.end],
           },
@@ -132,6 +136,7 @@ export class TemporalPopup extends PopupElement {
             localeClear: this.localeClear,
             firstDay: this.firstDay,
             rowHeader: this.rowHeader,
+            pickLabel: this.pickLabel,
             values: [this.value],
           },
           container,
@@ -157,27 +162,30 @@ export class TemporalPopup extends PopupElement {
       case "plain":
       case "min":
       case "max":
-      case "autoApply":
-      case "resetButton":
-      case "extraSelect":
-      case "presetPosition":
+      case "auto-apply":
+      case "reset-button":
+      case "extra-select":
+      case "preset-position":
       case "tooltip":
-      case "customLayout":
-      case "firstDay":
+      case "custom-layout":
+      case "first-day":
       case "strict":
       case "reselect":
       case "locale":
-      case "localeClear":
-      case "localeApply":
-      case "localeCancel":
-      case "rowHeader":
-      case "pickHover":
+      case "locale-clear":
+      case "locale-apply":
+      case "locale-cancel":
+      case "row-header":
+      case "pick-label":
+      case "pick-hover": {
+        const propName = camelCase(name);
         if (this.type === "range") {
-          this.rangePopup?.setOptions({ [name]: this[name] });
+          this.rangePopup?.setOptions({ [propName]: this[propName] });
         } else {
-          this.datePopup?.setOptions({ [name]: this[name] });
+          this.datePopup?.setOptions({ [propName]: this[propName] });
         }
         break;
+      }
 
       case "value":
         if (this.datePopup) {

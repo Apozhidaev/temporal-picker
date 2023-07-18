@@ -15,23 +15,14 @@
   --color-btn-primary-hover-border: var(--t-popup-color-btn-primary-hover-border, #2c67cd);
   --color-btn-primary-disabled-bg: var(--t-popup-color-btn-primary-disabled-bg, #80aff8);
   --color-btn-primary-disabled-fg: var(--t-popup-color-btn-primary-disabled-fg, #fff);
-  --color-btn-primary-disabled-border: var(
-    --t-popup-color-btn-primary-disabled-border,
-    #80aff8
-  );
+  --color-btn-primary-disabled-border: var(--t-popup-color-btn-primary-disabled-border, #80aff8);
   --color-btn-secondary-bg: var(--t-popup-color-btn-secondary-bg, #fff);
   --color-btn-secondary-fg: var(--t-popup-color-btn-secondary-fg, #475569);
   --color-btn-secondary-border: var(--t-popup-color-btn-secondary-border, #cbd5e1);
   --color-btn-secondary-hover-bg: var(--t-popup-color-btn-secondary-hover-bg, #f8fafc);
   --color-btn-secondary-hover-fg: var(--t-popup-color-btn-secondary-hover-fg, #475569);
-  --color-btn-secondary-hover-border: var(
-    --t-popup-color-btn-secondary-hover-border,
-    #cbd5e1
-  );
-  --color-btn-secondary-disabled-bg: var(
-    --t-popup-color-btn-secondary-disabled-bg,
-    #cbd5e1
-  );
+  --color-btn-secondary-hover-border: var(--t-popup-color-btn-secondary-hover-border, #cbd5e1);
+  --color-btn-secondary-disabled-bg: var(--t-popup-color-btn-secondary-disabled-bg, #cbd5e1);
   --color-btn-secondary-disabled-fg: var(--t-popup-color-btn-secondary-disabled-fg, #fff);
   --color-btn-secondary-disabled-border: var(
     --t-popup-color-btn-secondary-disabled-border,
@@ -42,7 +33,7 @@
   --day-width: var(--t-popup-day-width, 43px);
   --day-height: var(--t-popup-day-height, 37px);
   --month-width: var(--t-popup-month-width, 75px);
-  --month-height: var(--t-popup-month-height, 35px);
+  --month-height: var(--t-popup-month-height, 37px);
   --border-radius: var(--t-popup-border-radius, 2px);
   --primary-color: var(--t-popup-primary-color, #2e6fda);
   --secondary-color: var(--t-popup-secondary-color, #64748b);
@@ -61,4 +52,5 @@
   --color-bg-inrange: var(--t-popup-color-bg-inrange, #e6effe);
   --color-bg-tooltip: var(--t-popup-color-bg-tooltip, #fff);
   --color-fg-tooltip: var(--t-popup-color-fg-tooltip, #1e293b);
+  --color-bg-inrange-inf: var(--t-popup-color-bg-inrange-inf, #f2f6fe);
 }

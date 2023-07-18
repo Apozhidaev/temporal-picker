@@ -41,6 +41,9 @@
   background-color: var(--color-bg-inrange);
   border-radius: 0;
 }
+.container.range .calendar > .days-grid > .day.in-range.in-range-inf {
+  background-color: var(--color-bg-inrange-inf);
+}
 .container.range .calendar > .days-grid > .day.end,
 .container.range .calendar > .days-grid > .day.start {
   background-color: var(--color-fg-primary);

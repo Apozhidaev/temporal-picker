@@ -2,14 +2,14 @@ import { DateTime } from "luxon";
 import { PlainType } from "../types";
 import { t } from "../utils";
 
-function sortPicked(picked: (string | undefined)[]) {
+function sortPicked(picked: string[]) {
   var n = picked.length;
   for (let i = 0, l = n - 1; i < l; i++) {
     let min = picked[i];
-    if (min === undefined) continue;
+    if (!min) continue;
     for (let j = i + 1; j < n; j++) {
       const current = picked[j];
-      if (current === undefined) continue;
+      if (!current) continue;
       if (current < min) {
         picked[j] = min;
         picked[i] = current;
@@ -22,7 +22,7 @@ function sortPicked(picked: (string | undefined)[]) {
 
 export class Picker {
   public entry!: string;
-  private picked: (string | undefined)[];
+  private picked: string[];
   public index: number = 0;
 
   constructor(
@@ -30,7 +30,7 @@ export class Picker {
     public strict: boolean,
     public reselect: boolean,
     pickCount: 1 | 2,
-    values?: (string | undefined)[],
+    values?: string[],
     index = 0
   ) {
     this.picked = new Array(pickCount);
@@ -49,7 +49,7 @@ export class Picker {
   public select(instant: string, initialIndex = 0) {
     if (this.picked.length > 1) {
       if (this.isFilled() && !this.reselect) {
-        this.picked.fill(undefined);
+        this.picked.fill('');
       }
       if (this.isEmpty()) {
         this.index = initialIndex;
@@ -60,10 +60,10 @@ export class Picker {
     this.index = this.nextIndex();
   }
 
-  public setValues(values: (string | undefined)[], index = this.index) {
+  public setValues(values: string[], index = this.index) {
     for (let i = 0; i < this.picked.length; i++) {
       const value = values[i];
-      this.picked[i] = value ? t(this.plain).instant(value) : undefined;
+      this.picked[i] = value ? t(this.plain).instant(value) : '';
     }
     this.sort();
     this.setIndex(index);
@@ -79,7 +79,7 @@ export class Picker {
 
   public reset() {
     this.index = 0; // todo
-    this.picked.fill(undefined);
+    this.picked.fill('');
     this.autoScroll();
   }
 

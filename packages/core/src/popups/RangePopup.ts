@@ -36,6 +36,7 @@ export class RangePopup extends CalendarPopup {
       grid: 2,
       calendars: 2,
       rowHeader: options.rowHeader ?? options.plain === "month",
+      pickLabel: options.pickLabel,
       plain: options.plain,
       firstDay: options.firstDay ?? defaults.firstDay,
       locale: options.locale ?? defaults.locale,
@@ -84,6 +85,7 @@ export class RangePopup extends CalendarPopup {
       grid: 2,
       calendars: 2,
       rowHeader: options.rowHeader ?? this.ui.context.rowHeader,
+      pickLabel: options.rowHeader ?? this.ui.context.pickLabel,
       plain: options.plain ?? this.ui.context.plain,
       firstDay: options.firstDay ?? this.ui.context.firstDay,
       locale: options.locale ?? this.ui.context.locale,
@@ -185,7 +187,7 @@ export class RangePopup extends CalendarPopup {
     if (this.isPresetButton(element)) {
       const { start, end } = element.dataset;
 
-      this.picker.setValues([start, end]);
+      this.picker.setValues([start || '', end || '']);
 
       if (this.ui.context.autoApply) {
         this.dispatchSelect();

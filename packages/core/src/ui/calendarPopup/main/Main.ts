@@ -5,7 +5,7 @@ import { Presets } from "./Presets";
 
 type Props = {
   entry: string;
-  picked: (string | undefined)[];
+  picked: string[];
 };
 
 export class Main extends Control<Props, PopupContext> {

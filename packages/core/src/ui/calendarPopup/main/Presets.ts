@@ -4,7 +4,7 @@ import { PopupContext } from "../types";
 import { t } from "../../../utils";
 
 type Props = {
-  picked: (string | undefined)[];
+  picked: string[];
 };
 
 export class Presets extends Control<Props, PopupContext> {

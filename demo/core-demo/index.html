@@ -8,12 +8,21 @@
     />
     <title>Temporal Picker</title>
     <link href="./root.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/core.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/extra-options.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/keyboard.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/lock.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/range.css" rel="stylesheet" />
-    <link href="../../packages/custom-elements/src/components/temporal-popup/css/preset.css" rel="stylesheet" />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/core.css" rel="stylesheet" />
+    <link
+      href="../../packages/custom/src/elements/temporal-popup/css/extra-options.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../packages/custom/src/elements/temporal-popup/css/keyboard.css"
+      rel="stylesheet"
+    />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/lock.css" rel="stylesheet" />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/range.css" rel="stylesheet" />
+    <link
+      href="../../packages/custom/src/elements/temporal-popup/css/preset.css"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
@@ -25,10 +34,11 @@
       import { DatePopup, RangePopup } from "../../packages/core/dist/index.js";
       new DatePopup(
         {
-          plain: "month",
+          // plain: "month",
           // extraSelect: true,
           // rowHeader: true,
           resetButton: false,
+          autoApply: false,
         },
         document.getElementById("date")
       );
@@ -37,13 +47,20 @@
       const range = new RangePopup(
         {
           // plain: "month",
+          // plain: "month",
           // extraSelect: true,
           // tooltip: false,
           // reselect: true,
-          // strict: false,
-          // autoApply: false,
+          strict: false,
+          autoApply: false,
           // rowHeader: true,
           // pickHover: false,
+          pickLabel: true,
+          // presetPosition: 'left',
+          // presets: [
+          //   { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
+          //   { label: "Preset 2", end: "2023-01-01" },
+          // ],
         },
         document.getElementById("range")
       );

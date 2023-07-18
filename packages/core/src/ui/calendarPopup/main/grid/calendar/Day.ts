@@ -5,7 +5,7 @@ import { t } from "../../../../../utils";
 
 type Props = {
   day: string;
-  picked: (string | undefined)[];
+  picked: string[];
 };
 
 export class Day extends Control<Props, PopupContext> {
@@ -80,11 +80,11 @@ export class Day extends Control<Props, PopupContext> {
         } else if (!strict) {
           if (start) {
             if (instant > start) {
-              el.classList.add("in-range");
+              el.classList.add("in-range", "in-range-inf");
             }
           } else if (end) {
             if (instant < end) {
-              el.classList.add("in-range");
+              el.classList.add("in-range", "in-range-inf");
             }
           }
         }

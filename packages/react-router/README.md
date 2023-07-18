@@ -64,6 +64,7 @@ export type PickerProps = {
   localeCancel?: string;
   localeClear?: string;
   rowHeader?: boolean;
+  pickLabel?: boolean;
   testId?: string;
   onViewChange?: (event: CustomEvent<ViewDetail>) => void;
 };
@@ -105,6 +106,7 @@ export type RangePickerProps = PickerProps & {
   --t-popup-color-bg-locked: #ffab91;
   --t-popup-color-bg-unavailable: #f9f9f9;
   --t-popup-color-bg-inrange: #e6effe;
+  --t-popup-color-bg-inrange-inf: #f2f6fe;
   --t-popup-color-bg-tooltip: #fff;
   --t-popup-color-fg-tooltip: #1e293b;
   --t-popup-color-btn-primary-bg: #2e6fda;

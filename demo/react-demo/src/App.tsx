@@ -30,9 +30,10 @@ function App() {
               }}
               customLayout
               placement="bottom-end"
-              autoApply
+              autoApply={false}
               resetButton
               extraSelect
+              pickLabel
               presets={[
                 { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
                 { label: "Preset 2", end: "2023-01-01" },

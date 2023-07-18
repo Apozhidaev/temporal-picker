@@ -10,10 +10,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("auto-apply");
   }
   set autoApply(value: boolean | null) {
-    if (value) {
-      this.setAttribute("auto-apply", "");
-    } else {
-      this.removeAttribute("auto-apply");
+    switch (value) {
+      case true:
+        this.setAttribute("auto-apply", "");
+        break;
+      case false:
+        this.setAttribute("auto-apply", "false");
+        break;
+      default:
+        this.removeAttribute("auto-apply");
+        break;
     }
   }
 
@@ -21,10 +27,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("reset-button");
   }
   set resetButton(value: boolean | null) {
-    if (value) {
-      this.setAttribute("reset-button", "");
-    } else {
-      this.removeAttribute("reset-button");
+    switch (value) {
+      case true:
+        this.setAttribute("reset-button", "");
+        break;
+      case false:
+        this.setAttribute("reset-button", "false");
+        break;
+      default:
+        this.removeAttribute("reset-button");
+        break;
     }
   }
 
@@ -32,10 +44,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("extra-select");
   }
   set extraSelect(value: boolean | null) {
-    if (value) {
-      this.setAttribute("extra-select", "");
-    } else {
-      this.removeAttribute("extra-select");
+    switch (value) {
+      case true:
+        this.setAttribute("extra-select", "");
+        break;
+      case false:
+        this.setAttribute("extra-select", "false");
+        break;
+      default:
+        this.removeAttribute("extra-select");
+        break;
     }
   }
 
@@ -54,10 +72,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("tooltip");
   }
   set tooltip(value: boolean | null) {
-    if (value) {
-      this.setAttribute("tooltip", "");
-    } else {
-      this.removeAttribute("tooltip");
+    switch (value) {
+      case true:
+        this.setAttribute("tooltip", "");
+        break;
+      case false:
+        this.setAttribute("tooltip", "false");
+        break;
+      default:
+        this.removeAttribute("tooltip");
+        break;
     }
   }
 
@@ -65,10 +89,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("custom-layout");
   }
   set customLayout(value: boolean | null) {
-    if (value) {
-      this.setAttribute("custom-layout", "");
-    } else {
-      this.removeAttribute("custom-layout");
+    switch (value) {
+      case true:
+        this.setAttribute("custom-layout", "");
+        break;
+      case false:
+        this.setAttribute("custom-layout", "false");
+        break;
+      default:
+        this.removeAttribute("custom-layout");
+        break;
     }
   }
 
@@ -120,10 +150,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("strict");
   }
   set strict(value: boolean | null) {
-    if (value) {
-      this.setAttribute("strict", "");
-    } else {
-      this.removeAttribute("strict");
+    switch (value) {
+      case true:
+        this.setAttribute("strict", "");
+        break;
+      case false:
+        this.setAttribute("strict", "false");
+        break;
+      default:
+        this.removeAttribute("strict");
+        break;
     }
   }
 
@@ -131,10 +167,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("reselect");
   }
   set reselect(value: boolean | null) {
-    if (value) {
-      this.setAttribute("reselect", "");
-    } else {
-      this.removeAttribute("reselect");
+    switch (value) {
+      case true:
+        this.setAttribute("reselect", "");
+        break;
+      case false:
+        this.setAttribute("reselect", "false");
+        break;
+      default:
+        this.removeAttribute("reselect");
+        break;
     }
   }
 
@@ -142,10 +184,33 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("row-header");
   }
   set rowHeader(value: boolean | null) {
-    if (value) {
-      this.setAttribute("row-header", "");
-    } else {
-      this.removeAttribute("row-header");
+    switch (value) {
+      case true:
+        this.setAttribute("row-header", "");
+        break;
+      case false:
+        this.setAttribute("row-header", "false");
+        break;
+      default:
+        this.removeAttribute("row-header");
+        break;
+    }
+  }
+
+  get pickLabel() {
+    return this.getBooleanAttribute("pick-label");
+  }
+  set pickLabel(value: boolean | null) {
+    switch (value) {
+      case true:
+        this.setAttribute("pick-label", "");
+        break;
+      case false:
+        this.setAttribute("pick-label", "false");
+        break;
+      default:
+        this.removeAttribute("pick-label");
+        break;
     }
   }
 
@@ -153,10 +218,16 @@ export class PopupElement extends TemporalElement {
     return this.getBooleanAttribute("pick-hover");
   }
   set pickHover(value: boolean | null) {
-    if (value) {
-      this.setAttribute("pick-hover", "");
-    } else {
-      this.removeAttribute("pick-hover");
+    switch (value) {
+      case true:
+        this.setAttribute("pick-hover", "");
+        break;
+      case false:
+        this.setAttribute("pick-hover", "false");
+        break;
+      default:
+        this.removeAttribute("pick-hover");
+        break;
     }
   }
 }

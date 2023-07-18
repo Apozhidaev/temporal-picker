@@ -62,4 +62,5 @@
   --color-bg-inrange: var(--t-popup-color-bg-inrange, #e6effe);
   --color-bg-tooltip: var(--t-popup-color-bg-tooltip, #fff);
   --color-fg-tooltip: var(--t-popup-color-fg-tooltip, #1e293b);
+  --color-bg-inrange-inf: var(--t-popup-color-bg-inrange-inf, #f2f6fe);
 }

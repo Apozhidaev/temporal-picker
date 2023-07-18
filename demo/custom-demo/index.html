@@ -8,28 +8,19 @@
     />
     <title>Temporal Picker</title>
     <link href="./root.css" rel="stylesheet" />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/core.css" rel="stylesheet" />
     <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/core.css"
+      href="../../packages/custom/src/elements/temporal-popup/css/extra-options.css"
       rel="stylesheet"
     />
     <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/extra-options.css"
+      href="../../packages/custom/src/elements/temporal-popup/css/keyboard.css"
       rel="stylesheet"
     />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/lock.css" rel="stylesheet" />
+    <link href="../../packages/custom/src/elements/temporal-popup/css/range.css" rel="stylesheet" />
     <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/keyboard.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/lock.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/range.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../../packages/custom-elements/src/components/temporal-popup/css/preset.css"
+      href="../../packages/custom/src/elements/temporal-popup/css/preset.css"
       rel="stylesheet"
     />
     <style>
@@ -68,7 +59,6 @@
 
   <body>
     <div style="display: flex; gap: 24px; align-items: flex-start">
-      
       <temporal-input presentation="button"></temporal-input>
       <temporal-input></temporal-input>
       <temporal-input type="range"></temporal-input>
@@ -81,7 +71,10 @@
       <label for="bb">label</label>
       <temporal-picker id="bb" picker="button"></temporal-picker>
       <temporal-picker></temporal-picker>
-      <temporal-picker type="range" locale="ru-RU"></temporal-picker>
+      <temporal-picker type="range" locale="ru-RU" auto-apply="false" pick-label="true">
+        <temporal-preset label="Preset 1" start="2023-01-01"></temporal-preset>
+        <temporal-preset label="Preset 2" end="2023-06-01"></temporal-preset>
+      </temporal-picker>
     </div>
     <script type="module">
       import { defineCustomElements } from "../../packages/custom/dist/index.js";

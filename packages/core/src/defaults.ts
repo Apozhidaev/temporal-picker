@@ -2,7 +2,7 @@ export default {
   locale: "en-US",
   firstDay: 1,
   autoApply: true,
-  resetButton: false,
+  resetButton: true,
   tooltip: true,
   strict: true,
   reselect: false,

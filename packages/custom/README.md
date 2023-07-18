@@ -18,10 +18,10 @@ defineCustomElements();
 Step 3.
 ```html
 <style>
-  temporal-picker::part(start-input) {
-    color: red;
+  :root {
+    --t-input-color-fg-invalid: red;
   }
-  temporal-picker::part(end-input) {
+  temporal-picker::part(separator) {
     color: blue;
   }
 </style>
@@ -73,6 +73,7 @@ Step 3.
 | `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `rowHeader`      | `row-header`      |                               | `boolean`                                            | `undefined` |
+| `pickLabel`      | `pick-label`      |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
 | `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
@@ -116,6 +117,7 @@ Step 3.
   --t-popup-color-bg-locked: #ffab91;
   --t-popup-color-bg-unavailable: #f9f9f9;
   --t-popup-color-bg-inrange: #e6effe;
+  --t-popup-color-bg-inrange-inf: #f2f6fe;
   --t-popup-color-bg-tooltip: #fff;
   --t-popup-color-fg-tooltip: #1e293b;
   --t-popup-color-btn-primary-bg: #2e6fda;

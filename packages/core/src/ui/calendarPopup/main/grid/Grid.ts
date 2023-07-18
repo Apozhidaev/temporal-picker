@@ -5,7 +5,7 @@ import { PopupContext } from "../../types";
 
 type Props = {
   entry: string;
-  picked: (string | undefined)[];
+  picked: string[];
 };
 
 export class Grid extends Control<Props, PopupContext> {

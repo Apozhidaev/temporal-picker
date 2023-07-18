@@ -22,6 +22,7 @@ export type PopupOptions = {
   firstDay?: number | null;
   customLayout?: boolean | null;
   rowHeader?: boolean | null;
+  pickLabel?: boolean | null;
 };
 
 export abstract class CalendarPopup {
@@ -218,7 +219,7 @@ export abstract class CalendarPopup {
     );
   }
 
-  protected dispatchPreselect(values?: (string | undefined)[]) {
+  protected dispatchPreselect() {
     this.element.dispatchEvent(
       new CustomEvent("t-pre-select", {
         detail: {

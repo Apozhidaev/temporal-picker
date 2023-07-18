@@ -1,8 +1,8 @@
 import { memo, useRef, forwardRef, useImperativeHandle } from "react";
-import useEvent from "react-use-event-hook";
 import { useSearchParams } from "react-router-dom";
-import { t } from "@temporal-picker/core";
 import {
+  t,
+  useEvent,
   RangePicker as TemporalPicker,
   RangePickerProps as TemporalPickerProps,
   HTMLTemporalPickerElement,
@@ -29,7 +29,9 @@ export const RangePicker = memo(
     const defaultPlainStart = t(props.plain).normalize(defaultStart);
     const defaultPlainEnd = t(props.plain).normalize(defaultEnd);
 
-    const startValue = searchParams.has(startParam) ? searchParams.get(startParam) : defaultPlainStart;
+    const startValue = searchParams.has(startParam)
+      ? searchParams.get(startParam)
+      : defaultPlainStart;
     const endValue = searchParams.has(endParam) ? searchParams.get(endParam) : defaultPlainEnd;
 
     const handleRangeChange = useEvent((start, end) => {
@@ -50,8 +52,8 @@ export const RangePicker = memo(
       <TemporalPicker
         {...pickerProps}
         ref={inputRef}
-        start={startValue || undefined}
-        end={endValue || undefined}
+        start={startValue || ""}
+        end={endValue || ""}
         onRangeChange={handleRangeChange}
         aria-selected={
           "aria-selected" in pickerProps

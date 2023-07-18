@@ -66,6 +66,13 @@
   color: var(--color-btn-secondary-disabled-fg);
   cursor: default;
 }
+.container > footer .footer-buttons > .pick-label {
+  color: var(--color-btn-secondary-fg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5em;
+}
 .grid-1 {
   grid-template-columns: repeat(1, 1fr);
 }

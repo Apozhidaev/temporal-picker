@@ -49,8 +49,8 @@ function instant(this: ThisType, value: string) {
   return this.toInstant(DateTime.fromISO(value));
 }
 
-function normalize(this: ThisType, value: string | undefined) {
-  return value ? this.instant(value) : undefined;
+function normalize(this: ThisType, value: string | undefined | null) {
+  return value ? this.instant(value) : "";
 }
 
 function startOf(this: ThisType, instant: string, shift = 0) {
@@ -107,10 +107,44 @@ function sameRanges(
 
 function display(this: ThisType, value: string, locale: string) {
   const dt = DateTime.fromISO(value).setLocale(locale);
-  if (this.plain === "month") {
-    return dt.toFormat("LLLL yyyy");
+
+  switch (this.plain) {
+    case "month":
+      return dt.toFormat("LLLL yyyy");
+    case "datetime":
+      return dt.toFormat(`dd LLL yyyy HH:mm`);
+    case "time":
+      return dt.toFormat("HH:mm");
+
+    default:
+      return dt.toFormat("dd LLL yyyy");
   }
-  return dt.toLocaleString();
+
+  // if (this.plain === "month") {
+  //   return dt.toFormat("LLLL yyyy");
+  // }
+  // return dt.toLocaleString();
+}
+
+function label(this: ThisType, values: string[], locale: string) {
+  if (values.length > 1) {
+    const [start] = values;
+    const end = values.at(-1)
+    if (start && end) {
+      return `${this.display(start, locale)} — ${this.display(end, locale)}`;
+    }
+    if (start) {
+      return `≥ ${this.display(start, locale)}`;
+    }
+    if (end) {
+      return `≤ ${this.display(end, locale)}`;
+    }
+  }
+  const [value] = values;
+  if (value) {
+    return this.display(value, locale);
+  }
+  return "";
 }
 
 export function t(plain?: PlainType) {
@@ -132,6 +166,7 @@ export function t(plain?: PlainType) {
     sameRanges,
     display,
     weekTitle,
+    label,
   };
 }
 

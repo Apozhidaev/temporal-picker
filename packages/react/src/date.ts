@@ -1,6 +1,7 @@
 import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
-import useEvent from "react-use-event-hook";
+import { toKebabCase } from "@temporal-picker/custom";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
+import { useEvent } from "./hooks";
 
 export type DatePickerProps = Omit<
   TemporalPickerProps,
@@ -17,23 +18,7 @@ export const DatePicker = memo(
     const pickerRef = useRef<HTMLTemporalPickerElement>(null);
     useImperativeHandle(ref, () => pickerRef.current!);
 
-    const {
-      autoApply,
-      resetButton,
-      extraSelect,
-      firstDay,
-      customLayout,
-      localeApply,
-      localeCancel,
-      localeClear,
-      rowHeader,
-      pickHover,
-      testId,
-      className,
-      onValueChange,
-      onViewChange,
-      ...pickerProps
-    } = props;
+    const { customLayout, testId, className, onValueChange, onViewChange, ...pickerProps } = props;
 
     const handleValueChange = useEvent((event) => {
       onValueChange?.(event.detail.value);
@@ -76,18 +61,9 @@ export const DatePicker = memo(
     }, [customLayout]);
 
     return createElement("temporal-picker", {
-      ...pickerProps,
+      ...toKebabCase(pickerProps),
       class: className,
-      "auto-apply": autoApply,
-      "reset-button": resetButton,
-      "extra-select": extraSelect,
-      "first-day": firstDay,
       "custom-layout": customLayout,
-      "locale-apply": localeApply,
-      "locale-cancel": localeCancel,
-      "locale-clear": localeClear,
-      "row-header": rowHeader,
-      "pick-hover": pickHover,
       "data-testid": testId,
       ref: pickerRef,
     });

@@ -1,6 +1,7 @@
 import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
-import useEvent from "react-use-event-hook";
+import { toKebabCase } from "@temporal-picker/custom";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
+import { useEvent } from "./hooks";
 
 export type RangePreset = {
   label: string;
@@ -23,17 +24,7 @@ export const RangePicker = memo(
 
     const {
       presets,
-      autoApply,
-      resetButton,
-      extraSelect,
-      presetPosition,
-      firstDay,
       customLayout,
-      localeApply,
-      localeCancel,
-      localeClear,
-      rowHeader,
-      pickHover,
       testId,
       className,
       onRangeChange,
@@ -85,19 +76,9 @@ export const RangePicker = memo(
     return createElement(
       "temporal-picker",
       {
-        ...pickerProps,
+        ...toKebabCase(pickerProps),
         class: className,
-        "auto-apply": autoApply,
-        "reset-button": resetButton,
-        "extra-select": extraSelect,
-        "preset-position": presetPosition,
-        "first-day": firstDay,
         "custom-layout": customLayout,
-        "locale-apply": localeApply,
-        "locale-cancel": localeCancel,
-        "locale-clear": localeClear,
-        "row-header": rowHeader,
-        "pick-hover": pickHover,
         "data-testid": testId,
         type: "range",
         ref: pickerRef,

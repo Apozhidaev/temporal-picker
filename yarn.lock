@@ -920,6 +920,13 @@
   dependencies:
     luxon "^3.3.0"
 
+"@temporal-picker/core@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/core/-/core-0.0.9.tgz#e81a5c3709f74a8d20999fe2cdce5c93b6564d72"
+  integrity sha512-7wjpB7zED5pT9WreHPP52eHA/Jo2LK07UmkAXFp7q+W2LOS2ltgy3cp4/4tlOFRX2y23rLB0NF0Qw1ADrq9iaA==
+  dependencies:
+    luxon "^3.3.0"
+
 "@temporal-picker/custom-elements@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@temporal-picker/custom-elements/-/custom-elements-0.0.3.tgz#b4ea2e3d50fc799c9020fd5bb389ba3c8205b578"

@@ -4,6 +4,7 @@ import { TemporalInput } from "../temporal-input";
 import { TemporalPopup } from "../temporal-popup";
 import { styles } from "./styles";
 import { PlainInstant, RangeInstant } from "../../types";
+import { camelCase } from "../../utils";
 
 export class TemporalPicker extends PickerElement {
   static elementName = "temporal-picker";
@@ -36,6 +37,7 @@ export class TemporalPicker extends PickerElement {
       "strict",
       "reselect",
       "row-header",
+      "pick-label",
       "pick-hover",
     ];
   }
@@ -177,6 +179,7 @@ export class TemporalPicker extends PickerElement {
 
   private getPopup() {
     const popup = new TemporalPopup();
+    popup.picker = this;
     popup.type = this.type;
     popup.plain = this.plain;
     popup.value = this.value;
@@ -198,6 +201,7 @@ export class TemporalPicker extends PickerElement {
     popup.strict = this.strict;
     popup.reselect = this.reselect;
     popup.rowHeader = this.rowHeader;
+    popup.pickLabel = this.pickLabel;
     popup.pickHover = this.pickHover;
 
     popup.addEventListener("t-value-change", (e: any) => {
@@ -243,28 +247,6 @@ export class TemporalPicker extends PickerElement {
         this.input.native =
           this.native || this.plain === "datetime" || this.plain === "time" || this.plain === "day";
         break;
-      case "autoApply":
-      case "resetButton":
-      case "extraSelect":
-      case "tooltip":
-      case "customLayout":
-      case "strict":
-      case "reselect":
-      case "rowHeader":
-      case "pickHover":
-        this.popup[name] = this[name];
-        break;
-      case "firstDay":
-        this.popup[name] = this[name];
-        break;
-      case "localeClear":
-      case "localeApply":
-      case "localeCancel":
-        this.popup[name] = this[name];
-        break;
-      case "presetPosition":
-        this.popup[name] = this[name];
-        break;
       case "value":
         this.input[name] = this[name];
         this.popup[name] = this[name];
@@ -282,6 +264,25 @@ export class TemporalPicker extends PickerElement {
         } else {
           this._internals.setFormValue(null);
         }
+        break;
+      }
+      case "auto-apply":
+      case "reset-button":
+      case "extra-select":
+      case "tooltip":
+      case "custom-layout":
+      case "strict":
+      case "reselect":
+      case "row-header":
+      case "pick-label":
+      case "pick-hover":
+      case "first-day":
+      case "locale-clear":
+      case "locale-apply":
+      case "locale-cancel":
+      case "preset-position": {
+        const propName = camelCase(name);
+        this.popup[propName] = this[propName] as null;
         break;
       }
 

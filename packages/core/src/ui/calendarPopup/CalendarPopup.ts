@@ -6,7 +6,7 @@ import { PopupContext } from "./types";
 
 type Props = {
   entry: string;
-  picked: (string | undefined)[];
+  picked: string[];
   isValid: boolean;
 };
 
@@ -45,6 +45,7 @@ export class CalendarPopup extends Container<Props, PopupContext> {
 
     if (!this.context.autoApply) {
       this.footer.render(el, {
+        picked: props.picked,
         isValid: props.isValid,
       });
     }
@@ -57,6 +58,7 @@ export class CalendarPopup extends Container<Props, PopupContext> {
     });
     if (!this.context.autoApply) {
       this.footer.update({
+        picked: props.picked,
         isValid: props.isValid,
       });
     }

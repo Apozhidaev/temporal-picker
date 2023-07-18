@@ -10,7 +10,7 @@ function calcOffsetDays(date: DateTime, firstDay: number): number {
 
 type Props = {
   entry: string;
-  picked: (string | undefined)[];
+  picked: string[];
 };
 
 export class Days extends Control<Props, PopupContext> {
