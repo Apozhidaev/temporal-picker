@@ -23,6 +23,7 @@ export const RangePicker = memo(
     useImperativeHandle(ref, () => pickerRef.current!);
 
     const {
+      disabled,
       presets,
       customLayout,
       testId,
@@ -77,6 +78,7 @@ export const RangePicker = memo(
       "temporal-picker",
       {
         ...toKebabCase(pickerProps),
+        ...(disabled ? { disabled: "" } : {}),
         class: className,
         "custom-layout": customLayout,
         "data-testid": testId,

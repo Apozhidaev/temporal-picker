@@ -18,7 +18,15 @@ export const DatePicker = memo(
     const pickerRef = useRef<HTMLTemporalPickerElement>(null);
     useImperativeHandle(ref, () => pickerRef.current!);
 
-    const { customLayout, testId, className, onValueChange, onViewChange, ...pickerProps } = props;
+    const {
+      disabled,
+      customLayout,
+      testId,
+      className,
+      onValueChange,
+      onViewChange,
+      ...pickerProps
+    } = props;
 
     const handleValueChange = useEvent((event) => {
       onValueChange?.(event.detail.value);
@@ -62,6 +70,7 @@ export const DatePicker = memo(
 
     return createElement("temporal-picker", {
       ...toKebabCase(pickerProps),
+      ...(disabled ? { disabled: "" } : {}),
       class: className,
       "custom-layout": customLayout,
       "data-testid": testId,

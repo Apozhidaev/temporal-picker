@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/react-router",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -33,7 +33,7 @@
     "react-router-dom": ">=6.0.0"
   },
   "dependencies": {
-    "@temporal-picker/react": "^0.0.17"
+    "@temporal-picker/react": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
