@@ -62,7 +62,7 @@ export class PopupElement extends TemporalElement {
   }
   set presetPosition(value: PresetPosition | null) {
     if (value) {
-      this.setAttribute("preset-position", "");
+      this.setAttribute("preset-position", value);
     } else {
       this.removeAttribute("preset-position");
     }
@@ -107,7 +107,7 @@ export class PopupElement extends TemporalElement {
   }
   set localeApply(value: string | null) {
     if (value) {
-      this.setAttribute("locale-apply", "");
+      this.setAttribute("locale-apply", value);
     } else {
       this.removeAttribute("locale-apply");
     }
@@ -118,7 +118,7 @@ export class PopupElement extends TemporalElement {
   }
   set localeCancel(value: string | null) {
     if (value) {
-      this.setAttribute("locale-cancel", "");
+      this.setAttribute("locale-cancel", value);
     } else {
       this.removeAttribute("locale-cancel");
     }
@@ -129,7 +129,7 @@ export class PopupElement extends TemporalElement {
   }
   set localeClear(value: string | null) {
     if (value) {
-      this.setAttribute("locale-clear", "");
+      this.setAttribute("locale-clear", value);
     } else {
       this.removeAttribute("locale-clear");
     }
@@ -139,8 +139,8 @@ export class PopupElement extends TemporalElement {
     return this.getNumberAttribute("first-day");
   }
   set firstDay(value: number | null) {
-    if (value) {
-      this.setAttribute("first-day", "");
+    if (typeof value === 'number') {
+      this.setAttribute("first-day", String(value));
     } else {
       this.removeAttribute("first-day");
     }

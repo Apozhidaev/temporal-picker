@@ -28,7 +28,7 @@ export class Main extends Control<Props, PopupContext> {
     this.grid.render(el, props);
 
     if (Array.isArray(presets) && presets.length > 0) {
-      el.classList.add(`preset-${presetPosition || "bottom"}`);
+      el.classList.add(`preset-${presetPosition || "left"}`);
       this.presetsContainer.render(el, { picked: props.picked });
     }
 

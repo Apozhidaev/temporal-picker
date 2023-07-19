@@ -74,13 +74,13 @@ export type PickerProps = {
 
 export type PlainPickerProps = PickerProps & {
   value?: string;
-  onValueChange?: (value?: string) => void;
+  onValueChange?: (value: string) => void;
 };
 
 export type RangePickerProps = PickerProps & {
   start?: string;
   end?: string;
-  onRangeChange?: (start?: string, end?: string) => void;
+  onRangeChange?: (start: string, end: string) => void;
   presets?: {
     label: string;
     start?: string;
