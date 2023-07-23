@@ -1,4 +1,4 @@
-import { TemporalPicker } from "@temporal-picker/custom";
+import { TemporalPicker } from "temporal-picker";
 import { HTMLAttributes } from "react";
 
 type ViewDetail = {

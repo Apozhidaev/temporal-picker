@@ -2,7 +2,7 @@ import { DatePopup, RangePopup } from "@temporal-picker/core";
 import { TemporalPreset } from "../temporal-preset";
 import { PopupElement } from "../base/PopupElement";
 import { styles } from "./styles";
-import { PlainInstant, RangeInstant } from "../../types";
+import { PlainDetail, RangeDetail } from "../../types";
 import { camelCase } from "../../utils";
 
 export class TemporalPopup extends PopupElement {
@@ -225,11 +225,11 @@ export class TemporalPopup extends PopupElement {
     this.dispatchEvent(new CustomEvent("t-close-popup"));
   }
 
-  private dispatchValueChange(detail: PlainInstant) {
-    this.dispatchEvent(new CustomEvent<PlainInstant>("t-value-change", { detail }));
+  private dispatchValueChange(detail: PlainDetail) {
+    this.dispatchEvent(new CustomEvent<PlainDetail>("t-value-change", { detail }));
   }
 
-  private dispatchRangeChange(detail: RangeInstant) {
-    this.dispatchEvent(new CustomEvent<RangeInstant>("t-range-change", { detail }));
+  private dispatchRangeChange(detail: RangeDetail) {
+    this.dispatchEvent(new CustomEvent<RangeDetail>("t-range-change", { detail }));
   }
 }

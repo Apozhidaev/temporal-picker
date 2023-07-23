@@ -1,6 +1,7 @@
 import { PlainType, t } from "@temporal-picker/core";
 import { InputElement } from "../base/InputElement";
 import { styles } from "./styles";
+import { IndexDetail, PlainDetail } from "../../types";
 
 type InputType = "date" | "time" | "datetime-local" | "month" | "text";
 type ChangeType = "t-value-change" | "t-start-change" | "t-end-change";
@@ -40,9 +41,6 @@ function clearButton(button: HTMLButtonElement) {
   }
 }
 
-export type TemporalInputValue = { value: string };
-export type TemporalInputIndex = { index: number };
-
 const maxYear = 9000;
 
 export class TemporalInput extends InputElement {
@@ -80,14 +78,14 @@ export class TemporalInput extends InputElement {
     shadow.appendChild(style);
   }
 
-  private valueChangeHandler(event: TemporalInputValue) {
+  private valueChangeHandler(event: PlainDetail) {
     if (t.invalid(event.value)) {
       return;
     }
     this.dispatchChange("t-value-change", event);
   }
 
-  private startChangeHandler(event: TemporalInputValue) {
+  private startChangeHandler(event: PlainDetail) {
     if (t.invalid(event.value)) {
       return;
     }
@@ -116,7 +114,7 @@ export class TemporalInput extends InputElement {
     }
   }
 
-  private endChangeHandler(event: TemporalInputValue) {
+  private endChangeHandler(event: PlainDetail) {
     if (t.invalid(event.value)) {
       return;
     }
@@ -129,7 +127,7 @@ export class TemporalInput extends InputElement {
     this.dispatchChange("t-end-change", event);
   }
 
-  private openPopupHandler(event: TemporalInputIndex) {
+  private openPopupHandler(event: IndexDetail) {
     if (!this.native) {
       this.dispatchOpen(event);
     }
@@ -354,7 +352,7 @@ export class TemporalInput extends InputElement {
     }
   }
 
-  private dispatchOpen(detail: TemporalInputIndex) {
+  private dispatchOpen(detail: IndexDetail) {
     this.dispatchEvent(new CustomEvent("t-open-popup", { detail }));
   }
 
@@ -362,7 +360,7 @@ export class TemporalInput extends InputElement {
     this.dispatchEvent(new CustomEvent("t-close-popup"));
   }
 
-  private dispatchChange(type: ChangeType, detail: TemporalInputValue) {
+  private dispatchChange(type: ChangeType, detail: PlainDetail) {
     this.dispatchEvent(new CustomEvent(type, { detail }));
   }
 

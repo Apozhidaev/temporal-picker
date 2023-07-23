@@ -3,7 +3,7 @@ import { PickerElement } from "../base/PickerElement";
 import { TemporalInput } from "../temporal-input";
 import { TemporalPopup } from "../temporal-popup";
 import { styles } from "./styles";
-import { PlainInstant, RangeInstant } from "../../types";
+import { PlainDetail, RangeDetail } from "../../types";
 import { camelCase } from "../../utils";
 
 export class TemporalPicker extends PickerElement {
@@ -291,11 +291,11 @@ export class TemporalPicker extends PickerElement {
     }
   }
 
-  private dispatchValueChange(detail: PlainInstant) {
-    this.dispatchEvent(new CustomEvent<PlainInstant>("t-value-change", { detail }));
+  private dispatchValueChange(detail: PlainDetail) {
+    this.dispatchEvent(new CustomEvent<PlainDetail>("t-value-change", { detail }));
   }
 
-  private dispatchRangeChange(detail: RangeInstant) {
-    this.dispatchEvent(new CustomEvent<RangeInstant>("t-range-change", { detail }));
+  private dispatchRangeChange(detail: RangeDetail) {
+    this.dispatchEvent(new CustomEvent<RangeDetail>("t-range-change", { detail }));
   }
 }

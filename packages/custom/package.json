@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/custom",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -20,7 +20,8 @@
     "date",
     "daterange",
     "range",
-    "react"
+    "customElements",
+    "web components"
   ],
   "scripts": {
     "build:ts": "tsc",

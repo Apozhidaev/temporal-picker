@@ -1,5 +1,5 @@
 import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
-import { toKebabCase } from "@temporal-picker/custom";
+import { toKebabCase } from "temporal-picker";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 import { useEvent } from "./hooks";
 

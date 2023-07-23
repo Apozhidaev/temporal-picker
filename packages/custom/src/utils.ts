@@ -32,3 +32,20 @@ export function toKebabCase<T extends Record<string, unknown> = Record<string, u
   });
   return res;
 }
+
+interface TemporalElementConstructor extends CustomElementConstructor {
+  elementName: string;
+}
+
+export const defineCustomElements = (
+  constructors: TemporalElementConstructor[],
+  opts?: ElementDefinitionOptions | undefined
+) => {
+  if (typeof customElements !== "undefined") {
+    constructors.forEach((ctor) => {
+      if (!customElements.get(ctor.elementName)) {
+        customElements.define(ctor.elementName, ctor, opts);
+      }
+    });
+  }
+};

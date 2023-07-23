@@ -4,8 +4,8 @@
 
 ### The supported frameworks are:
 
- - [react](https://www.npmjs.com/package/@temporal-picker/react)
- - [react-router](https://www.npmjs.com/package/@temporal-picker/react-router)
+- [react](https://www.npmjs.com/package/@temporal-picker/react)
+- [react-router](https://www.npmjs.com/package/@temporal-picker/react-router)
 
 ### Screenshots
 
@@ -17,16 +17,21 @@
 ### How to Use
 
 Step 1.
+
 ```bash
 npm i temporal-picker
 ```
 
 Step 2.
+
 ```javascript
-import 'temporal-picker';
+import { define } from "temporal-picker";
+
+define();
 ```
 
 Step 3.
+
 ```html
 <style>
   :root {
@@ -39,25 +44,19 @@ Step 3.
 
 <temporal-picker id="picker"></temporal-picker>
 
-<temporal-picker
-  id="range-picker"
-  type="range"
-  extra-select="true"
-  reset-button="true"
->
+<temporal-picker id="range-picker" type="range" extra-select="true" reset-button="true">
   <temporal-preset label="Preset 1" start="2023-01-01" end="2023-02-15"></temporal-preset>
   <temporal-preset label="Preset 2" start="2023-04-01" end="2023-06-01"></temporal-preset>
 </temporal-picker>
 
 <script>
-  const picker = document.getElementById('picker');
-  picker.addEventListener('t-value-change', e => console.log(e));
+  const picker = document.getElementById("picker");
+  picker.addEventListener("t-value-change", (e) => console.log(e));
 
-  const rangePicker = document.getElementById('range-picker');
-  rangePicker.addEventListener('t-range-change', e => console.log(e));
+  const rangePicker = document.getElementById("range-picker");
+  rangePicker.addEventListener("t-range-change", (e) => console.log(e));
 </script>
 ```
-
 
 ## Properties
 
@@ -91,7 +90,6 @@ Step 3.
 | `type`           | `type`            | The type of picker            | `"plain" \| "range"`                                 | `'plain'`   |
 | `value`          | `value`           | The value of date             | `string`                                             | `undefined` |
 
-
 ## Events
 
 | Event            | Description            | Type                                           |
@@ -103,22 +101,19 @@ Step 3.
 | `t-mount`        |                        |                                                |
 | `t-update`       |                        |                                                |
 
-
-
-
 ## Shadow Parts
 
-| Part                     | Description |
-| ------------------------ | ----------- |
-| `"button"`               |             |
-| `"input"`                |             |
-| `"start-input"`          |             |
-| `"end-input"`            |             |
-| `"separator"`            |             |
-| `"range-wrapper"`        |             |
-
+| Part              | Description |
+| ----------------- | ----------- |
+| `"button"`        |             |
+| `"input"`         |             |
+| `"start-input"`   |             |
+| `"end-input"`     |             |
+| `"separator"`     |             |
+| `"range-wrapper"` |             |
 
 ## Customize
+
 ```css
 :root {
   --t-popup-color-bg-default: #fff;

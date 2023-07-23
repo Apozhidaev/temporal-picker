@@ -1,9 +1,9 @@
-import { defineCustomElements } from "@temporal-picker/custom";
+import { define } from "temporal-picker";
 import { DatePicker } from "./date";
 
-defineCustomElements();
+define();
 
-export { t } from "@temporal-picker/custom";
+export { t } from "temporal-picker";
 
 export * from './types';
 export * from './date';
