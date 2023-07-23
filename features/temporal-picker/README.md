@@ -1,5 +1,18 @@
 # temporal-picker
 
+`Temporal Picker` is a date picker base on ISO date format
+
+### The supported frameworks are:
+
+ - [react](https://www.npmjs.com/package/@temporal-picker/react)
+ - [react-router](https://www.npmjs.com/package/@temporal-picker/react-router)
+
+### Screenshots
+
+![Screenshot1](https://github.com/Apozhidaev/temporal-picker/blob/main/img/Screenshot1.png)
+![Screenshot2](https://github.com/Apozhidaev/temporal-picker/blob/main/img/Screenshot2.png)
+![Screenshot3](https://github.com/Apozhidaev/temporal-picker/blob/main/img/Screenshot3.png)
+![Screenshot4](https://github.com/Apozhidaev/temporal-picker/blob/main/img/Screenshot4.png)
 
 ### How to Use
 
@@ -10,9 +23,7 @@ npm i temporal-picker
 
 Step 2.
 ```javascript
-import { defineCustomElement } from 'temporal-picker';
-
-defineCustomElement();
+import 'temporal-picker';
 ```
 
 Step 3.
@@ -20,6 +31,9 @@ Step 3.
 <style>
   :root {
     --t-input-color-fg-invalid: red;
+  }
+  temporal-picker::part(separator) {
+    color: blue;
   }
 </style>
 
@@ -43,7 +57,6 @@ Step 3.
   rangePicker.addEventListener('t-range-change', e => console.log(e));
 </script>
 ```
-
 
 
 ## Properties
@@ -71,6 +84,7 @@ Step 3.
 | `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `rowHeader`      | `row-header`      |                               | `boolean`                                            | `undefined` |
+| `pickLabel`      | `pick-label`      |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
 | `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
@@ -84,6 +98,11 @@ Step 3.
 | ---------------- | ---------------------- | ---------------------------------------------- |
 | `t-range-change` | The range change event | `CustomEvent<{ start: string; end: string; }>` |
 | `t-value-change` | The value change event | `CustomEvent<{ value: string; }>`              |
+| `t-layout`       |                        |                                                |
+| `t-render`       |                        |                                                |
+| `t-mount`        |                        |                                                |
+| `t-update`       |                        |                                                |
+
 
 
 
@@ -96,7 +115,7 @@ Step 3.
 | `"start-input"`          |             |
 | `"end-input"`            |             |
 | `"separator"`            |             |
-| `"range-items"`          |             |
+| `"range-wrapper"`        |             |
 
 
 ## Customize
@@ -114,6 +133,7 @@ Step 3.
   --t-popup-color-bg-locked: #ffab91;
   --t-popup-color-bg-unavailable: #f9f9f9;
   --t-popup-color-bg-inrange: #e6effe;
+  --t-popup-color-bg-inrange-inf: #f2f6fe;
   --t-popup-color-bg-tooltip: #fff;
   --t-popup-color-fg-tooltip: #1e293b;
   --t-popup-color-btn-primary-bg: #2e6fda;
@@ -150,19 +170,16 @@ Step 3.
   --t-popup-focus-color: #94a3b8;
   --t-popup-select-outline-color: #e5e7eb;
 
-  --t-input-invalid-color: #be123c;
   --t-input-border: 1px solid #e5e7eb;
   --t-input-color: inherit;
   --t-input-font: inherit;
-  --t-input-separator-icon-size: 1em;
-  --t-input-button-icon-size: 1.25em;
-  --t-input-range-items-gap: 0.5em;
   --t-input-px: 0.375em;
   --t-input-py: 0.25em;
+  --t-input-invalid-color: #be123c;
 
-  --t-input-focus-outline: 2px solid #3b82f6;
+  --t-input-button-icon-size: 1.25em;
 
-  --t-input-disabled-bg-color: #f5f5f5;
-  --t-input-disabled-color: #44403c;
+  --t-input-range-wrapper-gap: 1em;
+  --t-input-separator-icon-size: 1em;
 }
 ```

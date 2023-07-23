@@ -1,5 +1,9 @@
 # temporal-popup
 
+### Used by
+
+ - [temporal-picker](https://www.npmjs.com/package/temporal-picker)
+
 
 ## Properties
 
@@ -22,6 +26,7 @@
 | `reselect`       | `reselect`        |                               | `boolean`                                            | `undefined` |
 | `resetButton`    | `reset-button`    |                               | `boolean`                                            | `undefined` |
 | `rowHeader`      | `row-header`      |                               | `boolean`                                            | `undefined` |
+| `pickLabel`      | `pick-label`      |                               | `boolean`                                            | `undefined` |
 | `start`          | `start`           | The start value of date range | `string`                                             | `undefined` |
 | `strict`         | `strict`          |                               | `boolean`                                            | `undefined` |
 | `tooltip`        | `tooltip`         |                               | `boolean`                                            | `undefined` |
@@ -36,32 +41,14 @@
 | `t-close-popup`  | The close popup event  | `CustomEvent<void>`                            |
 | `t-range-change` | The range change event | `CustomEvent<{ start: string; end: string; }>` |
 | `t-value-change` | The value change event | `CustomEvent<{ value: string; }>`              |
+| `t-layout`       |                        |                                                |
+| `t-render`       |                        |                                                |
+| `t-mount`        |                        |                                                |
+| `t-update`       |                        |                                                |
 
 
 ## Methods
 
-### `scrollToIndex(index: number) => Promise<void>`
+### `scrollToIndex(index: number) => void`
 
-
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
-### `select(values: string[], scrollToIndex?: number) => Promise<void>`
-
-
-
-#### Returns
-
-Type: `Promise<void>`
-
-
-
-## Dependencies
-
-### Used by
-
- - [temporal-picker](https://www.npmjs.com/package/temporal-picker)
+### `select(values: string[], scrollToIndex?: number) => void`

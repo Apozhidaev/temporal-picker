@@ -1,6 +1,6 @@
 {
   "name": "temporal-preset",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Temporal Preset",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "build": "yarn run build:esm && yarn run build:ts"
   },
   "dependencies": {
-    "@temporal-picker/custom-elements": "^0.0.3"
+    "@temporal-picker/custom": "^0.0.7"
   },
   "devDependencies": {
     "esbuild": "^0.16.9",

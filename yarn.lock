@@ -913,6 +913,13 @@
   dependencies:
     luxon "^3.3.0"
 
+"@temporal-picker/core@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/core/-/core-0.0.10.tgz#fea31a50733276ae5926f6f899fbae4c9859b772"
+  integrity sha512-/3KElk9JLNIrI+38wvxjvlDanZ7JXoAqcX86JKofiCny3Rt5G/TsyCq0e1gysAaslLlkf7Nk1AguRzp3KxHeAg==
+  dependencies:
+    luxon "^3.3.0"
+
 "@temporal-picker/core@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@temporal-picker/core/-/core-0.0.6.tgz#5b104d8aa69e1ae90a0c0ce8994e548935bedd3c"
@@ -947,6 +954,14 @@
     "@stencil/core" "^3.0.0"
     "@temporal-picker/core" "^0.0.6"
     luxon "^3.3.0"
+
+"@temporal-picker/custom@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@temporal-picker/custom/-/custom-0.0.6.tgz#8122b842c20556de16deafe19942e7d43283ee64"
+  integrity sha512-HFAEcNM1NE7Akc6WcRMhnTC5F4uXKCKFzbVoGNChNxOeeWlqZLuw8J1qYVsdVnkwbj3g5VYEYPSDCvo2cGjINg==
+  dependencies:
+    "@popperjs/core" "^2.11.8"
+    "@temporal-picker/core" "^0.0.10"
 
 "@temporal-picker/react-router@^0.0.3":
   version "0.0.3"

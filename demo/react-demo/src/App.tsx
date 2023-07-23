@@ -3,13 +3,14 @@ import { DatePicker, RangePicker } from "@temporal-picker/react";
 
 function App() {
   return (
-    <table style={{ width: "100%" }}>
+    <table style={{ width: "100%", padding: 150 }}>
       <tbody>
         <tr>
           <td>
             <DatePicker
               // value="2022-01-01"
-              plain="month"
+              // plain="month"
+              resetButton={false}
               onValueChange={(date) => {
                 console.log(date);
               }}
@@ -17,7 +18,7 @@ function App() {
           </td>
           <td>
             <RangePicker
-              plain="month"
+              // plain="month"
               // start="2022-01-01"
               // end="2022-08-01"
               onRangeChange={(start, end) => {
@@ -30,15 +31,17 @@ function App() {
               }}
               customLayout
               placement="bottom-end"
-              autoApply={false}
+              // autoApply={false}
               resetButton
-              extraSelect
+              // extraSelect
               pickLabel
               disabled={false}
               readonly
               presets={[
-                { label: "Preset 1", start: "2023-01-01", end: "2023-02-15" },
-                { label: "Preset 2", end: "2023-01-01" },
+                { label: "Last Month", start: "2023-01-01", end: "2023-02-15" },
+                { label: "Last Quarter", start: "2023-01-01", end: "2023-02-15" },
+                { label: "Last Year", end: "2023-01-01" },
+                { label: "YTD", end: "2023-01-01" },
               ]}
             />
           </td>

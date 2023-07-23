@@ -1,6 +1,6 @@
 {
   "name": "@temporal-picker/custom",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:Apozhidaev/temporal-picker.git",
@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@temporal-picker/core": "^0.0.10"
+    "@temporal-picker/core": "^0.0.11"
   }
 }

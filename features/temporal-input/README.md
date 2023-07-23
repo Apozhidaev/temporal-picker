@@ -1,5 +1,8 @@
 # temporal-input
 
+### Used by
+
+ - [temporal-picker](https://www.npmjs.com/package/temporal-picker)
 
 ## Properties
 
@@ -33,18 +36,11 @@
 
 ## Shadow Parts
 
-| Part            | Description |
-| --------------- | ----------- |
-| `"button"`      |             |
-| `"end-input"`   |             |
-| `"input"`       |             |
-| `"range-items"` |             |
-| `"separator"`   |             |
-| `"start-input"` |             |
-
-
-## Dependencies
-
-### Used by
-
- - [temporal-picker](https://www.npmjs.com/package/temporal-picker)
+| Part             | Description |
+| ---------------- | ----------- |
+| `"button"`       |             |
+| `"end-input"`    |             |
+| `"input"`        |             |
+| `"range-wrapper"`|             |
+| `"separator"`    |             |
+| `"start-input"`  |             |

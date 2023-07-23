@@ -1,2 +1,5 @@
-export { defineCustomElement } from "@temporal-picker/custom-elements/dist/components/temporal-picker";
-export { defineCustomElements } from "@temporal-picker/custom-elements";
+import { defineCustomElements as defineElements } from "@temporal-picker/custom";
+defineElements();
+
+export const defineCustomElement = () => {};
+export const defineCustomElements = () => {};
