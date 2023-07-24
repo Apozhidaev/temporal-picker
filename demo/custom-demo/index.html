@@ -77,8 +77,8 @@
       </temporal-picker>
     </div>
     <script type="module">
-      import { defineCustomElements } from "../../packages/custom/dist/index.js";
-      defineCustomElements();
+      import { defineCustomElements, TemporalPreset, TemporalPopup, TemporalInput, TemporalPicker } from "../../packages/custom/dist/index.js";
+      defineCustomElements([TemporalPreset, TemporalPopup, TemporalInput, TemporalPicker]);
     </script>
   </body>
 </html>

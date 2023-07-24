@@ -9,7 +9,7 @@ function App() {
           <td>
             <DatePicker
               // value="2022-01-01"
-              // plain="month"
+              plain="month"
               resetButton={false}
               onValueChange={(date) => {
                 console.log(date);
@@ -35,13 +35,12 @@ function App() {
               resetButton
               // extraSelect
               pickLabel
-              disabled={false}
-              readonly
+              // readonly
               presets={[
                 { label: "Last Month", start: "2023-01-01", end: "2023-02-15" },
-                { label: "Last Quarter", start: "2023-01-01", end: "2023-02-15" },
-                { label: "Last Year", end: "2023-01-01" },
-                { label: "YTD", end: "2023-01-01" },
+                { label: "Last Quarter", start: "2023-01-01", end: "2023-04-15" },
+                { label: "Last Year", start: "2022-01-01", end: "2023-01-01" },
+                { label: "YTD", start: "2023-01-01" },
               ]}
             />
           </td>
