@@ -1,13 +1,5 @@
-import { TemporalPopup, TemporalPreset } from "@temporal-picker/custom";
+import { TemporalPopup, TemporalPreset, defineCustomElements } from "@temporal-picker/custom";
 
-const defineCustomElement = (opts?: ElementDefinitionOptions | undefined) => {
-  if (typeof customElements !== "undefined") {
-    [TemporalPopup, TemporalPreset].forEach((cmp) => {
-      if (!customElements.get(cmp.elementName)) {
-        customElements.define(cmp.elementName, cmp, opts);
-      }
-    });
-  }
-};
+export const define = defineCustomElements.bind(null, [TemporalPopup, TemporalPreset]);
 
-export { defineCustomElement, TemporalPopup, TemporalPreset };
+export { TemporalPopup, TemporalPreset };

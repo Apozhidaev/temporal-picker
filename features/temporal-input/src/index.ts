@@ -1,13 +1,5 @@
-import { TemporalInput } from "@temporal-picker/custom";
+import { TemporalInput, defineCustomElements } from "@temporal-picker/custom";
 
-const defineCustomElement = (opts?: ElementDefinitionOptions | undefined) => {
-  if (typeof customElements !== "undefined") {
-    [TemporalInput].forEach((cmp) => {
-      if (!customElements.get(cmp.elementName)) {
-        customElements.define(cmp.elementName, cmp, opts);
-      }
-    });
-  }
-};
+export const define = defineCustomElements.bind(null, [TemporalInput]);
 
-export { defineCustomElement, TemporalInput };
+export { TemporalInput };

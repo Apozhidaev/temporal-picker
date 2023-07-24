@@ -1,6 +1,6 @@
 {
   "name": "temporal-popup",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Temporal Popup",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "build": "yarn run build:esm && yarn run build:ts"
   },
   "dependencies": {
-    "@temporal-picker/custom": "^0.0.7"
+    "@temporal-picker/custom": "^0.1.0"
   },
   "devDependencies": {
     "esbuild": "^0.16.9",

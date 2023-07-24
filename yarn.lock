@@ -615,14 +615,6 @@
     lodash.merge "^4.6.2"
     luxon "^3.3.0"
 
-"@temporal-picker/custom@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@temporal-picker/custom/-/custom-0.0.7.tgz#fa769e5ed540710e187b769876fe780d8dd1dcfe"
-  integrity sha512-G4jGy4HUKOWe7xagEhCO3X9WwMlU/Q27Q0vIm/Esc9+Ny1S3tH4KPoodKP6H7aGQqL2oCq7filyZ3HFgNguaIA==
-  dependencies:
-    "@popperjs/core" "^2.11.8"
-    "@temporal-picker/core" "^0.0.11"
-
 "@temporal-picker/react-router@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@temporal-picker/react-router/-/react-router-0.0.3.tgz#b19a3401adfc1e07f0eaef3ba523495af4cbf1c6"
