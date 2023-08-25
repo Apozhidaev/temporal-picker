@@ -1,5 +1,5 @@
 import { memo, useRef, forwardRef, useEffect, useImperativeHandle, createElement } from "react";
-import { toKebabCase } from "temporal-picker";
+import { toKebabCase, TemporalPicker } from "temporal-picker";
 import { TemporalPickerProps, HTMLTemporalPickerElement } from "./types";
 import { useEvent } from "./hooks";
 
@@ -15,7 +15,7 @@ export type RangePickerProps = Omit<TemporalPickerProps, "type" | "value"> & {
 };
 
 export const RangePicker = memo(
-  forwardRef(function TemporalPicker(
+  forwardRef(function RangePicker(
     props: RangePickerProps,
     ref: React.ForwardedRef<HTMLTemporalPickerElement>
   ) {
@@ -77,7 +77,7 @@ export const RangePicker = memo(
     return createElement(
       "temporal-picker",
       {
-        ...toKebabCase(pickerProps),
+        ...toKebabCase(pickerProps, TemporalPicker.observedAttributes),
         ...(disabled ? { disabled: "" } : {}),
         class: className,
         "custom-layout": customLayout,

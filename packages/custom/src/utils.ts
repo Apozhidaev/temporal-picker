@@ -25,10 +25,14 @@ export function camelCase<T extends string = string>(str: T) {
   }) as CamelCase<T>;
 }
 
-export function toKebabCase<T extends Record<string, unknown> = Record<string, unknown>>(obj: T) {
+export function toKebabCase<T extends Record<string, unknown> = Record<string, unknown>>(
+  obj: T,
+  attributes?: string[]
+) {
   const res: Record<string, unknown> = {};
   Object.keys(obj).forEach((key) => {
-    res[kebabCase(key)] = obj[key];
+    const attr = kebabCase(key);
+    res[!attributes || attributes.includes(attr) ? attr : key] = obj[key];
   });
   return res;
 }

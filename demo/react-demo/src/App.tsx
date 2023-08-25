@@ -14,6 +14,9 @@ function App() {
               onValueChange={(date) => {
                 console.log(date);
               }}
+              onFocus={(e) => {
+                console.log(e);
+              }}
             />
           </td>
           <td>
