@@ -46,11 +46,11 @@ export class TemporalPicker extends PickerElement {
   private popup!: TemporalPopup;
   private popper!: Instance;
   private _open: boolean = false;
-  private _internals: ElementInternals;
+  private _internals: ElementInternals | undefined;
 
   constructor() {
     super();
-    this._internals = this.attachInternals();
+    this._internals = this.attachInternals?.();
     const shadow = this.attachShadow({ mode: "open", delegatesFocus: true });
 
     const style = document.createElement("style");
@@ -59,7 +59,7 @@ export class TemporalPicker extends PickerElement {
   }
 
   get form() {
-    return this._internals.form;
+    return this._internals?.form;
   }
   get name() {
     return this.getAttribute("name");
@@ -91,7 +91,7 @@ export class TemporalPicker extends PickerElement {
 
   private documentClickHandler = (e: any) => {
     if (!this.contains(e.target) && !this.popup?.contains(e.target)) {
-      const labels = Array.from(this._internals.labels);
+      const labels = Array.from(this._internals?.labels || []);
       if (!labels.some((label) => label.contains(e.target))) {
         this.closePopupHandler();
       }
@@ -250,7 +250,7 @@ export class TemporalPicker extends PickerElement {
       case "value":
         this.input[name] = this[name];
         this.popup[name] = this[name];
-        this._internals.setFormValue(this.value ? this.value : null);
+        this._internals?.setFormValue(this.value ? this.value : null);
       case "start":
       case "end": {
         this.input[name] = this[name];
@@ -260,9 +260,9 @@ export class TemporalPicker extends PickerElement {
           const entries = new FormData();
           entries.append(n + "-start", this.start);
           entries.append(n + "-end", this.end);
-          this._internals.setFormValue(entries);
+          this._internals?.setFormValue(entries);
         } else {
-          this._internals.setFormValue(null);
+          this._internals?.setFormValue(null);
         }
         break;
       }
