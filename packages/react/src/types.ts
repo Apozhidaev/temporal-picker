@@ -11,7 +11,7 @@ type ViewDetail = {
 export type TemporalPickerElement = Partial<TemporalPicker>;
 export type HTMLTemporalPickerElement = TemporalPickerElement & HTMLElement;
 
-export type TemporalPickerProps = TemporalPickerElement &
+export type TemporalPickerProps = HTMLAttributes<TemporalPickerElement> &
   HTMLAttributes<HTMLElement> & {
     testId?: string;
     onViewChange?: (event: CustomEvent<ViewDetail>) => void;
